@@ -73,12 +73,15 @@ test("renders every Markdown guide published by README", async () => {
 
 test("renders Markdown structure and repository images", async () => {
   const zotero = await (await render("/guides/others/zotero")).text();
+  const context7 = await (
+    await render("/guides/agents/MCP/context7")
+  ).text();
   const hyperV = await (
     await render("/guides/operating-system/Hyper-V")
   ).text();
 
   assert.match(zotero, /<h1[^>]*>Zotero 指南<\/h1>/);
-  assert.match(zotero, /<pre><code/);
+  assert.match(context7, /<pre><code/);
   assert.match(hyperV, /<img[^>]+Hyper-V/);
 });
 
