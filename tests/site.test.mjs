@@ -36,6 +36,18 @@ test("renders the beginner home page without starter metadata", async () => {
   assert.doesNotMatch(html, /codex-preview|Your site is taking shape/);
 });
 
+test("uses a documentation-first global shell", async () => {
+  const home = await (await render("/")).text();
+  const guide = await (await render("/guides/others/zotero")).text();
+
+  assert.match(home, /href="\/search#site-search"/);
+  assert.match(home, /aria-label="搜索文档"/);
+  assert.match(guide, /aria-label="文档导航"/);
+  assert.match(guide, /Codex/);
+  assert.match(guide, /科研与通用工具/);
+  assert.match(guide, /浏览文档与本页目录/);
+});
+
 test("serves the main knowledge routes", async () => {
   for (const pathname of ["/start", "/library", "/search"]) {
     const response = await render(pathname);

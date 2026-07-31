@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { documents, findDocument } from "@/lib/content";
+import { categories, documents, findDocument } from "@/lib/content";
 import { extractHeadings, renderMarkdown } from "@/lib/markdown";
 
 type GuidePageProps = {
@@ -20,24 +20,13 @@ export async function generateMetadata({ params }: GuidePageProps): Promise<Meta
 export default async function GuidePage({ params }: GuidePageProps) {
   const document = findDocument((await params).slug.join("/"));
   if (!document) notFound();
-  const related = documents.filter((item) => item.category === document.category);
   const headings = extractHeadings(document.markdown);
 
   return (
     <div className="guide-layout page-shell">
-      <aside className="guide-sidebar" aria-label="同类指南">
-        <p className="eyebrow">{document.category}</p>
-        <nav>
-          {related.map((item) => (
-            <Link
-              className={item.slug === document.slug ? "is-current" : undefined}
-              href={`/guides/${item.slug}`}
-              key={item.slug}
-            >
-              {item.title}
-            </Link>
-          ))}
-        </nav>
+      <aside className="guide-sidebar">
+        <p className="eyebrow">知识库</p>
+        <DocumentNavigation currentSlug={document.slug} visibleCategories={categories} />
       </aside>
 
       <main className="guide-main">
@@ -46,9 +35,20 @@ export default async function GuidePage({ params }: GuidePageProps) {
           <span aria-hidden="true">/</span>
           <span>{document.category}</span>
         </div>
-        <details className="mobile-guide-nav">
-          <summary>查看本页目录</summary>
-          <TableOfContents headings={headings} />
+        <details className="mobile-guide-nav mobile-docs-nav">
+          <summary>浏览文档与本页目录</summary>
+          <div className="mobile-docs-panel">
+            <DocumentNavigation
+              currentSlug={document.slug}
+              visibleCategories={[document.category]}
+            />
+            {headings.length > 0 && (
+              <div className="mobile-toc">
+                <p>本页目录</p>
+                <TableOfContents headings={headings} />
+              </div>
+            )}
+          </div>
         </details>
         <article
           className="article-content"
@@ -61,6 +61,37 @@ export default async function GuidePage({ params }: GuidePageProps) {
         <TableOfContents headings={headings} />
       </aside>
     </div>
+  );
+}
+
+function DocumentNavigation({
+  currentSlug,
+  visibleCategories,
+}: {
+  currentSlug: string;
+  visibleCategories: string[];
+}) {
+  return (
+    <nav className="docs-navigation" aria-label="文档导航">
+      {visibleCategories.map((category) => {
+        const items = documents.filter((item) => item.category === category);
+        return (
+          <div className="docs-navigation-group" aria-label={category} key={category} role="group">
+            <p aria-hidden="true">{category}</p>
+            {items.map((item) => (
+              <Link
+                aria-current={item.slug === currentSlug ? "page" : undefined}
+                className={item.slug === currentSlug ? "is-current" : undefined}
+                href={`/guides/${item.slug}`}
+                key={item.slug}
+              >
+                {item.title}
+              </Link>
+            ))}
+          </div>
+        );
+      })}
+    </nav>
   );
 }
 
