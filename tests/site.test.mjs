@@ -85,6 +85,14 @@ test("renders Markdown structure and repository images", async () => {
   assert.match(hyperV, /<img[^>]+Hyper-V/);
 });
 
+test("links article headings from the document table of contents", async () => {
+  const html = await (await render("/guides/others/zotero")).text();
+
+  assert.match(html, /本页目录/);
+  assert.match(html, /href="#软件下载安装"/);
+  assert.match(html, /id="软件下载安装"/);
+});
+
 test("does not publish internal root files", async () => {
   assert.equal((await render("/guides/AGENTS")).status, 404);
   assert.equal((await render("/guides/20260614")).status, 404);
