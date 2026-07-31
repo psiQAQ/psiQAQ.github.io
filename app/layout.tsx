@@ -1,14 +1,39 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import Link from "next/link";
 import "./globals.css";
 
-export const metadata: Metadata = {
-  title: {
-    default: "科研 Agent 新手知识站",
-    template: "%s | 科研 Agent 新手知识站",
-  },
-  description: "从零搭建科研 Agent 工具链，完成第一篇结构化文献笔记。",
-};
+const title = "科研 Agent 新手知识站";
+const description = "从零搭建科研 Agent 工具链，完成第一篇结构化文献笔记。";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const requestHeaders = await headers();
+  const host =
+    requestHeaders.get("x-forwarded-host")?.split(",")[0].trim() ??
+    requestHeaders.get("host") ??
+    "localhost";
+  const protocol =
+    requestHeaders.get("x-forwarded-proto")?.split(",")[0].trim() ??
+    (host.startsWith("localhost") ? "http" : "https");
+  const image = `${protocol}://${host}/og.png`;
+
+  return {
+    title: { default: title, template: `%s | ${title}` },
+    description,
+    openGraph: {
+      type: "website",
+      title,
+      description,
+      images: [{ url: image, width: 1728, height: 907, alt: description }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [image],
+    },
+  };
+}
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (

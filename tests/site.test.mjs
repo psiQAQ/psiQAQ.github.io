@@ -32,6 +32,7 @@ test("renders the beginner home page without starter metadata", async () => {
   assert.match(html, /开始新手路径/);
   assert.match(html, /浏览知识库/);
   assert.match(html, /<title>科研 Agent 新手知识站/);
+  assert.match(html, /property="og:image" content="http:\/\/localhost\/og\.png"/);
   assert.doesNotMatch(html, /codex-preview|Your site is taking shape/);
 });
 
