@@ -36,20 +36,28 @@ export default function Home() {
             <Link className="button secondary" href="/library">浏览知识库</Link>
           </div>
         </div>
-        <div className="path-preview" aria-label="五步入门路径">
-          <div className="path-preview-header">
-            <span>第一次任务</span>
-            <strong>5 个步骤</strong>
+        <aside className="knowledge-overview" aria-label="知识库索引">
+          <div className="knowledge-overview-header">
+            <div>
+              <span>知识库索引</span>
+              <strong>从常用入口开始</strong>
+            </div>
+            <Link href="/library">查看全部 →</Link>
           </div>
-          <ol>
-            {steps.map(([number, title]) => (
-              <li key={number}>
-                <span>{number}</span>
-                <strong>{title}</strong>
-              </li>
+          <div className="knowledge-stats">
+            <div><strong>{documents.length}</strong><span>篇公开指南</span></div>
+            <div><strong>{categories.length}</strong><span>个主题</span></div>
+          </div>
+          <nav aria-label="快速入口">
+            {featured.map((document) => (
+              <Link href={`/guides/${document.slug}`} key={document.slug}>
+                <span>{document.category}</span>
+                <strong>{document.title}</strong>
+                <span aria-hidden="true">→</span>
+              </Link>
             ))}
-          </ol>
-        </div>
+          </nav>
+        </aside>
       </section>
 
       <section className="section page-shell">

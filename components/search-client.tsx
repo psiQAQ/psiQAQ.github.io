@@ -27,6 +27,7 @@ export function SearchClient({ documents }: { documents: SearchDocument[] }) {
       <label htmlFor="site-search">搜索全部公开指南</label>
       <input
         autoComplete="off"
+        autoFocus
         id="site-search"
         onChange={(event) => setQuery(event.target.value)}
         placeholder="例如：Zotero、Codex、WSL"

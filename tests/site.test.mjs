@@ -48,6 +48,16 @@ test("uses a documentation-first global shell", async () => {
   assert.match(guide, /浏览文档与本页目录/);
 });
 
+test("presents the knowledge base as a focused documentation product", async () => {
+  const home = await (await render("/")).text();
+  const search = await (await render("/search")).text();
+
+  assert.match(home, /知识库索引/);
+  assert.match(home, /篇公开指南/);
+  assert.match(home, /个主题/);
+  assert.match(search, /<input(?=[^>]*id="site-search")(?=[^>]*autofocus)[^>]*>/);
+});
+
 test("serves the main knowledge routes", async () => {
   for (const pathname of ["/start", "/library", "/search"]) {
     const response = await render(pathname);
