@@ -58,6 +58,20 @@ test("presents the knowledge base as a focused documentation product", async () 
   assert.match(search, /<input(?=[^>]*id="site-search")(?=[^>]*autofocus)[^>]*>/);
 });
 
+test("ships the documentation visual system", async () => {
+  const css = await readFile(new URL("../app/globals.css", import.meta.url), "utf8");
+
+  for (const selector of [
+    ".global-search",
+    ".docs-navigation",
+    ".mobile-docs-nav",
+    ".knowledge-overview",
+  ]) {
+    assert.match(css, new RegExp(selector.replace(".", "\\.")));
+  }
+  assert.match(css, /--surface-raised:/);
+});
+
 test("serves the main knowledge routes", async () => {
   for (const pathname of ["/start", "/library", "/search"]) {
     const response = await render(pathname);
