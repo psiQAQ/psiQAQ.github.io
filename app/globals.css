@@ -135,7 +135,7 @@ summary:focus-visible {
   border: 1px solid var(--line);
   border-radius: 6px;
   background: var(--surface);
-  color: #7a8581;
+  color: var(--muted);
   font: 0.72rem/1 ui-monospace, "Cascadia Code", Consolas, monospace;
 }
 
@@ -753,7 +753,7 @@ summary:focus-visible {
 
 .docs-navigation-group > p {
   margin: 0 9px 5px;
-  color: #7b8783;
+  color: var(--muted);
   font-size: 0.68rem;
   font-weight: 780;
   letter-spacing: 0.06em;
@@ -783,7 +783,7 @@ summary:focus-visible {
 
 .guide-toc > p {
   margin: 0 0 9px 9px;
-  color: #7b8783;
+  color: var(--muted);
   font-size: 0.7rem;
   font-weight: 780;
 }

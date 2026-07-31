@@ -56,10 +56,12 @@ export default async function GuidePage({ params }: GuidePageProps) {
         />
       </main>
 
-      <aside className="guide-toc" aria-label="本页目录">
-        <p>本页目录</p>
-        <TableOfContents headings={headings} />
-      </aside>
+      {headings.length > 0 && (
+        <aside className="guide-toc" aria-label="本页目录">
+          <p>本页目录</p>
+          <TableOfContents headings={headings} />
+        </aside>
+      )}
     </div>
   );
 }

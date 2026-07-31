@@ -39,13 +39,24 @@ test("renders the beginner home page without starter metadata", async () => {
 test("uses a documentation-first global shell", async () => {
   const home = await (await render("/")).text();
   const guide = await (await render("/guides/others/zotero")).text();
+  const guideSource = await readFile(
+    new URL("../app/guides/[...slug]/page.tsx", import.meta.url),
+    "utf8",
+  );
 
   assert.match(home, /href="\/search#site-search"/);
   assert.match(home, /aria-label="搜索文档"/);
   assert.match(guide, /aria-label="文档导航"/);
-  assert.match(guide, /Codex/);
-  assert.match(guide, /科研与通用工具/);
+  assert.match(guide, /href="\/guides\/agents\/codex\/codex"/);
+  assert.match(
+    guide,
+    /<a(?=[^>]*aria-current="page")(?=[^>]*href="\/guides\/others\/zotero")[^>]*>/,
+  );
   assert.match(guide, /浏览文档与本页目录/);
+  assert.match(
+    guideSource,
+    /headings\.length > 0 && \(\s*<aside className="guide-toc"/,
+  );
 });
 
 test("presents the knowledge base as a focused documentation product", async () => {
@@ -70,6 +81,14 @@ test("ships the documentation visual system", async () => {
     assert.match(css, new RegExp(selector.replace(".", "\\.")));
   }
   assert.match(css, /--surface-raised:/);
+  for (const selector of [
+    ".global-search kbd",
+    ".docs-navigation-group > p",
+    ".guide-toc > p",
+  ]) {
+    const pattern = `${selector.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\s*\\{[^}]*color:\\s*var\\(--muted\\);`;
+    assert.match(css, new RegExp(pattern, "s"));
+  }
 });
 
 test("serves the main knowledge routes", async () => {
