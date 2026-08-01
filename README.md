@@ -36,6 +36,8 @@
 - [Claude Code 指南](notes/agents/claude-code/claude-code.md) — 安装、配置与基础使用。
 - [国内 Claude Code 安装保姆级教程](https://www.bilibili.com/video/BV1AjGD6mEV4) — 视频教程。
 - [Claude Code 一键快捷启动脚本](notes/agents/claude-code/cc.bat) — Windows 启动脚本源码。
+- [Claude Code macOS 快捷启动脚本](notes/agents/claude-code/ccmac.sh) — macOS 启动脚本源码。
+- [Claude Code Linux/WSL 快捷启动脚本](notes/agents/claude-code/cclinux.sh) — Linux/WSL 启动脚本源码。
 - [CLAUDE.md 全局指令示范](notes/agents/claude-code/CLAUDE.md) — 可复用的全局指令示例。
 - [Claude Code 常用命令](notes/agents/claude-code/tutorial/常用命令.md) — 常用命令说明。
 - [常用命令视频](https://www.bilibili.com/video/?p=1) — 配套视频。

@@ -17,7 +17,7 @@ export type ResourceRecord = {
   description: string;
 } & (
   | { kind: "external"; href: string }
-  | { kind: "source"; sourcePath: string; source: string }
+  | { kind: "source"; sourcePath: string; slug: string; source: string }
   | { kind: "download"; sourcePath: string; href: string }
 );
 
@@ -208,13 +208,24 @@ export const resources: ResourceRecord[] = catalog.flatMap((entry) => {
     sourcePath,
   };
   const source = sourceByPath.get(sourcePath);
-  if (source !== undefined) return [{ ...common, kind: "source", source }];
+  if (source !== undefined) {
+    return [{ ...common, kind: "source", slug: sourcePath, source }];
+  }
 
   const href = fileByPath.get(sourcePath);
   if (href) return [{ ...common, kind: "download", href }];
 
   throw new Error(`README publishes missing local file: ${physicalPath}`);
 });
+
+export const sourceResources = resources.filter(
+  (resource): resource is Extract<ResourceRecord, { kind: "source" }> =>
+    resource.kind === "source",
+);
+
+const sourceResourcesBySlug = new Map(
+  sourceResources.map((resource) => [resource.slug, resource]),
+);
 
 const documentsBySlug = new Map(documents.map((document) => [document.slug, document]));
 const documentsByPath = new Map(
@@ -231,6 +242,12 @@ export function findDocument(slug: string): DocumentRecord | undefined {
 
 export function findDocumentByPath(path: string): DocumentRecord | undefined {
   return documentsByPath.get(path);
+}
+
+export function findSourceResource(
+  slug: string,
+): Extract<ResourceRecord, { kind: "source" }> | undefined {
+  return sourceResourcesBySlug.get(decodePath(slug).replace(/^\/+|\/+$/g, ""));
 }
 
 export function resolveRepositoryPath(sourcePath: string, href: string): string {

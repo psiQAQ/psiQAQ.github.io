@@ -189,6 +189,29 @@ test("publishes README links and local source files as resources", async () => {
   assert.doesNotMatch(search, /@echo off/);
 });
 
+test("serves README-listed source detail pages", async () => {
+  const cases = [
+    ["cc.bat", "@echo off"],
+    ["ccmac.sh", "Claude project launcher for macOS zsh"],
+    ["cclinux.sh", "Claude project launcher"],
+  ];
+
+  for (const [filename, sourceLiteral] of cases) {
+    const response = await render(`/resources/agents/claude-code/${filename}`);
+    const html = await response.text();
+
+    assert.equal(response.status, 200, filename);
+    assert.match(html, new RegExp(`<h1>${filename.replace(".", "\\.")}<\\/h1>`));
+    assert.match(html, new RegExp(sourceLiteral));
+    assert.match(html, new RegExp(`aria-label="复制 ${filename.replace(".", "\\.")} 源码"`));
+  }
+
+  assert.equal(
+    (await render("/resources/agents/claude-code/not-listed.sh")).status,
+    404,
+  );
+});
+
 test("does not export unlisted local source files", async () => {
   const assets = await readdir(new URL("../dist/client/assets/", import.meta.url));
 
