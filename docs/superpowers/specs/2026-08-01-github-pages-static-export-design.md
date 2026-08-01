@@ -29,7 +29,7 @@
 `next.config.ts` 设置：
 
 - `output: "export"`，启用 vinext 静态导出。
-- `trailingSlash: true`，让每个路由生成目录级 `index.html`，避免依赖 GitHub Pages 不提供的重写规则。
+- `trailingSlash: false`，避开 vinext 0.0.50 对中文路径尾斜杠重定向的构建缺陷；各路由生成 `route.html`，由 GitHub Pages 提供无扩展名访问。
 
 不设置 `basePath` 或 `assetPrefix`，因为目标是用户根站点，而不是 `/agent-lab-notes/` 子路径。
 
@@ -66,7 +66,7 @@
 - 测试静态导出配置、静态 Metadata、目标仓库链接和 Pages 工作流关键字段。
 - 执行完整 `npm test`，确认构建和现有页面行为测试全部通过。
 - 执行 `npm run lint` 和 `git diff --check`。
-- 检查 `dist/client/index.html`、`dist/client/404.html`、一个指南路由的 `index.html` 和静态资源目录。
+- 检查 `dist/client/index.html`、`dist/client/404.html`、一个指南路由的 `.html` 文件和静态资源目录。
 - 确认静态产物中不依赖 `chatgpt.site` 或请求时生成的域名。
 
 仓库重命名、推送、Pages 设置和首次公开部署属于外部写入。完成本地验证后单独征得确认，再执行并验证 `https://psiqaq.github.io/` 首页和至少一篇指南。

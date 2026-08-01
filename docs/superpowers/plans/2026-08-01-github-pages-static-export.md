@@ -38,7 +38,7 @@ test("exports the site for the psiQAQ GitHub Pages root", async () => {
   const layout = await readFile(new URL("../app/layout.tsx", import.meta.url), "utf8");
 
   assert.match(config, /output:\s*["']export["']/);
-  assert.match(config, /trailingSlash:\s*true/);
+  assert.match(config, /trailingSlash:\s*false/);
   assert.doesNotMatch(layout, /next\/headers|\bheaders\s*\(/);
   assert.match(layout, /metadataBase:\s*new URL\(["']https:\/\/psiqaq\.github\.io\/["']\)/);
   assert.match(layout, /https:\/\/github\.com\/psiQAQ\/psiQAQ\.github\.io/);
@@ -46,7 +46,7 @@ test("exports the site for the psiQAQ GitHub Pages root", async () => {
   for (const path of [
     "../dist/client/index.html",
     "../dist/client/404.html",
-    "../dist/client/guides/others/zotero/index.html",
+    "../dist/client/guides/others/zotero.html",
   ]) {
     await access(new URL(path, import.meta.url));
   }
@@ -76,7 +76,7 @@ Replace the configuration body in `next.config.ts` with:
 ```ts
 const nextConfig: NextConfig = {
   output: "export",
-  trailingSlash: true,
+  trailingSlash: false,
 };
 ```
 
