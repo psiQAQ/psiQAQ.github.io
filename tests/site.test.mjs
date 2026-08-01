@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { readFile } from "node:fs/promises";
+import { access, readFile } from "node:fs/promises";
 import test from "node:test";
 
 async function render(pathname) {
@@ -32,8 +32,34 @@ test("renders the beginner home page without starter metadata", async () => {
   assert.match(html, /开始新手路径/);
   assert.match(html, /浏览知识库/);
   assert.match(html, /<title>科研 Agent 新手知识站/);
-  assert.match(html, /property="og:image" content="http:\/\/localhost\/og\.png"/);
+  assert.match(html, /property="og:image" content="https:\/\/psiqaq\.github\.io\/og\.png"/);
   assert.doesNotMatch(html, /codex-preview|Your site is taking shape/);
+});
+
+test("exports the site for the psiQAQ GitHub Pages root", async () => {
+  const config = await readFile(new URL("../next.config.ts", import.meta.url), "utf8");
+  const layout = await readFile(new URL("../app/layout.tsx", import.meta.url), "utf8");
+
+  assert.match(config, /output:\s*["']export["']/);
+  assert.match(config, /trailingSlash:\s*false/);
+  assert.doesNotMatch(layout, /next\/headers|\bheaders\s*\(/);
+  assert.match(
+    layout,
+    /metadataBase:\s*new URL\(["']https:\/\/psiqaq\.github\.io\/["']\)/,
+  );
+  assert.match(layout, /https:\/\/github\.com\/psiQAQ\/psiQAQ\.github\.io/);
+
+  for (const path of [
+    "../dist/client/index.html",
+    "../dist/client/404.html",
+    "../dist/client/guides/others/zotero.html",
+  ]) {
+    await access(new URL(path, import.meta.url));
+  }
+
+  const home = await readFile(new URL("../dist/client/index.html", import.meta.url), "utf8");
+  assert.match(home, /https:\/\/psiqaq\.github\.io\/og\.png/);
+  assert.doesNotMatch(home, /chatgpt\.site/);
 });
 
 test("uses a documentation-first global shell", async () => {

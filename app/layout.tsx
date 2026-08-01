@@ -1,39 +1,27 @@
 import type { Metadata } from "next";
-import { headers } from "next/headers";
 import Link from "next/link";
 import "./globals.css";
 
 const title = "科研 Agent 新手知识站";
 const description = "从零搭建科研 Agent 工具链，完成第一篇结构化文献笔记。";
 
-export async function generateMetadata(): Promise<Metadata> {
-  const requestHeaders = await headers();
-  const host =
-    requestHeaders.get("x-forwarded-host")?.split(",")[0].trim() ??
-    requestHeaders.get("host") ??
-    "localhost";
-  const protocol =
-    requestHeaders.get("x-forwarded-proto")?.split(",")[0].trim() ??
-    (host.startsWith("localhost") ? "http" : "https");
-  const image = `${protocol}://${host}/og.png`;
-
-  return {
-    title: { default: title, template: `%s | ${title}` },
+export const metadata: Metadata = {
+  metadataBase: new URL("https://psiqaq.github.io/"),
+  title: { default: title, template: `%s | ${title}` },
+  description,
+  openGraph: {
+    type: "website",
+    title,
     description,
-    openGraph: {
-      type: "website",
-      title,
-      description,
-      images: [{ url: image, width: 1728, height: 907, alt: description }],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title,
-      description,
-      images: [image],
-    },
-  };
-}
+    images: [{ url: "/og.png", width: 1728, height: 907, alt: description }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title,
+    description,
+    images: ["/og.png"],
+  },
+};
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -52,7 +40,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <span>搜索文档</span>
                 <kbd>/</kbd>
               </Link>
-              <a href="https://github.com/psiQAQ/agent-lab-notes" rel="noreferrer" target="_blank">
+              <a href="https://github.com/psiQAQ/psiQAQ.github.io" rel="noreferrer" target="_blank">
                 GitHub
               </a>
             </nav>
@@ -62,7 +50,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <footer className="site-footer">
           <div className="page-shell footer-inner">
             <p>把重复配置变成路径，把时间留给研究问题。</p>
-            <a href="https://github.com/psiQAQ/agent-lab-notes" rel="noreferrer" target="_blank">
+            <a href="https://github.com/psiQAQ/psiQAQ.github.io" rel="noreferrer" target="_blank">
               查看源仓库
             </a>
           </div>
