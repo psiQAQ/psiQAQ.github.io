@@ -62,6 +62,29 @@ test("exports the site for the psiQAQ GitHub Pages root", async () => {
   assert.doesNotMatch(home, /chatgpt\.site/);
 });
 
+test("defines the GitHub Pages build and deployment workflow", async () => {
+  const workflow = await readFile(
+    new URL("../.github/workflows/pages.yml", import.meta.url),
+    "utf8",
+  );
+
+  assert.match(workflow, /branches:\s*\[main\]/);
+  assert.match(workflow, /workflow_dispatch:/);
+  assert.match(workflow, /contents:\s*read/);
+  assert.match(workflow, /pages:\s*write/);
+  assert.match(workflow, /id-token:\s*write/);
+  assert.match(workflow, /actions\/checkout@v6/);
+  assert.match(workflow, /actions\/setup-node@v6/);
+  assert.match(workflow, /node-version:\s*["']22["']/);
+  assert.match(workflow, /npm ci/);
+  assert.match(workflow, /npm run build/);
+  assert.match(workflow, /actions\/configure-pages@v5/);
+  assert.match(workflow, /actions\/upload-pages-artifact@v4/);
+  assert.match(workflow, /path:\s*\.\/dist\/client/);
+  assert.match(workflow, /actions\/deploy-pages@v5/);
+  assert.match(workflow, /name:\s*github-pages/);
+});
+
 test("uses a documentation-first global shell", async () => {
   const home = await (await render("/")).text();
   const guide = await (await render("/guides/others/zotero")).text();
