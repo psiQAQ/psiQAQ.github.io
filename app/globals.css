@@ -669,6 +669,16 @@ summary:focus-visible {
   font-size: 1.4rem;
 }
 
+.resource-group + .resource-group {
+  margin-top: 28px;
+}
+
+.resource-group > h3 {
+  margin: 0 0 10px;
+  color: var(--muted);
+  font-size: 0.84rem;
+}
+
 .resource-list {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
@@ -696,7 +706,7 @@ summary:focus-visible {
   font-weight: 760;
 }
 
-.resource-card h3,
+.resource-card h4,
 .source-resource h3 {
   margin: 5px 0 0;
   font-size: 1rem;

@@ -1,4 +1,4 @@
-import { CopySourceButton } from "@/components/copy-source-button";
+import Link from "next/link";
 import { resources } from "@/lib/content";
 
 export const metadata = { title: "资源" };
@@ -15,62 +15,75 @@ export default function ResourcesPage() {
       </header>
 
       <div className="resource-sections">
-        {categories.map((category) => (
-          <section key={category}>
-            <h2>{category}</h2>
-            <div className="resource-list">
-              {resources
-                .filter((resource) => resource.category === category)
-                .map((resource) => {
-                  if (resource.kind === "external") {
-                    return (
-                      <a
-                        className="resource-card"
-                        href={resource.href}
-                        key={`${resource.group}-${resource.href}-${resource.title}`}
-                        rel="noreferrer"
-                        target="_blank"
-                      >
-                        <span>{resource.group}</span>
-                        <h3>{resource.title}</h3>
-                        {resource.description && <p>{resource.description}</p>}
-                      </a>
-                    );
-                  }
+        {categories.map((category) => {
+          const items = resources.filter((resource) => resource.category === category);
+          const groups = [...new Set(items.map((resource) => resource.group))];
 
-                  if (resource.kind === "download") {
-                    return (
-                      <a
-                        className="resource-card"
-                        download={resource.title}
-                        href={resource.href}
-                        key={resource.sourcePath}
-                      >
-                        <span>{resource.group} · 下载</span>
-                        <h3>{resource.title}</h3>
-                        {resource.description && <p>{resource.description}</p>}
-                      </a>
-                    );
-                  }
+          return (
+            <section key={category}>
+              <h2>{category}</h2>
+              {groups.map((group) => (
+                <div className="resource-group" key={group}>
+                  {group !== category && <h3>{group}</h3>}
+                  <div className="resource-list">
+                    {items
+                      .filter((resource) => resource.group === group)
+                      .map((resource) => {
+                        const content = (
+                          <>
+                            <span>
+                              {resource.kind === "source"
+                                ? resource.title.split(".").at(-1)?.toUpperCase()
+                                : resource.kind === "download" ? "下载" : "外部资源"}
+                            </span>
+                            <h4>{resource.title}</h4>
+                            {resource.description && <p>{resource.description}</p>}
+                          </>
+                        );
 
-                  const language = resource.title.split(".").at(-1)?.toUpperCase();
-                  return (
-                    <article className="source-resource" key={resource.sourcePath}>
-                      <header>
-                        <div>
-                          <span>{resource.group} · {language}</span>
-                          <h3>{resource.title}</h3>
-                          {resource.description && <p>{resource.description}</p>}
-                        </div>
-                        <CopySourceButton filename={resource.title} source={resource.source} />
-                      </header>
-                      <pre><code>{resource.source}</code></pre>
-                    </article>
-                  );
-                })}
-            </div>
-          </section>
-        ))}
+                        if (resource.kind === "source") {
+                          return (
+                            <Link
+                              className="resource-card"
+                              href={`/resources/${resource.slug}`}
+                              key={resource.sourcePath}
+                            >
+                              {content}
+                            </Link>
+                          );
+                        }
+
+                        if (resource.kind === "download") {
+                          return (
+                            <a
+                              className="resource-card"
+                              download={resource.title}
+                              href={resource.href}
+                              key={resource.sourcePath}
+                            >
+                              {content}
+                            </a>
+                          );
+                        }
+
+                        return (
+                          <a
+                            className="resource-card"
+                            href={resource.href}
+                            key={`${resource.href}-${resource.title}`}
+                            rel="noreferrer"
+                            target="_blank"
+                          >
+                            {content}
+                          </a>
+                        );
+                      })}
+                  </div>
+                </div>
+              ))}
+            </section>
+          );
+        })}
       </div>
     </main>
   );

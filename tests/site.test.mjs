@@ -169,7 +169,7 @@ test("serves the main knowledge routes", async () => {
   }
 });
 
-test("publishes README links and local source files as resources", async () => {
+test("publishes a categorized resource card index", async () => {
   const response = await render("/resources");
   const html = await response.text();
   const search = await (await render("/search")).text();
@@ -180,11 +180,22 @@ test("publishes README links and local source files as resources", async () => {
     html,
     /<a(?=[^>]*href="https:\/\/artificialanalysis\.ai\/")(?=[^>]*target="_blank")(?=[^>]*rel="noreferrer")[^>]*>/,
   );
-  assert.match(html, /<h3>cc\.bat<\/h3>/);
-  assert.match(html, /@echo off/);
-  assert.match(html, /aria-label="复制 cc\.bat 源码"/);
-  assert.match(html, /<h3>codex-reset-remaining\.py<\/h3>/);
-  assert.match(html, /from datetime import datetime/);
+  assert.match(html, /<h2>智能体<\/h2>/);
+  assert.match(html, /<h3>Claude Code<\/h3>/);
+
+  const sourceLinks = [
+    "/resources/agents/claude-code/cc.bat",
+    "/resources/agents/claude-code/ccmac.sh",
+    "/resources/agents/claude-code/cclinux.sh",
+    "/resources/agents/codex/codex-reset-remaining.py",
+  ];
+  for (const href of sourceLinks) assert.match(html, new RegExp(`href="${href}"`));
+  for (let index = 1; index < sourceLinks.length - 1; index += 1) {
+    assert.ok(html.indexOf(sourceLinks[index - 1]) < html.indexOf(sourceLinks[index]));
+  }
+
+  assert.doesNotMatch(html, /@echo off|from datetime import datetime/);
+  assert.doesNotMatch(html, /<article class="source-resource"/);
   assert.doesNotMatch(html, /Hyper-V-TPM\.png/);
   assert.doesNotMatch(search, /@echo off/);
 });
