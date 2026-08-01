@@ -37,8 +37,8 @@ test("renders the beginner home page without starter metadata", async () => {
 
   assert.equal(response.status, 200);
   assert.match(html, /完成第一篇结构化文献笔记/);
-  assert.match(html, /开始新手路径/);
-  assert.match(html, /浏览知识库/);
+  assert.match(html, /<a href="\/start" class="button primary">新手路径<\/a>/);
+  assert.match(html, /<a href="\/library" class="button secondary">知识库<\/a>/);
   assert.match(html, /<title>科研 Agent 新手知识站/);
   assert.match(html, /property="og:image" content="https:\/\/psiqaq\.github\.io\/og\.png"/);
   assert.doesNotMatch(html, /codex-preview|Your site is taking shape/);
@@ -133,17 +133,26 @@ test("presents the knowledge base as a focused documentation product", async () 
   const library = await (await render("/library")).text();
   const search = await (await render("/search")).text();
 
-  assert.match(home, /知识库索引/);
   assert.match(home, /篇公开指南/);
   assert.match(home, /个主题/);
   assert.match(library, /<h3>Claude Code<\/h3>/);
   assert.match(search, /<input(?=[^>]*id="site-search")(?=[^>]*autofocus)[^>]*>/);
 });
 
-test("shows the complete homepage topic index without duplicate sections", async () => {
+test("keeps the homepage focused on three primary destinations", async () => {
   const html = await (await render("/")).text();
+  const heroActions = html.match(/<div class="hero-actions">([\s\S]*?)<\/div>/)?.[1];
   const topicNav = html.match(/<nav aria-label="全部主题">([\s\S]*?)<\/nav>/)?.[1];
+  assert.ok(heroActions, "homepage must expose its primary destinations");
   assert.ok(topicNav, "homepage must expose the complete topic navigation");
+
+  for (const [href, label] of [
+    ["/start", "新手路径"],
+    ["/library", "知识库"],
+    ["/resources", "资源"],
+  ]) {
+    assert.match(heroActions, new RegExp(`href="${href}"[^>]*>${label}<`));
+  }
 
   const topics = [
     "基础环境",
@@ -162,7 +171,7 @@ test("shows the complete homepage topic index without duplicate sections", async
 
   assert.doesNotMatch(
     html,
-    /精选指南|新手最常用的四个入口|<p class="eyebrow">完整知识库<\/p>|篇公开指南，按需查阅/,
+    /knowledge-overview-header|浏览全部主题|从安装到第一篇笔记|step-grid|精选指南|新手最常用的四个入口|<p class="eyebrow">完整知识库<\/p>|篇公开指南，按需查阅/,
   );
 });
 
@@ -223,6 +232,7 @@ test("publishes a categorized resource card index", async () => {
   assert.doesNotMatch(html, /@echo off|from datetime import datetime/);
   assert.doesNotMatch(html, /<article class="source-resource"/);
   assert.doesNotMatch(html, /Hyper-V-TPM\.png/);
+  assert.doesNotMatch(html, /Codex 指南 GitHub 备用地址|GitHub 原始内容入口/);
   assert.doesNotMatch(search, /@echo off/);
 });
 

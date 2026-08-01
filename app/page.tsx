@@ -1,14 +1,6 @@
 import Link from "next/link";
 import { categories, documents } from "@/lib/content";
 
-const steps = [
-  ["01", "准备环境", "安装完成任务所需的 Git、Node.js 与运行环境。"],
-  ["02", "选择 Agent", "在 Codex 与 Claude Code 中选择一个开始使用。"],
-  ["03", "添加 Skills", "让 Agent 获得文献分析与研究规划能力。"],
-  ["04", "配置 Zotero", "建立可预览、可确认的文献整理流程。"],
-  ["05", "完成笔记", "生成研究问题、方法、结论与待验证事项。"],
-];
-
 export default function Home() {
   return (
     <main>
@@ -20,18 +12,12 @@ export default function Home() {
             不需要先掌握所有工具。沿着一条可验证的路径完成第一次任务，再按需要查阅完整知识库。
           </p>
           <div className="hero-actions">
-            <Link className="button primary" href="/start">开始新手路径</Link>
-            <Link className="button secondary" href="/library">浏览知识库</Link>
+            <Link className="button primary" href="/start">新手路径</Link>
+            <Link className="button secondary" href="/library">知识库</Link>
+            <Link className="button secondary" href="/resources">资源</Link>
           </div>
         </div>
         <aside className="knowledge-overview" aria-label="知识库索引">
-          <div className="knowledge-overview-header">
-            <div>
-              <span>知识库索引</span>
-              <strong>浏览全部主题</strong>
-            </div>
-            <Link href="/library">查看全部 →</Link>
-          </div>
           <div className="knowledge-stats">
             <div><strong>{documents.length}</strong><span>篇公开指南</span></div>
             <div><strong>{categories.length}</strong><span>个主题</span></div>
@@ -47,26 +33,6 @@ export default function Home() {
           </nav>
         </aside>
       </section>
-
-      <section className="section page-shell">
-        <div className="section-heading">
-          <div>
-            <p className="eyebrow">一条路径先跑通</p>
-            <h2>从安装到第一篇笔记</h2>
-          </div>
-          <Link href="/start">查看完整路径 →</Link>
-        </div>
-        <div className="step-grid">
-          {steps.map(([number, title, description]) => (
-            <article className="step-card" key={number}>
-              <span>{number}</span>
-              <h3>{title}</h3>
-              <p>{description}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-
     </main>
   );
 }

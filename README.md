@@ -49,7 +49,6 @@
 ### Codex
 
 - [Codex 指南](notes/agents/codex/codex.md) — 安装、配置与基础使用。
-- [Codex 指南 GitHub 备用地址](https://github.com/psiQAQ/psiQAQ.github.io/blob/main/notes/agents/codex/codex.md) — GitHub 原始内容入口。
 - [AGENTS.md 全局指令示范](notes/agents/codex/AGENTS.md) — 可复用的全局指令示例。
 - [GPT 套餐周额度重置时间查询脚本](notes/agents/codex/codex-reset-remaining.py) — Python 脚本源码。
 

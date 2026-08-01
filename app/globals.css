@@ -169,6 +169,10 @@ summary:focus-visible {
   text-wrap: balance;
 }
 
+.hero h1 {
+  font-size: clamp(1.8rem, 3.67vw, 3.27rem);
+}
+
 .hero-summary {
   max-width: 660px;
   margin: 24px 0 0;
@@ -182,6 +186,10 @@ summary:focus-visible {
   flex-wrap: wrap;
   gap: 10px;
   margin-top: 30px;
+}
+
+.hero-actions {
+  flex-wrap: nowrap;
 }
 
 .button {
@@ -228,34 +236,9 @@ summary:focus-visible {
   box-shadow: var(--shadow);
 }
 
-.knowledge-overview-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 20px 22px;
-  border-bottom: 1px solid var(--line);
-  gap: 16px;
-}
-
-.knowledge-overview-header div {
-  display: grid;
-  gap: 2px;
-}
-
-.knowledge-overview-header span,
 .knowledge-overview nav a > span:first-child {
   color: var(--muted);
   font-size: 0.72rem;
-  font-weight: 720;
-}
-
-.knowledge-overview-header strong {
-  font-size: 0.92rem;
-}
-
-.knowledge-overview-header > a {
-  color: var(--teal-dark);
-  font-size: 0.78rem;
   font-weight: 720;
 }
 
@@ -312,19 +295,6 @@ summary:focus-visible {
   color: var(--teal);
 }
 
-.section {
-  padding-block: 76px;
-}
-
-.section-heading {
-  display: flex;
-  align-items: end;
-  justify-content: space-between;
-  margin-bottom: 30px;
-  gap: 24px;
-}
-
-.section-heading h2,
 .completion-card h2 {
   margin: 0;
   font-size: clamp(1.85rem, 3.6vw, 2.85rem);
@@ -333,51 +303,17 @@ summary:focus-visible {
   line-height: 1.18;
 }
 
-.section-heading > a,
 .inline-links a {
   color: var(--teal-dark);
   font-size: 0.88rem;
   font-weight: 720;
 }
 
-.step-grid {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 12px;
-}
-
-.step-card {
-  min-height: 192px;
-  padding: 22px;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  background: var(--surface-raised);
-}
-
-.step-card > span {
-  color: var(--teal);
-  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
-  font-size: 0.72rem;
-  font-weight: 800;
-}
-
-.step-card h3 {
-  margin: 30px 0 7px;
-  font-size: 1rem;
-}
-
-.step-card p,
 .page-intro > p:last-child,
 .learning-step p,
 .completion-card > p,
 .not-found-page > p {
   color: var(--muted);
-}
-
-.step-card p {
-  margin: 0;
-  font-size: 0.84rem;
-  line-height: 1.65;
 }
 
 .content-page {
@@ -1039,10 +975,6 @@ summary:focus-visible {
 }
 
 @media (max-width: 1050px) {
-  .step-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
   .guide-layout {
     display: block;
     width: min(820px, calc(100% - 40px));
@@ -1147,7 +1079,7 @@ summary:focus-visible {
   }
 
   .hero h1 {
-    font-size: clamp(2.4rem, 12vw, 3.8rem);
+    font-size: clamp(1.6rem, 8vw, 2.53rem);
   }
 
   .knowledge-overview nav a {
@@ -1158,26 +1090,9 @@ summary:focus-visible {
     display: none;
   }
 
-  .section {
-    padding-block: 58px;
-  }
-
-  .section-heading,
   .footer-inner {
     align-items: flex-start;
     flex-direction: column;
-  }
-
-  .step-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .step-card {
-    min-height: auto;
-  }
-
-  .step-card h3 {
-    margin-top: 18px;
   }
 
   .content-page {
