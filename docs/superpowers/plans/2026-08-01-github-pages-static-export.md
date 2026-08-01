@@ -4,7 +4,7 @@
 
 **Goal:** Export the existing knowledge site as static files and prepare an official GitHub Pages deployment workflow for `https://psiqaq.github.io/`.
 
-**Architecture:** Keep the current Next 16/vinext application and Markdown content pipeline. Enable vinext's native static export, replace request-derived metadata with a fixed user-site origin, and upload only `dist/client` to GitHub Pages while retaining the current Sites/Cloudflare build configuration.
+**Architecture:** Keep the current Next 16/vinext application and Markdown content pipeline. Enable vinext's native static export, normalize percent-encoded output filenames with a Node.js post-build script, replace request-derived metadata with a fixed user-site origin, and upload only `dist/client` to GitHub Pages while retaining the current Sites/Cloudflare build configuration.
 
 **Tech Stack:** Next.js 16, vinext 0.0.50, React 19, Node.js 22, Node test runner, GitHub Actions, GitHub Pages.
 
@@ -23,6 +23,8 @@
 - Modify: `tests/site.test.mjs`
 - Modify: `next.config.ts`
 - Modify: `app/layout.tsx`
+- Modify: `package.json`
+- Create: `scripts/decode-static-paths.mjs`
 
 **Interfaces:**
 - Consumes: existing `npm run build`, `generateStaticParams()`, Markdown content modules, and `public/og.png`.
@@ -47,6 +49,7 @@ test("exports the site for the psiQAQ GitHub Pages root", async () => {
     "../dist/client/index.html",
     "../dist/client/404.html",
     "../dist/client/guides/others/zotero.html",
+    "../dist/client/guides/agents/claude-code/tutorial/常用命令.html",
   ]) {
     await access(new URL(path, import.meta.url));
   }
@@ -80,7 +83,15 @@ const nextConfig: NextConfig = {
 };
 ```
 
-- [ ] **Step 4: Replace request-derived metadata with static metadata**
+- [ ] **Step 4: Normalize exported Unicode filenames**
+
+Add `scripts/decode-static-paths.mjs` to recursively decode percent-encoded path entries under `dist/client`, rejecting unsafe names and collisions. Update the build script to run it after `vinext build`:
+
+```json
+"build": "vinext build && node scripts/decode-static-paths.mjs"
+```
+
+- [ ] **Step 5: Replace request-derived metadata with static metadata**
 
 In `app/layout.tsx`, remove the `next/headers` import and `generateMetadata()`. Export this constant instead:
 
@@ -106,7 +117,7 @@ export const metadata: Metadata = {
 
 Update both repository links to `https://github.com/psiQAQ/psiQAQ.github.io`.
 
-- [ ] **Step 5: Build and verify GREEN**
+- [ ] **Step 6: Build and verify GREEN**
 
 Run:
 
@@ -116,10 +127,10 @@ npm test
 
 Expected: the vinext static export completes, the focused contract passes, and all existing route/content tests pass.
 
-- [ ] **Step 6: Commit the static-export task**
+- [ ] **Step 7: Commit the static-export task**
 
 ```powershell
-git add -- tests/site.test.mjs next.config.ts app/layout.tsx
+git add -- tests/site.test.mjs next.config.ts app/layout.tsx package.json scripts/decode-static-paths.mjs
 git commit -m "feat: export the site for GitHub Pages"
 ```
 

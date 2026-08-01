@@ -53,9 +53,20 @@ test("exports the site for the psiQAQ GitHub Pages root", async () => {
     "../dist/client/index.html",
     "../dist/client/404.html",
     "../dist/client/guides/others/zotero.html",
+    "../dist/client/guides/agents/claude-code/tutorial/常用命令.html",
   ]) {
     await access(new URL(path, import.meta.url));
   }
+
+  await assert.rejects(
+    access(
+      new URL(
+        "../dist/client/guides/agents/claude-code/tutorial/%25E5%25B8%25B8%25E7%2594%25A8%25E5%2591%25BD%25E4%25BB%25A4.html",
+        import.meta.url,
+      ),
+    ),
+    { code: "ENOENT" },
+  );
 
   const home = await readFile(new URL("../dist/client/index.html", import.meta.url), "utf8");
   assert.match(home, /https:\/\/psiqaq\.github\.io\/og\.png/);
