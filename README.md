@@ -1,112 +1,122 @@
 # agent-lab-notes
 
-过去几年，科研领域最大的变化或许不是某个新模型的出现，而是 Agent 开始能够真正调用工具、读取文档、编写代码、执行任务，并参与完整的科研流程。
+面向科研工作的 Agent 工具链笔记，记录环境配置、工具选型、工作流设计和常见问题解决方案。内容尽量不绑定单一智能体，可按需用于 Claude Code、Codex 等工具。
 
-本仓库整理了我在实际科研工作中使用各类 Agent 工具的经验与笔记，包括环境配置、工具选型、工作流设计以及常见问题解决方案。目标不是介绍某一个产品，而是帮助科研同学建立属于自己的 AI 工具链，让更多时间用于思考问题本身，而不是消耗在重复性工作上。
+网站：[https://psiqaq.github.io/](https://psiqaq.github.io/)
 
-> 分享的大部分内容不绑定特定智能体，可以在 Claude Code、Codex 等智能体上都有效。
+## 如何维护
 
-## 1. 基础环境
+根目录 `README.md` 同时是 GitHub 首页和网站公开清单。新增或更新内容时：
 
-- 📄[Git 指南](others/git.md)
-- 📄[UV 指南](programme-env/uv.md)
-- 📄[nodejs 指南](programme-env/nodejs.md)
-- 📄[Miniforge 指南](programme-env/miniforge.md)
+1. 将笔记和附件放在 `notes/` 对应分类中。
+2. 在下方两个 `site-catalog` 标记之间，按现有格式新增一条链接。
+3. 提交并 `push` 到 `main`；GitHub Pages 会自动重新构建网站。
 
-## 2. 系统与运行环境
+清单中的本地 Markdown 会成为网站指南；外部链接和本地脚本等文件会出现在网站“资源”页。标记外的说明文字不会发布为网站内容。
 
-- 📄[WSL 指南](operating-system/wsl.md)
-- 📄[linux 之 Ubuntu 常用命令与配置](operating-system/linux.md)
-- 📄[Hyper-V 指南](operating-system/Hyper-V.md)
+<!-- site-catalog:start -->
 
-## 3. 智能体
+## 基础环境
 
-### 3.1 Claude Code
+- [Git 指南](notes/others/git.md) — Git 安装、配置与常用操作。
+- [UV 指南](notes/programme-env/uv.md) — Python 环境与依赖管理。
+- [Node.js 指南](notes/programme-env/nodejs.md) — Node.js 安装与环境配置。
+- [Miniforge 指南](notes/programme-env/miniforge.md) — Conda 环境安装与使用。
 
-- 📄[Claude Code 指南](agents/claude-code/claude-code.md)
-  - 📺[国内 Claude Code 安装保姆级教程](https://www.bilibili.com/video/BV1AjGD6mEV4)
-- 🚀[Claude Code 一键快捷启动方式，下载放桌面](agents/claude-code/cc.bat)
-- 📄[CLAUDE.md - 全局指令示范文件](agents/claude-code/CLAUDE.md)
-- 📄[Claude Code 常用命令](agents/claude-code/tutorial/常用命令.md)
-  - 📺[常用命令视频](https://www.bilibili.com/video/?p=1)
-- 📄[Claude Code 交互模式](agents/claude-code/tutorial/交互模式.md)
-  - 📺[交互模式视频](https://www.bilibili.com/video/?p=2)
-- 📄[Claude Code 最佳实践](agents/claude-code/tutorial/最佳实践.md)
-  - 📺[最佳实践视频](https://www.bilibili.com/video/?p=3)
+## 系统与运行环境
 
-### 3.2 Codex
+- [WSL 指南](notes/operating-system/wsl.md) — Windows 上的 Linux 开发环境。
+- [Ubuntu 常用命令与配置](notes/operating-system/linux.md) — Linux 日常使用速查。
+- [Hyper-V 指南](notes/operating-system/Hyper-V.md) — Hyper-V 安装与配置。
 
-- 📄[Codex 指南](agents/codex/codex.md)
-  - 📄[Codex 指南 - 防吞备用 github 地址](https://github.com/psiQAQ/agent-lab-notes/blob/main/agents/codex/codex.md)
-- 📄[AGENTS.md - 全局指令示范文件](agents/codex/AGENTS.md)
-- 🧾[查询 GPT 套餐周额度重置机会的过期准确时间](agents/codex/codex-reset-remaining.py)
+## 智能体
 
-> 注意：使用 GPT 模型时，推荐使用 Codex，其他模型推荐使用 Claude Code。
+### Claude Code
 
-## 4. 智能体扩展
+- [Claude Code 指南](notes/agents/claude-code/claude-code.md) — 安装、配置与基础使用。
+- [国内 Claude Code 安装保姆级教程](https://www.bilibili.com/video/BV1AjGD6mEV4) — 视频教程。
+- [Claude Code 一键快捷启动脚本](notes/agents/claude-code/cc.bat) — Windows 启动脚本源码。
+- [CLAUDE.md 全局指令示范](notes/agents/claude-code/CLAUDE.md) — 可复用的全局指令示例。
+- [Claude Code 常用命令](notes/agents/claude-code/tutorial/常用命令.md) — 常用命令说明。
+- [常用命令视频](https://www.bilibili.com/video/?p=1) — 配套视频。
+- [Claude Code 交互模式](notes/agents/claude-code/tutorial/交互模式.md) — 交互模式说明。
+- [交互模式视频](https://www.bilibili.com/video/?p=2) — 配套视频。
+- [Claude Code 最佳实践](notes/agents/claude-code/tutorial/最佳实践.md) — 日常使用建议。
+- [最佳实践视频](https://www.bilibili.com/video/?p=3) — 配套视频。
 
-### 4.1 Skills
+### Codex
 
-- 📄[Skills](agents/skills/skills.md)
-- 📄[ppt](agents/skills/pptx-related-skills.md)
+- [Codex 指南](notes/agents/codex/codex.md) — 安装、配置与基础使用。
+- [Codex 指南 GitHub 备用地址](https://github.com/psiQAQ/psiQAQ.github.io/blob/main/notes/agents/codex/codex.md) — GitHub 原始内容入口。
+- [AGENTS.md 全局指令示范](notes/agents/codex/AGENTS.md) — 可复用的全局指令示例。
+- [GPT 套餐周额度重置时间查询脚本](notes/agents/codex/codex-reset-remaining.py) — Python 脚本源码。
 
-### 4.2 MCP
+## 智能体扩展
 
-- 📄[Context7 MCP](agents/MCP/context7.md)
-- 📄[Exa](agents/MCP/Exa.md)
-- 📄[gh_grep](agents/MCP/gh_grep.md)
+### Skills
 
-### 4.3 周边工具与扩展
+- [Skills 指南](notes/agents/skills/skills.md) — Skill 的安装与使用。
+- [PPT 相关 Skills](notes/agents/skills/pptx-related-skills.md) — 幻灯片任务相关 Skill。
 
-- 📄[claude-tap](agents/tools/claude-tap.md)
-- 📄[ccstatueline](agents/tools/ccstatueline.md)
-- 📄[blender 指南](others/blender.md)
+### MCP
 
-### 4.4 代码读取与生成
+- [Context7 MCP](notes/agents/MCP/context7.md) — 文档检索 MCP。
+- [Exa](notes/agents/MCP/Exa.md) — 搜索工具说明。
+- [gh_grep](notes/agents/MCP/gh_grep.md) — GitHub 代码搜索工具。
 
-- 📄[graphify](agents/tools/graphify.md)
-- 📄[ponytail](agents/tools/ponytail.md)
+### 周边工具与扩展
 
-## 5. 科研助力
+- [claude-tap](notes/agents/tools/claude-tap.md) — Claude Code 周边工具。
+- [ccstatueline](notes/agents/tools/ccstatueline.md) — 状态栏扩展。
+- [Blender 指南](notes/others/blender.md) — Blender 安装与科研使用。
 
-- 📄[zotero 指南](others/zotero.md)
-- 📄[academic-research-skills](agents/tools/academic-research-skills.md)
+### 代码读取与生成
 
-## 6. 大模型选型与排行榜
+- [graphify](notes/agents/tools/graphify.md) — 代码图谱工具。
+- [ponytail](notes/agents/tools/ponytail.md) — 简化 Agent 编码方案的插件。
 
-- 📄[Models.dev｜AI 模型规格、价格与能力查询](models/models-dev.md)
-- 📊[Artificial Analysis｜AI模型评测与API性能分析](https://artificialanalysis.ai/)
-- ⚔️[Arena AI｜大模型竞技场与排行榜](https://arena.ai/)
+## 科研助力
 
-## 7. AI 新闻
+- [Zotero 指南](notes/others/zotero.md) — 文献管理与 Agent 协作。
+- [academic-research-skills](notes/agents/tools/academic-research-skills.md) — 学术研究 Skills。
 
-- 📰[24 小时 AI 更新雷达](https://learnprompt.github.io/ai-news-radar/)
-- 📰[AIHOT](https://aihot.virxact.com/)
+## 大模型选型与排行榜
 
-## 8. 补充资料
+- [Models.dev](notes/models/models-dev.md) — AI 模型规格、价格与能力查询。
+- [Artificial Analysis](https://artificialanalysis.ai/) — AI 模型评测与 API 性能分析。
+- [Arena AI](https://arena.ai/) — 大模型竞技场与排行榜。
+
+## AI 新闻
+
+- [24 小时 AI 更新雷达](https://learnprompt.github.io/ai-news-radar/) — AI 新闻聚合。
+- [AIHOT](https://aihot.virxact.com/) — AI 热点内容聚合。
+
+## 补充资料
 
 ### 外部 Agent 学习指南
 
-- 📚[AI 编程指南｜Claude Code](https://coding.stormzhang.ai/)
-- 📚[AI 编程指南｜Codex](https://coding.stormzhang.ai/)
+- [AI 编程指南：Claude Code](https://coding.stormzhang.ai/) — 外部学习指南。
+- [AI 编程指南：Codex](https://coding.stormzhang.ai/) — 外部学习指南。
 
-### bilibili-技术爬爬虾
+### bilibili：技术爬爬虾
 
-- 📺[Codex (APP) 保姆级全攻略，海量实战教程， 一期精通Codex](https://www.bilibili.com/video/BV1Kk9kBAEJv)
-- 📺[Git+Github核心概念大串讲，从零到一全攻略，详细实战教程](https://www.bilibili.com/video/BV1ySLc6QEcB)
+- [Codex APP 保姆级全攻略](https://www.bilibili.com/video/BV1Kk9kBAEJv) — Codex 实战视频。
+- [Git 与 GitHub 核心概念](https://www.bilibili.com/video/BV1ySLc6QEcB) — Git 入门视频。
 
-### bilibili-张司机在路上
+### bilibili：张司机在路上
 
-- 📺[解密Claude Code和Anthropic后端是如何通信](https://www.bilibili.com/video/BV1G2o5BqELx)
-- 📺[教你最大化Claude Code缓存命中来节省token](https://www.bilibili.com/video/BV1ZQ5u6bEJ7)
+- [Claude Code 与 Anthropic 后端通信](https://www.bilibili.com/video/BV1G2o5BqELx) — 技术解析视频。
+- [提升 Claude Code 缓存命中](https://www.bilibili.com/video/BV1ZQ5u6bEJ7) — Token 使用优化视频。
 
 ### 其他
 
-- 📺[【Markdown 完全指南】5 分钟上手，让你的笔记永远不被软件绑架！](https://www.bilibili.com/video/BV1tJXZBgEoC)
-- 📺[Zotero8/9通用零基础教程](https://www.bilibili.com/video/BV1ecQBBZESv)
-- 📺[codex提升科研效率100倍](https://www.bilibili.com/video/BV1NwEb6gEy1)
-- 📺[万字拆解AI Agent编年史](https://www.bilibili.com/video/BV1NL9tBsELS)
-- 📺[对姚顺宇的4小时访谈](https://www.bilibili.com/video/BV1YR5E6EE9o)
-- 📺[中美大模型差距过去一年变大还是缩小？- Hugging Face | 王铁震](https://www.bilibili.com/video/BV1HDVT6bE8x)
-- 📺[跟三个大厂码农聊了一晚上，程序员眼中AI叙事的真相原来是这样](https://www.bilibili.com/video/BV1gyEd6xEyu)
-- 🌐[一个网页用于检测你的电脑能运行哪种本地 AI 模型](https://www.canirun.ai)
+- [Markdown 完全指南](https://www.bilibili.com/video/BV1tJXZBgEoC) — Markdown 入门视频。
+- [Zotero 8/9 零基础教程](https://www.bilibili.com/video/BV1ecQBBZESv) — Zotero 视频教程。
+- [Codex 提升科研效率](https://www.bilibili.com/video/BV1NwEb6gEy1) — 科研工作流视频。
+- [AI Agent 编年史](https://www.bilibili.com/video/BV1NL9tBsELS) — Agent 发展回顾。
+- [姚顺宇四小时访谈](https://www.bilibili.com/video/BV1YR5E6EE9o) — 行业访谈。
+- [中美大模型差距讨论](https://www.bilibili.com/video/BV1HDVT6bE8x) — Hugging Face 相关访谈。
+- [程序员眼中的 AI 叙事](https://www.bilibili.com/video/BV1gyEd6xEyu) — 行业讨论。
+- [Can I Run AI](https://www.canirun.ai) — 检测本地设备可运行的 AI 模型。
+
+<!-- site-catalog:end -->

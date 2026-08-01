@@ -610,6 +610,16 @@ summary:focus-visible {
   font-size: 0.78rem;
 }
 
+.library-group + .library-group {
+  margin-top: 24px;
+}
+
+.library-group h3 {
+  margin: 0 0 9px;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
 .library-list {
   display: grid;
   overflow: hidden;

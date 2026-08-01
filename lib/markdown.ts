@@ -6,7 +6,7 @@ import {
   type DocumentRecord,
 } from "./content";
 
-const repositoryUrl = "https://github.com/psiQAQ/agent-lab-notes/blob/main";
+const repositoryUrl = "https://github.com/psiQAQ/psiQAQ.github.io/blob/main/notes";
 
 function escapeAttribute(value: string): string {
   return value

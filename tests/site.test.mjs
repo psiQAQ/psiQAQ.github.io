@@ -23,6 +23,14 @@ async function render(pathname) {
   );
 }
 
+function catalogBlock(readme) {
+  const match = readme.match(
+    /<!-- site-catalog:start -->([\s\S]*?)<!-- site-catalog:end -->/,
+  );
+  assert.ok(match, "README must define the marked public catalog");
+  return match[1];
+}
+
 test("renders the beginner home page without starter metadata", async () => {
   const response = await render("/");
   const html = await response.text();
@@ -121,11 +129,13 @@ test("uses a documentation-first global shell", async () => {
 
 test("presents the knowledge base as a focused documentation product", async () => {
   const home = await (await render("/")).text();
+  const library = await (await render("/library")).text();
   const search = await (await render("/search")).text();
 
   assert.match(home, /知识库索引/);
   assert.match(home, /篇公开指南/);
   assert.match(home, /个主题/);
+  assert.match(library, /<h3>Claude Code<\/h3>/);
   assert.match(search, /<input(?=[^>]*id="site-search")(?=[^>]*autofocus)[^>]*>/);
 });
 
@@ -158,6 +168,31 @@ test("serves the main knowledge routes", async () => {
   }
 });
 
+test("organizes public notes under one catalog", async () => {
+  const root = new URL("../", import.meta.url);
+
+  for (const directory of [
+    "agents",
+    "models",
+    "operating-system",
+    "others",
+    "programme-env",
+  ]) {
+    await access(new URL(`notes/${directory}/`, root));
+    await assert.rejects(access(new URL(`${directory}/`, root)), { code: "ENOENT" });
+  }
+
+  await access(new URL("README.md", root));
+  await access(new URL("AGENTS.md", root));
+  await assert.rejects(access(new URL("20260614.md", root)), { code: "ENOENT" });
+
+  assert.equal((await render("/guides/others/zotero")).status, 200);
+  assert.equal(
+    (await render("/guides/agents/claude-code/tutorial/常用命令")).status,
+    200,
+  );
+});
+
 test("presents the complete five-step path", async () => {
   const html = await (await render("/start")).text();
 
@@ -174,20 +209,27 @@ test("presents the complete five-step path", async () => {
 
 test("renders every Markdown guide published by README", async () => {
   const readme = await readFile(new URL("../README.md", import.meta.url), "utf8");
-  const paths = [...readme.matchAll(/\]\(([^)]+\.md)(?:#[^)]+)?\)/g)]
+  const paths = [...catalogBlock(readme).matchAll(/\]\(([^)]+\.md)(?:#[^)]+)?\)/g)]
     .map((match) => match[1])
     .filter((path) => !path.includes("://"));
 
   assert.ok(paths.length > 20);
+  assert.ok(paths.every((path) => path.startsWith("notes/")));
 
   for (const path of paths) {
-    const slug = path.replace(/\\/g, "/").replace(/\.md$/i, "");
+    const slug = path
+      .replace(/\\/g, "/")
+      .replace(/^notes\//, "")
+      .replace(/\.md$/i, "");
     const response = await render(`/guides/${slug}`);
     assert.equal(response.status, 200, path);
   }
 });
 
 test("renders Markdown structure and repository images", async () => {
+  const claudeCode = await (
+    await render("/guides/agents/claude-code/claude-code")
+  ).text();
   const zotero = await (await render("/guides/others/zotero")).text();
   const context7 = await (
     await render("/guides/agents/MCP/context7")
@@ -199,6 +241,10 @@ test("renders Markdown structure and repository images", async () => {
   assert.match(zotero, /<h1[^>]*>Zotero 指南<\/h1>/);
   assert.match(context7, /<pre><code/);
   assert.match(hyperV, /<img[^>]+Hyper-V/);
+  assert.match(
+    claudeCode,
+    /https:\/\/github\.com\/psiQAQ\/psiQAQ\.github\.io\/blob\/main\/notes\/agents\/claude-code\/cc\.bat/,
+  );
 });
 
 test("links article headings from the document table of contents", async () => {

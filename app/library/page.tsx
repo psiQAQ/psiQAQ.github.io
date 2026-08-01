@@ -21,20 +21,28 @@ export default function LibraryPage() {
         <div className="library-sections">
           {categories.map((category) => {
             const items = documents.filter((document) => document.category === category);
+            const groups = [...new Set(items.map((document) => document.group))];
             return (
               <section id={category} key={category}>
                 <div className="library-section-title">
                   <h2>{category}</h2>
                   <span>{items.length} 篇</span>
                 </div>
-                <div className="library-list">
-                  {items.map((document) => (
-                    <Link href={`/guides/${document.slug}`} key={document.slug}>
-                      <strong>{document.title}</strong>
-                      <span>阅读指南 →</span>
-                    </Link>
-                  ))}
-                </div>
+                {groups.map((group) => (
+                  <div className="library-group" key={group}>
+                    {group !== category && <h3>{group}</h3>}
+                    <div className="library-list">
+                      {items
+                        .filter((document) => document.group === group)
+                        .map((document) => (
+                          <Link href={`/guides/${document.slug}`} key={document.slug}>
+                            <strong>{document.title}</strong>
+                            <span>阅读指南 →</span>
+                          </Link>
+                        ))}
+                    </div>
+                  </div>
+                ))}
               </section>
             );
           })}

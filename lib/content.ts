@@ -5,68 +5,32 @@ export type DocumentRecord = {
   slug: string;
   title: string;
   category: string;
+  group: string;
   markdown: string;
   searchText: string;
 };
 
-const markdownModules = {
-  ...import.meta.glob("../agents/**/*.md", {
-    eager: true,
-    import: "default",
-    query: "?raw",
-  }),
-  ...import.meta.glob("../models/**/*.md", {
-    eager: true,
-    import: "default",
-    query: "?raw",
-  }),
-  ...import.meta.glob("../operating-system/**/*.md", {
-    eager: true,
-    import: "default",
-    query: "?raw",
-  }),
-  ...import.meta.glob("../others/**/*.md", {
-    eager: true,
-    import: "default",
-    query: "?raw",
-  }),
-  ...import.meta.glob("../programme-env/**/*.md", {
-    eager: true,
-    import: "default",
-    query: "?raw",
-  }),
-} as Record<string, string>;
+type CatalogEntry = {
+  category: string;
+  group: string;
+  label: string;
+  target: string;
+  description: string;
+};
 
-const assetModules = {
-  ...import.meta.glob("../agents/**/*.{png,jpg,jpeg,gif,webp}", {
-    eager: true,
-    import: "default",
-    query: "?url",
-  }),
-  ...import.meta.glob("../models/**/*.{png,jpg,jpeg,gif,webp}", {
-    eager: true,
-    import: "default",
-    query: "?url",
-  }),
-  ...import.meta.glob("../operating-system/**/*.{png,jpg,jpeg,gif,webp}", {
-    eager: true,
-    import: "default",
-    query: "?url",
-  }),
-  ...import.meta.glob("../others/**/*.{png,jpg,jpeg,gif,webp}", {
-    eager: true,
-    import: "default",
-    query: "?url",
-  }),
-  ...import.meta.glob("../programme-env/**/*.{png,jpg,jpeg,gif,webp}", {
-    eager: true,
-    import: "default",
-    query: "?url",
-  }),
-} as Record<string, string>;
+const markdownModules = import.meta.glob("../notes/**/*.md", {
+  eager: true,
+  import: "default",
+  query: "?raw",
+}) as Record<string, string>;
+
+const assetModules = import.meta.glob(
+  "../notes/**/*.{png,jpg,jpeg,gif,webp,svg}",
+  { eager: true, import: "default", query: "?url" },
+) as Record<string, string>;
 
 function normalizeModulePath(path: string): string {
-  return path.replace(/^\.\.\//, "").replace(/\\/g, "/");
+  return path.replace(/^\.\.\/notes\//, "").replace(/\\/g, "/");
 }
 
 function decodePath(path: string): string {
@@ -77,16 +41,56 @@ function decodePath(path: string): string {
   }
 }
 
-function categoryFor(path: string): string {
-  if (path.startsWith("programme-env/")) return "基础环境";
-  if (path.startsWith("operating-system/")) return "系统与运行环境";
-  if (path.startsWith("agents/codex/")) return "Codex";
-  if (path.startsWith("agents/claude-code/")) return "Claude Code";
-  if (path.startsWith("agents/skills/")) return "Skills";
-  if (path.startsWith("agents/MCP/")) return "MCP";
-  if (path.startsWith("agents/tools/")) return "工具与扩展";
-  if (path.startsWith("models/")) return "模型选型";
-  return "科研与通用工具";
+function catalogEntries(markdown: string): CatalogEntry[] {
+  const block = markdown.match(
+    /<!-- site-catalog:start -->([\s\S]*?)<!-- site-catalog:end -->/,
+  )?.[1];
+  if (!block) throw new Error("README is missing the public catalog markers");
+
+  const entries: CatalogEntry[] = [];
+  let category = "";
+  let group = "";
+
+  for (const line of block.split(/\r?\n/)) {
+    const categoryMatch = line.match(/^##\s+(.+?)\s*$/);
+    if (categoryMatch) {
+      category = categoryMatch[1];
+      group = category;
+      continue;
+    }
+
+    const groupMatch = line.match(/^###\s+(.+?)\s*$/);
+    if (groupMatch) {
+      group = groupMatch[1];
+      continue;
+    }
+
+    const linkMatch = line.match(
+      /^\s*-\s+(?!\!)(?:[^[]+\s*)?\[([^\]]+)]\(([^)]+)\)(?:\s+—\s+(.+))?\s*$/,
+    );
+    if (!linkMatch) continue;
+    if (!category) throw new Error("README catalog entry has no category");
+
+    entries.push({
+      category,
+      group: group || category,
+      label: linkMatch[1].trim(),
+      target: linkMatch[2].trim(),
+      description: linkMatch[3]?.trim() ?? "",
+    });
+  }
+
+  return entries;
+}
+
+function localCatalogPath(target: string): string {
+  const path = decodePath(target.split(/[?#]/, 1)[0])
+    .replace(/^\.\//, "")
+    .replace(/\\/g, "/");
+  if (!path.startsWith("notes/") || path.split("/").includes("..")) {
+    throw new Error(`README local target must stay under notes/: ${target}`);
+  }
+  return path;
 }
 
 function plainText(markdown: string): string {
@@ -108,38 +112,39 @@ const markdownByPath = new Map(
 );
 
 const assetByPath = new Map(
-  Object.entries(assetModules).map(([path, url]) => [
-    normalizeModulePath(path),
-    url,
-  ]),
+  Object.entries(assetModules).map(([path, url]) => [normalizeModulePath(path), url]),
 );
 
-const publishedPaths = [
-  ...readme.matchAll(/\]\((?!https?:\/\/)([^)#?]+\.md)(?:#[^)]*)?\)/g),
-].map((match) => decodePath(match[1]).replace(/^\.\//, "").replace(/\\/g, "/"));
+const catalog = catalogEntries(readme);
+for (const entry of catalog) {
+  if (!/^https?:\/\//i.test(entry.target)) localCatalogPath(entry.target);
+}
 
 const seenPaths = new Set<string>();
 
-export const documents: DocumentRecord[] = publishedPaths.flatMap((sourcePath) => {
+export const documents: DocumentRecord[] = catalog.flatMap((entry) => {
+  if (/^https?:\/\//i.test(entry.target)) return [];
+
+  const physicalPath = localCatalogPath(entry.target);
+  if (!physicalPath.toLowerCase().endsWith(".md")) return [];
+
+  const sourcePath = physicalPath.slice("notes/".length);
   if (seenPaths.has(sourcePath)) return [];
   seenPaths.add(sourcePath);
 
   const markdown = markdownByPath.get(sourcePath);
-  if (!markdown) {
-    throw new Error(`README publishes missing Markdown: ${sourcePath}`);
-  }
+  if (!markdown) throw new Error(`README publishes missing Markdown: ${physicalPath}`);
 
   const title = markdown.match(/^#\s+(.+)$/m)?.[1]?.trim();
-  if (!title) {
-    throw new Error(`Published Markdown has no level-one title: ${sourcePath}`);
-  }
+  if (!title) throw new Error(`Published Markdown has no level-one title: ${physicalPath}`);
 
   return [
     {
       sourcePath,
       slug: sourcePath.replace(/\.md$/i, ""),
       title,
-      category: categoryFor(sourcePath),
+      category: entry.category,
+      group: entry.group,
       markdown,
       searchText: plainText(markdown),
     },
