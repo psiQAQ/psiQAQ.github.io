@@ -47,7 +47,7 @@
 
 新增 `.github/workflows/pages.yml`，仅在 `main` 推送和手动触发时执行。工作流包含：
 
-- 最小权限：构建阶段 `contents: read`，部署阶段 `pages: write` 与 `id-token: write`。
+- 使用 GitHub 官方 Pages 模板要求的 `contents: read`、`pages: write` 与 `id-token: write` 权限。
 - 使用 npm 缓存并执行锁文件一致的 `npm ci`。
 - 构建后验证 `dist/client/index.html` 存在。
 - 使用 GitHub 官方 Pages actions 上传 `dist/client` 并部署到 `github-pages` environment。
