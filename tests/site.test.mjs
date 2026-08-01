@@ -249,7 +249,7 @@ test("serves README-listed source detail pages", async () => {
   );
 });
 
-test("does not export unlisted local source files", async () => {
+test("keeps local source files out of client asset bundles", async () => {
   const assets = await readdir(new URL("../dist/client/assets/", import.meta.url));
 
   assert.ok(!assets.some((name) => name.startsWith("ccmac-")));
