@@ -316,11 +316,6 @@ summary:focus-visible {
   padding-block: 76px;
 }
 
-.section-tinted {
-  border-block: 1px solid var(--line);
-  background: var(--surface);
-}
-
 .section-heading {
   display: flex;
   align-items: end;
@@ -372,7 +367,6 @@ summary:focus-visible {
 }
 
 .step-card p,
-.guide-card p,
 .page-intro > p:last-child,
 .learning-step p,
 .completion-card > p,
@@ -384,66 +378,6 @@ summary:focus-visible {
   margin: 0;
   font-size: 0.84rem;
   line-height: 1.65;
-}
-
-.guide-card-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 14px;
-}
-
-.guide-card {
-  display: flex;
-  min-height: 190px;
-  flex-direction: column;
-  padding: 22px;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  background: var(--surface-raised);
-  transition: border-color 150ms ease, transform 150ms ease, box-shadow 150ms ease;
-}
-
-.guide-card:hover {
-  transform: translateY(-2px);
-  border-color: #9dbdb5;
-  box-shadow: 0 12px 28px rgb(24 55 49 / 7%);
-}
-
-.guide-card > span {
-  color: var(--teal);
-  font-size: 0.72rem;
-  font-weight: 760;
-}
-
-.guide-card h3 {
-  margin: 24px 0 14px;
-  font-size: 1.05rem;
-  line-height: 1.45;
-}
-
-.guide-card p {
-  margin: auto 0 0;
-  font-size: 0.8rem;
-}
-
-.category-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.category-row a {
-  padding: 8px 13px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--surface-raised);
-  color: #46534f;
-  font-size: 0.82rem;
-}
-
-.category-row a:hover {
-  border-color: #9dbdb5;
-  color: var(--teal-dark);
 }
 
 .content-page {
@@ -1109,10 +1043,6 @@ summary:focus-visible {
     grid-template-columns: repeat(3, 1fr);
   }
 
-  .guide-card-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
   .guide-layout {
     display: block;
     width: min(820px, calc(100% - 40px));
@@ -1238,13 +1168,11 @@ summary:focus-visible {
     flex-direction: column;
   }
 
-  .step-grid,
-  .guide-card-grid {
+  .step-grid {
     grid-template-columns: 1fr;
   }
 
-  .step-card,
-  .guide-card {
+  .step-card {
     min-height: auto;
   }
 

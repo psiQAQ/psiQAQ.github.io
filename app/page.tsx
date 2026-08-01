@@ -9,19 +9,7 @@ const steps = [
   ["05", "完成笔记", "生成研究问题、方法、结论与待验证事项。"],
 ];
 
-const featuredSlugs = [
-  "agents/codex/codex",
-  "agents/claude-code/claude-code",
-  "agents/tools/academic-research-skills",
-  "others/zotero",
-];
-
 export default function Home() {
-  const featured = featuredSlugs.flatMap((slug) => {
-    const document = documents.find((item) => item.slug === slug);
-    return document ? [document] : [];
-  });
-
   return (
     <main>
       <section className="hero page-shell">
@@ -40,7 +28,7 @@ export default function Home() {
           <div className="knowledge-overview-header">
             <div>
               <span>知识库索引</span>
-              <strong>从常用入口开始</strong>
+              <strong>浏览全部主题</strong>
             </div>
             <Link href="/library">查看全部 →</Link>
           </div>
@@ -48,11 +36,11 @@ export default function Home() {
             <div><strong>{documents.length}</strong><span>篇公开指南</span></div>
             <div><strong>{categories.length}</strong><span>个主题</span></div>
           </div>
-          <nav aria-label="快速入口">
-            {featured.map((document) => (
-              <Link href={`/guides/${document.slug}`} key={document.slug}>
-                <span>{document.category}</span>
-                <strong>{document.title}</strong>
+          <nav aria-label="全部主题">
+            {categories.map((category) => (
+              <Link href={`/library#${encodeURIComponent(category)}`} key={category}>
+                <span>主题</span>
+                <strong>{category}</strong>
                 <span aria-hidden="true">→</span>
               </Link>
             ))}
@@ -79,40 +67,6 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="section section-tinted">
-        <div className="page-shell">
-          <div className="section-heading">
-            <div>
-              <p className="eyebrow">精选指南</p>
-              <h2>新手最常用的四个入口</h2>
-            </div>
-          </div>
-          <div className="guide-card-grid">
-            {featured.map((document) => (
-              <Link className="guide-card" href={`/guides/${document.slug}`} key={document.slug}>
-                <span>{document.category}</span>
-                <h3>{document.title}</h3>
-                <p>打开指南 →</p>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="section page-shell">
-        <div className="section-heading">
-          <div>
-            <p className="eyebrow">完整知识库</p>
-            <h2>{documents.length} 篇公开指南，按需查阅</h2>
-          </div>
-          <Link href="/search">搜索全部内容 →</Link>
-        </div>
-        <div className="category-row">
-          {categories.map((category) => (
-            <Link href={`/library#${encodeURIComponent(category)}`} key={category}>{category}</Link>
-          ))}
-        </div>
-      </section>
     </main>
   );
 }

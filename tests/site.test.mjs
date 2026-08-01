@@ -140,6 +140,32 @@ test("presents the knowledge base as a focused documentation product", async () 
   assert.match(search, /<input(?=[^>]*id="site-search")(?=[^>]*autofocus)[^>]*>/);
 });
 
+test("shows the complete homepage topic index without duplicate sections", async () => {
+  const html = await (await render("/")).text();
+  const topicNav = html.match(/<nav aria-label="全部主题">([\s\S]*?)<\/nav>/)?.[1];
+  assert.ok(topicNav, "homepage must expose the complete topic navigation");
+
+  const topics = [
+    "基础环境",
+    "系统与运行环境",
+    "智能体",
+    "智能体扩展",
+    "科研助力",
+    "大模型选型与排行榜",
+  ];
+  for (const topic of topics) {
+    assert.match(topicNav, new RegExp(`href="/library#${encodeURIComponent(topic)}"`));
+  }
+  for (let index = 1; index < topics.length; index += 1) {
+    assert.ok(topicNav.indexOf(topics[index - 1]) < topicNav.indexOf(topics[index]));
+  }
+
+  assert.doesNotMatch(
+    html,
+    /精选指南|新手最常用的四个入口|<p class="eyebrow">完整知识库<\/p>|篇公开指南，按需查阅/,
+  );
+});
+
 test("ships the documentation visual system", async () => {
   const css = await readFile(new URL("../app/globals.css", import.meta.url), "utf8");
 
