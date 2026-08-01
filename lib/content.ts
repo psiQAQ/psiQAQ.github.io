@@ -10,6 +10,17 @@ export type DocumentRecord = {
   searchText: string;
 };
 
+export type ResourceRecord = {
+  category: string;
+  group: string;
+  title: string;
+  description: string;
+} & (
+  | { kind: "external"; href: string }
+  | { kind: "source"; sourcePath: string; source: string }
+  | { kind: "download"; sourcePath: string; href: string }
+);
+
 type CatalogEntry = {
   category: string;
   group: string;
@@ -24,10 +35,22 @@ const markdownModules = import.meta.glob("../notes/**/*.md", {
   query: "?raw",
 }) as Record<string, string>;
 
+const sourceModules = import.meta.glob(
+  "../notes/**/*.{bat,sh,py,ps1,js,mjs,cjs,ts,tsx,json,toml,yaml,yml,xml,ini,cfg,conf,txt,css,html}",
+  { eager: true, import: "default", query: "?raw" },
+) as Record<string, string>;
+
 const assetModules = import.meta.glob(
-  "../notes/**/*.{png,jpg,jpeg,gif,webp,svg}",
+  "../notes/**/*.{png,jpg,jpeg,gif,webp,svg,avif}",
   { eager: true, import: "default", query: "?url" },
 ) as Record<string, string>;
+
+const downloadModules = import.meta.glob(
+  "../notes/**/*.{pdf,doc,docx,xls,xlsx,ppt,pptx,zip,7z,rar,tar,gz,mp3,wav,mp4,mov,avi,bin,exe,msi,dmg,pkg,apk,blend}",
+  { eager: true, import: "default", query: "?url" },
+) as Record<string, string>;
+
+const fileModules = { ...assetModules, ...downloadModules } as Record<string, string>;
 
 function normalizeModulePath(path: string): string {
   return path.replace(/^\.\.\/notes\//, "").replace(/\\/g, "/");
@@ -111,8 +134,15 @@ const markdownByPath = new Map(
   ]),
 );
 
-const assetByPath = new Map(
-  Object.entries(assetModules).map(([path, url]) => [normalizeModulePath(path), url]),
+const sourceByPath = new Map(
+  Object.entries(sourceModules).map(([path, source]) => [
+    normalizeModulePath(path),
+    source,
+  ]),
+);
+
+const fileByPath = new Map(
+  Object.entries(fileModules).map(([path, url]) => [normalizeModulePath(path), url]),
 );
 
 const catalog = catalogEntries(readme);
@@ -151,6 +181,41 @@ export const documents: DocumentRecord[] = catalog.flatMap((entry) => {
   ];
 });
 
+export const resources: ResourceRecord[] = catalog.flatMap((entry) => {
+  if (/^https?:\/\//i.test(entry.target)) {
+    return [
+      {
+        kind: "external",
+        category: entry.category,
+        group: entry.group,
+        title: entry.label,
+        description: entry.description,
+        href: entry.target,
+      },
+    ];
+  }
+
+  const physicalPath = localCatalogPath(entry.target);
+  if (physicalPath.toLowerCase().endsWith(".md")) return [];
+
+  const sourcePath = physicalPath.slice("notes/".length);
+  const title = sourcePath.split("/").at(-1) ?? sourcePath;
+  const common = {
+    category: entry.category,
+    group: entry.group,
+    title,
+    description: entry.description,
+    sourcePath,
+  };
+  const source = sourceByPath.get(sourcePath);
+  if (source !== undefined) return [{ ...common, kind: "source", source }];
+
+  const href = fileByPath.get(sourcePath);
+  if (href) return [{ ...common, kind: "download", href }];
+
+  throw new Error(`README publishes missing local file: ${physicalPath}`);
+});
+
 const documentsBySlug = new Map(documents.map((document) => [document.slug, document]));
 const documentsByPath = new Map(
   documents.map((document) => [document.sourcePath, document]),
@@ -182,7 +247,7 @@ export function resolveRepositoryPath(sourcePath: string, href: string): string 
 }
 
 export function assetUrlFor(sourcePath: string, href: string): string | undefined {
-  return assetByPath.get(resolveRepositoryPath(sourcePath, href));
+  return fileByPath.get(resolveRepositoryPath(sourcePath, href));
 }
 
 export const categories = [...new Set(documents.map((document) => document.category))];

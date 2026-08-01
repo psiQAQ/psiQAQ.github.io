@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { access, readFile } from "node:fs/promises";
+import { access, readFile, readdir } from "node:fs/promises";
 import test from "node:test";
 
 async function render(pathname) {
@@ -113,6 +113,7 @@ test("uses a documentation-first global shell", async () => {
   );
 
   assert.match(home, /href="\/search#site-search"/);
+  assert.match(home, /href="\/resources">资源<\/a>/);
   assert.match(home, /aria-label="搜索文档"/);
   assert.match(guide, /aria-label="文档导航"/);
   assert.match(guide, /href="\/guides\/agents\/codex\/codex"/);
@@ -162,10 +163,37 @@ test("ships the documentation visual system", async () => {
 });
 
 test("serves the main knowledge routes", async () => {
-  for (const pathname of ["/start", "/library", "/search"]) {
+  for (const pathname of ["/start", "/library", "/resources", "/search"]) {
     const response = await render(pathname);
     assert.equal(response.status, 200, pathname);
   }
+});
+
+test("publishes README links and local source files as resources", async () => {
+  const response = await render("/resources");
+  const html = await response.text();
+  const search = await (await render("/search")).text();
+
+  assert.equal(response.status, 200);
+  assert.match(html, /<h1>资源<\/h1>/);
+  assert.match(
+    html,
+    /<a(?=[^>]*href="https:\/\/artificialanalysis\.ai\/")(?=[^>]*target="_blank")(?=[^>]*rel="noreferrer")[^>]*>/,
+  );
+  assert.match(html, /<h3>cc\.bat<\/h3>/);
+  assert.match(html, /@echo off/);
+  assert.match(html, /aria-label="复制 cc\.bat 源码"/);
+  assert.match(html, /<h3>codex-reset-remaining\.py<\/h3>/);
+  assert.match(html, /from datetime import datetime/);
+  assert.doesNotMatch(html, /Hyper-V-TPM\.png/);
+  assert.doesNotMatch(search, /@echo off/);
+});
+
+test("does not export unlisted local source files", async () => {
+  const assets = await readdir(new URL("../dist/client/assets/", import.meta.url));
+
+  assert.ok(!assets.some((name) => name.startsWith("ccmac-")));
+  assert.ok(!assets.some((name) => name.startsWith("cclinux-")));
 });
 
 test("organizes public notes under one catalog", async () => {

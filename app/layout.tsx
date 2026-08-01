@@ -36,6 +36,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <nav aria-label="主导航">
               <Link href="/start">新手路径</Link>
               <Link href="/library">知识库</Link>
+              <Link href="/resources">资源</Link>
               <Link className="global-search" href="/search#site-search" aria-label="搜索文档">
                 <span>搜索文档</span>
                 <kbd>/</kbd>
