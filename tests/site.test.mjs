@@ -136,6 +136,8 @@ test("presents the knowledge base as a focused documentation product", async () 
   assert.match(home, /篇公开指南/);
   assert.match(home, /个主题/);
   assert.match(library, /<h3>Claude Code<\/h3>/);
+  assert.doesNotMatch(library, /CLAUDE\.md 全局指令示范/);
+  assert.doesNotMatch(library, /AGENTS\.md 全局指令示范/);
   assert.match(search, /<input(?=[^>]*id="site-search")(?=[^>]*autofocus)[^>]*>/);
 });
 
@@ -217,11 +219,23 @@ test("publishes a categorized resource card index", async () => {
   );
   assert.match(html, /<h2>智能体<\/h2>/);
   assert.match(html, /<h3>Claude Code<\/h3>/);
+  assert.match(
+    html,
+    /resource-type resource-type-template[^>]*>🧾(?:<!-- -->|\s)*源码与模板<\/span>/,
+  );
+  assert.match(
+    html,
+    /resource-type resource-type-video[^>]*>📺(?:<!-- -->|\s)*视频<\/span>/,
+  );
+  assert.match(html, /<h4>CLAUDE\.md 全局指令示范<\/h4>/);
+  assert.match(html, /<h4>AGENTS\.md 全局指令示范<\/h4>/);
 
   const sourceLinks = [
     "/resources/agents/claude-code/cc.bat",
     "/resources/agents/claude-code/ccmac.sh",
     "/resources/agents/claude-code/cclinux.sh",
+    "/resources/agents/claude-code/CLAUDE.md",
+    "/resources/agents/codex/AGENTS.md",
     "/resources/agents/codex/codex-reset-remaining.py",
   ];
   for (const href of sourceLinks) assert.match(html, new RegExp(`href="${href}"`));
@@ -238,17 +252,18 @@ test("publishes a categorized resource card index", async () => {
 
 test("serves README-listed source detail pages", async () => {
   const cases = [
-    ["cc.bat", "@echo off"],
-    ["ccmac.sh", "Claude project launcher for macOS zsh"],
-    ["cclinux.sh", "Claude project launcher"],
+    ["cc.bat", "Claude Code 一键快捷启动脚本", "@echo off"],
+    ["ccmac.sh", "Claude Code macOS 快捷启动脚本", "Claude project launcher for macOS zsh"],
+    ["cclinux.sh", "Claude Code Linux/WSL 快捷启动脚本", "Claude project launcher"],
+    ["CLAUDE.md", "CLAUDE.md 全局指令示范", "# 全局指令"],
   ];
 
-  for (const [filename, sourceLiteral] of cases) {
+  for (const [filename, title, sourceLiteral] of cases) {
     const response = await render(`/resources/agents/claude-code/${filename}`);
     const html = await response.text();
 
     assert.equal(response.status, 200, filename);
-    assert.match(html, new RegExp(`<h1>${filename.replace(".", "\\.")}<\\/h1>`));
+    assert.match(html, new RegExp(`<h1>${title.replace(".", "\\.")}<\\/h1>`));
     assert.match(html, new RegExp(sourceLiteral));
     assert.match(html, new RegExp(`aria-label="复制 ${filename.replace(".", "\\.")} 源码"`));
   }
@@ -307,12 +322,13 @@ test("presents the complete five-step path", async () => {
 
 test("renders every Markdown guide published by README", async () => {
   const readme = await readFile(new URL("../README.md", import.meta.url), "utf8");
-  const paths = [...catalogBlock(readme).matchAll(/\]\(([^)]+\.md)(?:#[^)]+)?\)/g)]
-    .map((match) => match[1])
-    .filter((path) => !path.includes("://"));
+  const paths = [...catalogBlock(readme).matchAll(/^\s*-\s+📄\[[^\]]+\]\(([^)]+)\)\s*$/gm)]
+    .map((match) => match[1]);
 
   assert.ok(paths.length > 20);
   assert.ok(paths.every((path) => path.startsWith("notes/")));
+  assert.ok(paths.every((path) => path.toLowerCase().endsWith(".md")));
+  assert.ok(!paths.some((path) => /\/(?:CLAUDE|AGENTS)\.md$/.test(path)));
 
   for (const path of paths) {
     const slug = path
@@ -341,8 +357,10 @@ test("renders Markdown structure and repository images", async () => {
   assert.match(hyperV, /<img[^>]+Hyper-V/);
   assert.match(
     claudeCode,
-    /https:\/\/github\.com\/psiQAQ\/psiQAQ\.github\.io\/blob\/main\/notes\/agents\/claude-code\/cc\.bat/,
+    /href="\/resources\/agents\/claude-code\/cc\.bat"/,
   );
+  assert.match(claudeCode, /href="\/resources\/agents\/claude-code\/CLAUDE\.md"/);
+  assert.doesNotMatch(claudeCode, /github\.com\/psiQAQ\/psiQAQ\.github\.io\/blob\/main\/notes\/agents\/claude-code/);
 });
 
 test("links article headings from the document table of contents", async () => {

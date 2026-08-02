@@ -21,7 +21,7 @@ export default async function SourcePage({ params }: SourcePageProps) {
   const resource = findSourceResource((await params).slug.join("/"));
   if (!resource) notFound();
 
-  const language = resource.title.split(".").at(-1)?.toUpperCase();
+  const language = resource.filename.split(".").at(-1)?.toUpperCase();
 
   return (
     <main className="page-shell content-page source-detail">
@@ -33,14 +33,13 @@ export default async function SourcePage({ params }: SourcePageProps) {
         <span>{resource.group}</span>
       </div>
       <header className="page-intro compact">
-        <p className="eyebrow">{language} 源码</p>
+        <p className="eyebrow">{resource.icon} {resource.typeLabel} · {language} 源码</p>
         <h1>{resource.title}</h1>
-        {resource.description && <p>{resource.description}</p>}
       </header>
       <article className="source-resource">
         <header>
           <span>{resource.category} · {resource.group}</span>
-          <CopySourceButton filename={resource.title} source={resource.source} />
+          <CopySourceButton filename={resource.filename} source={resource.source} />
         </header>
         <pre><code>{resource.source}</code></pre>
       </article>

@@ -576,6 +576,52 @@ summary:focus-visible {
   font-weight: 760;
 }
 
+.resource-card .resource-type {
+  display: inline-flex;
+  padding: 3px 8px;
+  border-radius: 999px;
+}
+
+.resource-type-video {
+  background: #fff1f2;
+  color: #be123c;
+}
+
+.resource-type-launcher {
+  background: #eef2ff;
+  color: #4338ca;
+}
+
+.resource-type-template {
+  background: #fffbeb;
+  color: #a16207;
+}
+
+.resource-type-analysis {
+  background: #eff6ff;
+  color: #1d4ed8;
+}
+
+.resource-type-ranking {
+  background: #faf5ff;
+  color: #7e22ce;
+}
+
+.resource-type-news {
+  background: #fff7ed;
+  color: #c2410c;
+}
+
+.resource-type-learning {
+  background: #ecfdf5;
+  color: #047857;
+}
+
+.resource-type-website {
+  background: #ecfeff;
+  color: #0e7490;
+}
+
 .resource-card h4,
 .source-resource h3 {
   margin: 5px 0 0;

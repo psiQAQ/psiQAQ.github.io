@@ -31,13 +31,10 @@ export default function ResourcesPage() {
                       .map((resource) => {
                         const content = (
                           <>
-                            <span>
-                              {resource.kind === "source"
-                                ? resource.title.split(".").at(-1)?.toUpperCase()
-                                : resource.kind === "download" ? "下载" : "外部资源"}
+                            <span className={`resource-type resource-type-${resource.type}`}>
+                              {resource.icon} {resource.typeLabel}
                             </span>
                             <h4>{resource.title}</h4>
-                            {resource.description && <p>{resource.description}</p>}
                           </>
                         );
 
@@ -57,7 +54,7 @@ export default function ResourcesPage() {
                           return (
                             <a
                               className="resource-card"
-                              download={resource.title}
+                              download={resource.filename}
                               href={resource.href}
                               key={resource.sourcePath}
                             >

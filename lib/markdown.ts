@@ -2,11 +2,10 @@ import { Marked } from "marked";
 import {
   assetUrlFor,
   findDocumentByPath,
+  findResourceByPath,
   resolveRepositoryPath,
   type DocumentRecord,
 } from "./content";
-
-const repositoryUrl = "https://github.com/psiQAQ/psiQAQ.github.io/blob/main/notes";
 
 function escapeAttribute(value: string): string {
   return value
@@ -64,7 +63,13 @@ function rewriteLink(document: DocumentRecord, href: string): string {
     if (target) return `/guides/${target.slug}${suffix}`;
   }
 
-  return `${repositoryUrl}/${resolved}${suffix}`;
+  const resource = findResourceByPath(resolved);
+  if (resource?.kind === "source") return `/resources/${resource.slug}${suffix}`;
+  if (resource?.kind === "download") return `${resource.href}${suffix}`;
+
+  throw new Error(
+    `Published Markdown references unpublished local resource: ${document.sourcePath} -> ${href}`,
+  );
 }
 
 export function renderMarkdown(document: DocumentRecord): string {

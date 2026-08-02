@@ -10,23 +10,52 @@ export type DocumentRecord = {
   searchText: string;
 };
 
+type CatalogType =
+  | "document"
+  | "video"
+  | "launcher"
+  | "template"
+  | "analysis"
+  | "ranking"
+  | "news"
+  | "learning"
+  | "website";
+
+type ResourceType = Exclude<CatalogType, "document">;
+
 export type ResourceRecord = {
   category: string;
   group: string;
+  icon: string;
+  type: ResourceType;
+  typeLabel: string;
   title: string;
-  description: string;
 } & (
   | { kind: "external"; href: string }
-  | { kind: "source"; sourcePath: string; slug: string; source: string }
-  | { kind: "download"; sourcePath: string; href: string }
+  | { kind: "source"; sourcePath: string; slug: string; filename: string; source: string }
+  | { kind: "download"; sourcePath: string; filename: string; href: string }
 );
 
 type CatalogEntry = {
   category: string;
   group: string;
+  icon: string;
+  type: CatalogType;
+  typeLabel: string;
   label: string;
   target: string;
-  description: string;
+};
+
+const catalogTypes: Record<string, { type: CatalogType; label: string }> = {
+  "📄": { type: "document", label: "文档" },
+  "📺": { type: "video", label: "视频" },
+  "🚀": { type: "launcher", label: "启动工具" },
+  "🧾": { type: "template", label: "源码与模板" },
+  "📊": { type: "analysis", label: "数据分析" },
+  "⚔️": { type: "ranking", label: "排行榜" },
+  "📰": { type: "news", label: "新闻" },
+  "📚": { type: "learning", label: "学习资料" },
+  "🌐": { type: "website", label: "网站" },
 };
 
 const markdownModules = import.meta.glob("../notes/**/*.md", {
@@ -88,18 +117,28 @@ function catalogEntries(markdown: string): CatalogEntry[] {
       continue;
     }
 
-    const linkMatch = line.match(
-      /^\s*-\s+(?!\!)(?:[^[]+\s*)?\[([^\]]+)]\(([^)]+)\)(?:\s+—\s+(.+))?\s*$/,
-    );
-    if (!linkMatch) continue;
+    const linkMatch = line.match(/^\s*-\s+(\S+)\[([^\]]+)]\(([^)]+)\)\s*$/);
+    if (!linkMatch) {
+      if (/^\s*-\s+.*\[[^\]]+]\([^)]+\)/.test(line)) {
+        throw new Error(`README catalog entry must use a supported icon: ${line.trim()}`);
+      }
+      continue;
+    }
     if (!category) throw new Error("README catalog entry has no category");
+
+    const catalogType = catalogTypes[linkMatch[1]];
+    if (!catalogType) {
+      throw new Error(`README catalog entry uses unknown icon: ${linkMatch[1]}`);
+    }
 
     entries.push({
       category,
       group: group || category,
-      label: linkMatch[1].trim(),
-      target: linkMatch[2].trim(),
-      description: linkMatch[3]?.trim() ?? "",
+      icon: linkMatch[1],
+      type: catalogType.type,
+      typeLabel: catalogType.label,
+      label: linkMatch[2].trim(),
+      target: linkMatch[3].trim(),
     });
   }
 
@@ -148,15 +187,19 @@ const fileByPath = new Map(
 const catalog = catalogEntries(readme);
 for (const entry of catalog) {
   if (!/^https?:\/\//i.test(entry.target)) localCatalogPath(entry.target);
+  if (entry.type === "document") {
+    if (/^https?:\/\//i.test(entry.target) || !entry.target.split(/[?#]/, 1)[0].toLowerCase().endsWith(".md")) {
+      throw new Error(`README document entry must target local Markdown: ${entry.target}`);
+    }
+  }
 }
 
 const seenPaths = new Set<string>();
 
 export const documents: DocumentRecord[] = catalog.flatMap((entry) => {
-  if (/^https?:\/\//i.test(entry.target)) return [];
+  if (entry.type !== "document") return [];
 
   const physicalPath = localCatalogPath(entry.target);
-  if (!physicalPath.toLowerCase().endsWith(".md")) return [];
 
   const sourcePath = physicalPath.slice("notes/".length);
   if (seenPaths.has(sourcePath)) return [];
@@ -165,14 +208,11 @@ export const documents: DocumentRecord[] = catalog.flatMap((entry) => {
   const markdown = markdownByPath.get(sourcePath);
   if (!markdown) throw new Error(`README publishes missing Markdown: ${physicalPath}`);
 
-  const title = markdown.match(/^#\s+(.+)$/m)?.[1]?.trim();
-  if (!title) throw new Error(`Published Markdown has no level-one title: ${physicalPath}`);
-
   return [
     {
       sourcePath,
       slug: sourcePath.replace(/\.md$/i, ""),
-      title,
+      title: entry.label,
       category: entry.category,
       group: entry.group,
       markdown,
@@ -182,32 +222,37 @@ export const documents: DocumentRecord[] = catalog.flatMap((entry) => {
 });
 
 export const resources: ResourceRecord[] = catalog.flatMap((entry) => {
+  if (entry.type === "document") return [];
+
   if (/^https?:\/\//i.test(entry.target)) {
     return [
       {
         kind: "external",
         category: entry.category,
         group: entry.group,
+        icon: entry.icon,
+        type: entry.type,
+        typeLabel: entry.typeLabel,
         title: entry.label,
-        description: entry.description,
         href: entry.target,
       },
     ];
   }
 
   const physicalPath = localCatalogPath(entry.target);
-  if (physicalPath.toLowerCase().endsWith(".md")) return [];
-
   const sourcePath = physicalPath.slice("notes/".length);
-  const title = sourcePath.split("/").at(-1) ?? sourcePath;
+  const filename = sourcePath.split("/").at(-1) ?? sourcePath;
   const common = {
     category: entry.category,
     group: entry.group,
-    title,
-    description: entry.description,
+    icon: entry.icon,
+    type: entry.type,
+    typeLabel: entry.typeLabel,
+    title: entry.label,
     sourcePath,
+    filename,
   };
-  const source = sourceByPath.get(sourcePath);
+  const source = sourceByPath.get(sourcePath) ?? markdownByPath.get(sourcePath);
   if (source !== undefined) {
     return [{ ...common, kind: "source", slug: sourcePath, source }];
   }
@@ -227,6 +272,16 @@ const sourceResourcesBySlug = new Map(
   sourceResources.map((resource) => [resource.slug, resource]),
 );
 
+export type LocalResourceRecord =
+  | Extract<ResourceRecord, { kind: "source" }>
+  | Extract<ResourceRecord, { kind: "download" }>;
+
+const localResourcesByPath = new Map(
+  resources
+    .filter((resource): resource is LocalResourceRecord => resource.kind !== "external")
+    .map((resource) => [resource.sourcePath, resource]),
+);
+
 const documentsBySlug = new Map(documents.map((document) => [document.slug, document]));
 const documentsByPath = new Map(
   documents.map((document) => [document.sourcePath, document]),
@@ -242,6 +297,10 @@ export function findDocument(slug: string): DocumentRecord | undefined {
 
 export function findDocumentByPath(path: string): DocumentRecord | undefined {
   return documentsByPath.get(path);
+}
+
+export function findResourceByPath(path: string): LocalResourceRecord | undefined {
+  return localResourcesByPath.get(path);
 }
 
 export function findSourceResource(
