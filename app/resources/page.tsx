@@ -11,7 +11,7 @@ export default function ResourcesPage() {
       <header className="page-intro compact">
         <p className="eyebrow">{resources.length} 项公开资源</p>
         <h1>资源</h1>
-        <p>README 清单中的外部参考、可复制脚本和下载文件。</p>
+        <p>汇集 Agent 学习资料、实用脚本、开发工具、大模型评测、AI 新闻与行业观察。</p>
       </header>
 
       <div className="resource-sections">
@@ -29,6 +29,7 @@ export default function ResourcesPage() {
                     {items
                       .filter((resource) => resource.group === group)
                       .map((resource) => {
+                        const cardClassName = `resource-card resource-card-${resource.type}`;
                         const content = (
                           <>
                             <span className={`resource-type resource-type-${resource.type}`}>
@@ -41,7 +42,7 @@ export default function ResourcesPage() {
                         if (resource.kind === "source") {
                           return (
                             <Link
-                              className="resource-card"
+                              className={cardClassName}
                               href={`/resources/${resource.slug}`}
                               key={resource.sourcePath}
                             >
@@ -53,7 +54,7 @@ export default function ResourcesPage() {
                         if (resource.kind === "download") {
                           return (
                             <a
-                              className="resource-card"
+                              className={cardClassName}
                               download={resource.filename}
                               href={resource.href}
                               key={resource.sourcePath}
@@ -65,7 +66,7 @@ export default function ResourcesPage() {
 
                         return (
                           <a
-                            className="resource-card"
+                            className={cardClassName}
                             href={resource.href}
                             key={`${resource.href}-${resource.title}`}
                             rel="noreferrer"

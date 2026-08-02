@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { CopySourceButton } from "@/components/copy-source-button";
 import { findSourceResource, sourceResources } from "@/lib/content";
+import { renderMarkdown } from "@/lib/markdown";
 
 type SourcePageProps = {
   params: Promise<{ slug: string[] }>;
@@ -22,6 +23,7 @@ export default async function SourcePage({ params }: SourcePageProps) {
   if (!resource) notFound();
 
   const language = resource.filename.split(".").at(-1)?.toUpperCase();
+  const renderAsMarkdown = resource.type === "learning" && language === "MD";
 
   return (
     <main className="page-shell content-page source-detail">
@@ -32,17 +34,35 @@ export default async function SourcePage({ params }: SourcePageProps) {
         <span aria-hidden="true">/</span>
         <span>{resource.group}</span>
       </div>
-      <header className="page-intro compact">
-        <p className="eyebrow">{resource.icon} {resource.typeLabel} · {language} 源码</p>
-        <h1>{resource.title}</h1>
-      </header>
-      <article className="source-resource">
-        <header>
-          <span>{resource.category} · {resource.group}</span>
-          <CopySourceButton filename={resource.filename} source={resource.source} />
-        </header>
-        <pre><code>{resource.source}</code></pre>
-      </article>
+      {renderAsMarkdown ? (
+        <section className="resource-markdown">
+          <p className="eyebrow">{resource.icon} {resource.typeLabel}</p>
+          <article
+            className="article-content"
+            dangerouslySetInnerHTML={{
+              __html: renderMarkdown({
+                ...resource,
+                markdown: resource.source,
+                searchText: resource.source,
+              }),
+            }}
+          />
+        </section>
+      ) : (
+        <>
+          <header className="page-intro compact">
+            <p className="eyebrow">{resource.icon} {resource.typeLabel} · {language} 源码</p>
+            <h1>{resource.title}</h1>
+          </header>
+          <article className="source-resource">
+            <header>
+              <span>{resource.category} · {resource.group}</span>
+              <CopySourceButton filename={resource.filename} source={resource.source} />
+            </header>
+            <pre><code>{resource.source}</code></pre>
+          </article>
+        </>
+      )}
     </main>
   );
 }

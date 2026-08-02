@@ -189,6 +189,8 @@ test("ships the documentation visual system", async () => {
     assert.match(css, new RegExp(selector.replace(".", "\\.")));
   }
   assert.match(css, /--surface-raised:/);
+  assert.match(css, /\.resource-card-video\s*\{[^}]*background:\s*#fff8f8;/s);
+  assert.match(css, /\.resource-card \.resource-type\s*\{[^}]*font-size:\s*1\.4rem;/s);
   for (const selector of [
     ".global-search kbd",
     ".docs-navigation-group > p",
@@ -221,6 +223,11 @@ test("publishes a categorized resource card index", async () => {
   assert.match(html, /<h3>Claude Code<\/h3>/);
   assert.match(html, /<h2>大模型选型与排行榜<\/h2>/);
   assert.match(html, /<h2>资源<\/h2>/);
+  assert.match(
+    html,
+    /汇集 Agent 学习资料、实用脚本、开发工具、大模型评测、AI 新闻与行业观察。/,
+  );
+  assert.doesNotMatch(html, /README 清单/);
   const resourceGroups = [
     "Agent 入门与实践",
     "Agent 原理与优化",
@@ -241,6 +248,8 @@ test("publishes a categorized resource card index", async () => {
     html,
     /resource-type resource-type-video[^>]*>📺(?:<!-- -->|\s)*视频<\/span>/,
   );
+  assert.match(html, /class="resource-card resource-card-video"/);
+  assert.match(html, /class="resource-card resource-card-launcher"/);
   assert.match(html, /<h4>Claude Code 全局指令模板<\/h4>/);
   assert.match(html, /<h4>Codex 全局指令模板<\/h4>/);
 
@@ -266,7 +275,7 @@ test("publishes a categorized resource card index", async () => {
   assert.match(html, /href="\/assets\/git-pr-flowchart-[^"]+\.html"/);
 });
 
-test("serves README-listed source detail pages", async () => {
+test("serves source detail pages and renders learning Markdown", async () => {
   const cases = [
     ["cc.bat", "Claude Code Windows 启动脚本", "@echo off"],
     ["ccmac.sh", "Claude Code macOS 快捷启动脚本", "Claude project launcher for macOS zsh"],
@@ -285,15 +294,15 @@ test("serves README-listed source detail pages", async () => {
   }
 
   for (const [filename, title, sourceLiteral] of [
-    ["git-pr-contributor-tutorial.md", "Git PR 教程文档（普通贡献者视角）", "# Git PR 教程"],
+    ["git-pr-contributor-tutorial.md", "Git PR 教程（普通贡献者视角）", "<article class=\"article-content\">"],
   ]) {
     const response = await render(`/resources/others/${filename}`);
     const html = await response.text();
 
     assert.equal(response.status, 200, filename);
-    assert.match(html, new RegExp(`<h1>${title}<\\/h1>`));
+    assert.match(html, new RegExp(`>${title}<\\/h1>`));
     assert.match(html, new RegExp(sourceLiteral));
-    assert.match(html, new RegExp(`aria-label="复制 ${filename.replace(".", "\\.")} 源码"`));
+    assert.doesNotMatch(html, /MD 源码|复制源码|source-resource/);
   }
 
   assert.equal((await render("/resources/others/git-pr-flowchart.html")).status, 404);
