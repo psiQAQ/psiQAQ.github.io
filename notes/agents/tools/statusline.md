@@ -1,12 +1,16 @@
-# ccstatueline
+# Claude Code 状态栏工具
+
+状态栏是 Claude Code 的一个辅助工具，可以用来展示会话状态、上下文等辅助信息。这里推荐使用 `ccstatusline` 和 `claude-hud` 这两个工具，它们可以实时显示这些信息，方便用户查看和操作，两者选用其一即可。本人使用的是 `ccstatusline`。
+
+## ccstatusline
 
 `ccstatusline` 是给 Claude Code 添加状态栏显示的工具，可用来展示会话状态、上下文等辅助信息。这篇文档依次说明项目地址、安装、配置文件修改、接入 Claude Code 和附录说明。
 
-## 项目地址
+### 项目地址
 
 <https://github.com/sirmalloc/ccstatusline>
 
-## 安装 ccstatusline
+### 安装 ccstatusline
 
 ```bash
 npx -y ccstatusline@latest
@@ -14,15 +18,18 @@ npx -y ccstatusline@latest
 
 选择 Exit 退出
 
-## 打开配置文件
+### 打开配置文件
 
 ```bash
+# Windows
 notepad %USERPROFILE%\.config\ccstatusline\settings.json
+# macOS/Linux/WSL
+nano ~/.config/ccstatusline/settings.json
 ```
 
 覆盖写入 `附录` 内容
 
-## 将状态栏安装到 Claude Code
+### 将状态栏安装到 Claude Code
 
 ```bash
 # 再次执行
@@ -38,9 +45,37 @@ npx -y ccstatusline@latest
 
 启动 Claude Code，此时在状态栏会显示一些常用的状态信息。
 
+安装过程实际是将 `ccstatusline` 在 `~/.claude/settings.json` 或 `%USERPROFILE%\.claude\settings.json` 中进行注册并激活。
+
+## claude-hud
+
+安装 HUD（Head-Up Display，抬头显示器）来实时显示这些信息。
+
+### 三步安装
+
+```bash
+/plugin marketplace add jarrodwatts/claude-hud
+/plugin install claude-hud
+/reload-plugins
+/claude-hud:setup
+````
+
+运行 `/claude-hud:setup` 后，用空格键选择想在 HUD 上显示的信息，然后点击 `submit` 即可。
+
+HUD 可实时显示：上下文用量、工具动态、Agent 状态、任务进度。
+
+如需重新调整显示内容：
+
+```bash
+/claude-hud:configure
+```
+
+HUD 通常有三种预设：`Full` 显示完整信息，适合长任务和调试；`Essential` 显示核心信息，适合日常开发；`Minimal` 显示最少信息，适合保持界面简洁。
+
 ## 附录
 
-`%USERPROFILE%\.config\ccstatusline\settings.json`
+Windows：`%USERPROFILE%\.config\ccstatusline\settings.json`
+Linux/macOS/WSL：`~/.config/ccstatusline/settings.json`
 
 ```json
 {

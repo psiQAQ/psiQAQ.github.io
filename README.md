@@ -40,11 +40,11 @@
 - [Claude Code Linux/WSL 快捷启动脚本](notes/agents/claude-code/cclinux.sh) — Linux/WSL 启动脚本源码。
 - [CLAUDE.md 全局指令示范](notes/agents/claude-code/CLAUDE.md) — 可复用的全局指令示例。
 - [Claude Code 常用命令](notes/agents/claude-code/tutorial/常用命令.md) — 常用命令说明。
-- [常用命令视频](https://www.bilibili.com/video/?p=1) — 配套视频。
+- [常用命令视频](https://www.bilibili.com/video/BV1caE86BEyQ/?p=1) — 配套视频。
 - [Claude Code 交互模式](notes/agents/claude-code/tutorial/交互模式.md) — 交互模式说明。
-- [交互模式视频](https://www.bilibili.com/video/?p=2) — 配套视频。
+- [交互模式视频](https://www.bilibili.com/video/BV1caE86BEyQ/?p=2) — 配套视频。
 - [Claude Code 最佳实践](notes/agents/claude-code/tutorial/最佳实践.md) — 日常使用建议。
-- [最佳实践视频](https://www.bilibili.com/video/?p=3) — 配套视频。
+- [最佳实践视频](https://www.bilibili.com/video/BV1caE86BEyQ/?p=3) — 配套视频。
 
 ### Codex
 
@@ -68,7 +68,7 @@
 ### 周边工具与扩展
 
 - [claude-tap](notes/agents/tools/claude-tap.md) — Claude Code 周边工具。
-- [ccstatueline](notes/agents/tools/ccstatueline.md) — 状态栏扩展。
+- [Claude Code 状态栏工具](notes/agents/tools/statusline.md) — 状态栏扩展。
 - [Blender 指南](notes/others/blender.md) — Blender 安装与科研使用。
 
 ### 代码读取与生成
