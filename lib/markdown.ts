@@ -65,6 +65,7 @@ function rewriteLink(document: DocumentRecord, href: string): string {
 
   const resource = findResourceByPath(resolved);
   if (resource?.kind === "source") return `/resources/${resource.slug}${suffix}`;
+  if (resource?.kind === "page") return `${resource.href}${suffix}`;
   if (resource?.kind === "download") return `${resource.href}${suffix}`;
 
   throw new Error(

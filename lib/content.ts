@@ -33,6 +33,7 @@ export type ResourceRecord = {
 } & (
   | { kind: "external"; href: string }
   | { kind: "source"; sourcePath: string; slug: string; filename: string; source: string }
+  | { kind: "page"; sourcePath: string; filename: string; href: string }
   | { kind: "download"; sourcePath: string; filename: string; href: string }
 );
 
@@ -65,9 +66,15 @@ const markdownModules = import.meta.glob("../notes/**/*.md", {
 }) as Record<string, string>;
 
 const sourceModules = import.meta.glob(
-  "../notes/**/*.{bat,sh,py,ps1,js,mjs,cjs,ts,tsx,json,toml,yaml,yml,xml,ini,cfg,conf,txt,css,html}",
+  "../notes/**/*.{bat,sh,py,ps1,js,mjs,cjs,ts,tsx,json,toml,yaml,yml,xml,ini,cfg,conf,txt,css}",
   { eager: true, import: "default", query: "?raw" },
 ) as Record<string, string>;
+
+const pageModules = import.meta.glob("../notes/**/*.html", {
+  eager: true,
+  import: "default",
+  query: "?url",
+}) as Record<string, string>;
 
 const assetModules = import.meta.glob(
   "../notes/**/*.{png,jpg,jpeg,gif,webp,svg,avif}",
@@ -180,6 +187,10 @@ const sourceByPath = new Map(
   ]),
 );
 
+const pageByPath = new Map(
+  Object.entries(pageModules).map(([path, url]) => [normalizeModulePath(path), url]),
+);
+
 const fileByPath = new Map(
   Object.entries(fileModules).map(([path, url]) => [normalizeModulePath(path), url]),
 );
@@ -252,6 +263,9 @@ export const resources: ResourceRecord[] = catalog.flatMap((entry) => {
     sourcePath,
     filename,
   };
+  const pageHref = pageByPath.get(sourcePath);
+  if (pageHref) return [{ ...common, kind: "page", href: pageHref }];
+
   const source = sourceByPath.get(sourcePath) ?? markdownByPath.get(sourcePath);
   if (source !== undefined) {
     return [{ ...common, kind: "source", slug: sourcePath, source }];
@@ -274,6 +288,7 @@ const sourceResourcesBySlug = new Map(
 
 export type LocalResourceRecord =
   | Extract<ResourceRecord, { kind: "source" }>
+  | Extract<ResourceRecord, { kind: "page" }>
   | Extract<ResourceRecord, { kind: "download" }>;
 
 const localResourcesByPath = new Map(

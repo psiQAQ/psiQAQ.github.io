@@ -2,28 +2,101 @@
 
 `uv` 是 Astral 推出的 Python 工具链，可统一管理 Python 版本、虚拟环境和项目依赖，也适合直接运行项目命令。这篇文档按“安装与 Shell 配置 -> 镜像源配置 -> 基础项目创建 -> 常用命令速查”的顺序展开。
 
-## 1安装与 Shell 配置
+## 与 `Miniforge` 的关系和区别
+
+`uv` 和 `Miniforge` 都属于 Python 环境管理与包管理工具（或称为 Python 工具链 / 开发基础设施）。
+
+| 工具 | 所属类别 | 核心作用 |
+| --- | --- | --- |
+| **uv** | **包管理器 + 虚拟环境管理器** | 替代 `pip` + `virtualenv`，同时覆盖 `poetry`/`pdm` 的项目管理功能，用 Rust 编写，速度极快 |
+| **miniforge** | **Python 发行版（Distribution）** | `conda` 的轻量级社区发行版，内含 `conda` 环境/包管理器，默认使用 `conda-forge` 软件源 |
+
+如果把 Python 开发比作做菜：
+- uv 类似于一个极速的食材采购+配菜系统——你告诉它需要什么包，它飞速下载并整理好，还能自动创建隔离的"厨房"（虚拟环境）。
+- miniforge 类似于一个精简版厨房套装——它不仅自带了采购系统（conda），还自带了 Python 本体，并且默认从社区仓库（conda-forge）取货。
+
+## 安装与 Shell 配置
 
 ### windows 安装 uv
 
 ```bash
 # windows 安装 uv
 powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+# 新开窗口测试
+uv --version
 ```
 
-新开窗口测试
+（可选）启用 powershell 自动补全
+
+```powershell
+# ============================================================
+# Enable uv PowerShell completion
+# 推荐写入 CurrentUserAllHosts：
+# 对当前用户的多个 PowerShell Host 更通用
+# ============================================================
+# 选择 profile 路径
+$profilePath = $PROFILE.CurrentUserAllHosts
+# 打印实际写入路径，方便检查
+Write-Host "Profile path: $profilePath"
+# 如果 profile 文件不存在，则创建
+if (!(Test-Path -LiteralPath $profilePath)) {
+    New-Item -ItemType File -Path $profilePath -Force | Out-Null
+}
+# uv 的 PowerShell 补全加载命令
+$uvCompletionLine = '(& uv generate-shell-completion powershell) | Out-String | Invoke-Expression'
+# 检查 profile 中是否已经包含该命令
+# -SimpleMatch 表示按普通字符串查找，不按通配符或正则解析
+# -Quiet 表示只返回 True / False，不输出匹配内容
+if (!(Select-String -LiteralPath $profilePath -SimpleMatch $uvCompletionLine -Quiet -ErrorAction SilentlyContinue)) {
+    Add-Content -LiteralPath $profilePath -Value ""
+    Add-Content -LiteralPath $profilePath -Value "# uv PowerShell completion"
+    Add-Content -LiteralPath $profilePath -Value $uvCompletionLine
+}
+# 显示写入后的 profile 内容
+Get-Content -LiteralPath $profilePath -Raw
+# 用记事本打开，方便人工检查
+notepad $profilePath
+```
+
+### Linux/WSL/MacOS 安装 uv
 
 ```bash
+# Linux/WSL/MacOS 安装 uv
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# Linux/WSL 启用 bash 自动补全
+echo 'eval "$(uv generate-shell-completion bash)"' >> ~/.bashrc
+source ~/.bashrc
+
+# macOS 默认使用 zsh，启用 zsh 自动补全
+echo 'eval "$(uv generate-shell-completion zsh)"' >> ~/.zshrc
+source ~/.zshrc
+
+# 验证安装
 uv --version
 ```
 
 ## 镜像源配置
 
-### python 安装源配置
+### Python 本体安装源配置
 
 ```bash
 # Windows CMD：当前用户永久设置
 setx UV_PYTHON_INSTALL_MIRROR "https://mirror.nju.edu.cn/github-release/astral-sh/python-build-standalone"
+
+# Linux / WSL：写入 Bash 全局用户环境
+cat >> ~/.bashrc <<'EOF'
+
+# uv Python 下载镜像：NJU
+export UV_PYTHON_INSTALL_MIRROR="https://mirror.nju.edu.cn/github-release/astral-sh/python-build-standalone"
+EOF
+
+# MacOS：Bash 环境
+cat >> ~/.bash_profile <<'EOF'
+
+# uv Python 下载镜像：NJU
+export UV_PYTHON_INSTALL_MIRROR="https://mirror.nju.edu.cn/github-release/astral-sh/python-build-standalone"
+EOF
 
 # 新开窗口测试
 uv python install 3.11 -v
@@ -35,13 +108,31 @@ DEBUG Downloading https://mirror.nju.edu.cn/github-release/astral-sh/python-buil
 ### python 包安装源配置
 
 ```bash
+# Window CMD：当前用户永久设置
 # 配置文件路径：C:\Users\<用户名>\AppData\Roaming\uv\uv.toml
 mkdir "%APPDATA%\uv" 2>nul
 (echo [[index]]& echo url = "https://pypi.tuna.tsinghua.edu.cn/simple"& echo default = true) > "%APPDATA%\uv\uv.toml"
-
-# 验证命令
+# 验证成功写入
 type "%APPDATA%\uv\uv.toml"
+
+# Linux / WSL / MacOS
+# 配置文件路径：`~/.config/uv/uv.toml`
+mkdir -p ~/.config/uv
+cat > ~/.config/uv/uv.toml <<'EOF'
+[[index]]
+url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+default = true
+EOF
+# 验证成功写入
+cat ~/.config/uv/uv.toml
 ```
+
+> 常用镜像
+> 清华大学：`https://pypi.tuna.tsinghua.edu.cn/simple`
+> 阿里云：`https://mirrors.aliyun.com/pypi/simple`
+> 腾讯云：`https://mirrors.cloud.tencent.com/pypi/simple`
+> 豆瓣：`https://pypi.doubanio.com/simple`
+> 中科大：`https://pypi.mirrors.ustc.edu.cn/simple`
 
 ## 基础项目创建
 

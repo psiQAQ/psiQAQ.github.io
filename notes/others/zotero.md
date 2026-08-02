@@ -7,6 +7,8 @@ Zotero 是一款文献管理工具，适合用来收集、整理、标注和引�
 Zotero 中文社区是一个开源社区，提供了较丰富的中文文档、插件整理和镜像下载入口：
 <https://zotero-chinese.com/>
 
+学习资料：[Zotero 8/9 零基础教程](https://www.bilibili.com/video/BV1ecQBBZESv)
+
 ## 软件下载安装
 
 <https://www.zotero.org/download/>

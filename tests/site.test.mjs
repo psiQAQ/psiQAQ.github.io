@@ -136,8 +136,8 @@ test("presents the knowledge base as a focused documentation product", async () 
   assert.match(home, /篇公开指南/);
   assert.match(home, /个主题/);
   assert.match(library, /<h3>Claude Code<\/h3>/);
-  assert.doesNotMatch(library, /CLAUDE\.md 全局指令示范/);
-  assert.doesNotMatch(library, /AGENTS\.md 全局指令示范/);
+  assert.doesNotMatch(library, /Claude Code 全局指令模板/);
+  assert.doesNotMatch(library, /Codex 全局指令模板/);
   assert.match(search, /<input(?=[^>]*id="site-search")(?=[^>]*autofocus)[^>]*>/);
 });
 
@@ -219,6 +219,20 @@ test("publishes a categorized resource card index", async () => {
   );
   assert.match(html, /<h2>智能体<\/h2>/);
   assert.match(html, /<h3>Claude Code<\/h3>/);
+  assert.match(html, /<h2>大模型选型与排行榜<\/h2>/);
+  assert.match(html, /<h2>资源<\/h2>/);
+  const resourceGroups = [
+    "Agent 入门与实践",
+    "Agent 原理与优化",
+    "开发与模型工具",
+    "AI 新闻",
+    "AI 行业观察",
+  ];
+  for (const group of resourceGroups) assert.match(html, new RegExp(`<h3>${group}</h3>`));
+  for (let index = 1; index < resourceGroups.length; index += 1) {
+    assert.ok(html.indexOf(`<h3>${resourceGroups[index - 1]}</h3>`) < html.indexOf(`<h3>${resourceGroups[index]}</h3>`));
+  }
+  assert.doesNotMatch(html, /外部 Agent 学习指南|bilibili：技术爬爬虾|bilibili：张司机在路上/);
   assert.match(
     html,
     /resource-type resource-type-template[^>]*>🧾(?:<!-- -->|\s)*源码与模板<\/span>/,
@@ -227,8 +241,8 @@ test("publishes a categorized resource card index", async () => {
     html,
     /resource-type resource-type-video[^>]*>📺(?:<!-- -->|\s)*视频<\/span>/,
   );
-  assert.match(html, /<h4>CLAUDE\.md 全局指令示范<\/h4>/);
-  assert.match(html, /<h4>AGENTS\.md 全局指令示范<\/h4>/);
+  assert.match(html, /<h4>Claude Code 全局指令模板<\/h4>/);
+  assert.match(html, /<h4>Codex 全局指令模板<\/h4>/);
 
   const sourceLinks = [
     "/resources/agents/claude-code/cc.bat",
@@ -248,14 +262,16 @@ test("publishes a categorized resource card index", async () => {
   assert.doesNotMatch(html, /Hyper-V-TPM\.png/);
   assert.doesNotMatch(html, /Codex 指南 GitHub 备用地址|GitHub 原始内容入口/);
   assert.doesNotMatch(search, /@echo off/);
+  assert.match(html, /href="\/resources\/others\/git-pr-contributor-tutorial\.md"/);
+  assert.match(html, /href="\/assets\/git-pr-flowchart-[^"]+\.html"/);
 });
 
 test("serves README-listed source detail pages", async () => {
   const cases = [
-    ["cc.bat", "Claude Code 一键快捷启动脚本", "@echo off"],
+    ["cc.bat", "Claude Code Windows 启动脚本", "@echo off"],
     ["ccmac.sh", "Claude Code macOS 快捷启动脚本", "Claude project launcher for macOS zsh"],
-    ["cclinux.sh", "Claude Code Linux/WSL 快捷启动脚本", "Claude project launcher"],
-    ["CLAUDE.md", "CLAUDE.md 全局指令示范", "# 全局指令"],
+    ["cclinux.sh", "Claude Code Linux/WSL 启动脚本", "Claude project launcher"],
+    ["CLAUDE.md", "Claude Code 全局指令模板", "# 全局指令"],
   ];
 
   for (const [filename, title, sourceLiteral] of cases) {
@@ -268,6 +284,20 @@ test("serves README-listed source detail pages", async () => {
     assert.match(html, new RegExp(`aria-label="复制 ${filename.replace(".", "\\.")} 源码"`));
   }
 
+  for (const [filename, title, sourceLiteral] of [
+    ["git-pr-contributor-tutorial.md", "Git PR 教程文档（普通贡献者视角）", "# Git PR 教程"],
+  ]) {
+    const response = await render(`/resources/others/${filename}`);
+    const html = await response.text();
+
+    assert.equal(response.status, 200, filename);
+    assert.match(html, new RegExp(`<h1>${title}<\\/h1>`));
+    assert.match(html, new RegExp(sourceLiteral));
+    assert.match(html, new RegExp(`aria-label="复制 ${filename.replace(".", "\\.")} 源码"`));
+  }
+
+  assert.equal((await render("/resources/others/git-pr-flowchart.html")).status, 404);
+
   assert.equal(
     (await render("/resources/agents/claude-code/not-listed.sh")).status,
     404,
@@ -279,6 +309,7 @@ test("keeps local source files out of client asset bundles", async () => {
 
   assert.ok(!assets.some((name) => name.startsWith("ccmac-")));
   assert.ok(!assets.some((name) => name.startsWith("cclinux-")));
+  assert.ok(assets.some((name) => /^git-pr-flowchart-.+\.html$/.test(name)));
 });
 
 test("organizes public notes under one catalog", async () => {
@@ -351,6 +382,7 @@ test("renders Markdown structure and repository images", async () => {
   const hyperV = await (
     await render("/guides/operating-system/Hyper-V")
   ).text();
+  const git = await (await render("/guides/others/git")).text();
 
   assert.match(zotero, /<h1[^>]*>Zotero 指南<\/h1>/);
   assert.match(context7, /<pre><code/);
@@ -360,6 +392,8 @@ test("renders Markdown structure and repository images", async () => {
     /href="\/resources\/agents\/claude-code\/cc\.bat"/,
   );
   assert.match(claudeCode, /href="\/resources\/agents\/claude-code\/CLAUDE\.md"/);
+  assert.match(git, /href="\/resources\/others\/git-pr-contributor-tutorial\.md"/);
+  assert.match(git, /href="\/assets\/git-pr-flowchart-[^"]+\.html"/);
   assert.doesNotMatch(claudeCode, /github\.com\/psiQAQ\/psiQAQ\.github\.io\/blob\/main\/notes\/agents\/claude-code/);
 });
 
@@ -379,8 +413,8 @@ test("does not publish internal root files", async () => {
 test("includes published guides in local search data", async () => {
   const html = await (await render("/search")).text();
 
-  assert.match(html, /Zotero 指南/);
-  assert.match(html, /Codex 指南/);
+  assert.match(html, /Zotero：文献管理/);
+  assert.match(html, /Codex：OpenAI 编程智能体/);
   assert.match(html, /搜索全部公开指南/);
 });
 
