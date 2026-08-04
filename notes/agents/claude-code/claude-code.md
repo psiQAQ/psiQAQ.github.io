@@ -4,6 +4,13 @@ Claude Code 是 Anthropic 的命令行编码助手，可用于读写代码、执
 
 原版图文地址：<https://www.bilibili.com/opus/1203445769022996484>
 
+> Claude Code 官方地址
+> <https://code.claude.com/docs/zh-CN/overview>
+> GitHub 地址
+> <https://github.com/anthropics/claude-code>
+> 官方安装方法（网络受限时不推荐，建议按正文中用 npm 安装）
+> <https://code.claude.com/docs/zh-CN/setup>
+
 ## 安装 Git
 
 见：[Windows/Mac/Linux/WSL 安装 Git](../../others/git.md)
@@ -91,7 +98,7 @@ nano ~/.claude/settings.json
 
 ### 2. 写入示例配置
 
-根据个人配置经验，可以参考下面这个 `settings.json` 作为推荐配置：
+以接入 `DeepSeek` 为例，根据个人配置经验，可以参考下面这个 `settings.json` 作为推荐配置：
 
 ```json
 {
@@ -117,57 +124,18 @@ nano ~/.claude/settings.json
     "defaultMode": "bypassPermissions",
     "ask": [
       "Bash(sudo *)",
-
       "Bash(rm *)",
       "Bash(rmdir *)",
       "Bash(unlink *)",
-      "Bash(shred *)",
-
-      "Bash(git commit)",
-      "Bash(git commit *)",
-      "Bash(git push *)",
-      "Bash(git clean *)",
-      "Bash(git rebase *)",
-      "Bash(git reset --hard *)",
-      "Bash(git checkout -- *)",
-      "Bash(git restore *)",
-
-      "Bash(pip install *)",
-      "Bash(pip uninstall *)",
-      "Bash(pip3 install *)",
-      "Bash(pip3 uninstall *)",
-      "Bash(py -m pip install *)",
-      "Bash(py -m pip uninstall *)",
-      "Bash(python -m pip install *)",
-      "Bash(python -m pip uninstall *)",
-      "Bash(python3 -m pip install *)",
-      "Bash(python3 -m pip uninstall *)",
-
-      "Bash(uv add *)",
-      "Bash(uv remove *)",
-      "Bash(uv pip install *)",
-      "Bash(uv pip uninstall *)",
-      "Bash(uv sync *)",
-      "Bash(uv lock *)",
-
-      "Bash(conda install *)",
-      "Bash(conda uninstall *)",
-      "Bash(conda remove *)",
-      "Bash(conda update *)",
-      "Bash(conda env remove *)",
-
-      "Bash(mamba install *)",
-      "Bash(mamba uninstall *)",
-      "Bash(mamba remove *)",
-      "Bash(mamba update *)",
-      "Bash(mamba env remove *)",
-
-      "Bash(npm install *)",
-      "Bash(npm uninstall *)",
-      "Bash(npm remove *)",
-      "Bash(npm update *)"
+      "Bash(shred *)"
     ]
   },
+  "availableModels": [
+    "deepseek-v4-flash",
+    "deepseek-v4-pro",
+    "deepseek-v4-flash[1m]",
+    "deepseek-v4-pro[1m]"
+  ],
   "attribution": {
     "commit": "",
     "pr": ""
@@ -183,7 +151,9 @@ nano ~/.claude/settings.json
 
 注意把 `ANTHROPIC_AUTH_TOKEN` 替换为你自己的 key。
 
-Claude Code 环境变量官方文档：<https://code.claude.com/docs/zh-CN/env-vars>
+参考
+- [Deepseek 接入 Coding Agents](https://api-docs.deepseek.com/zh-cn/guides/coding_agents)
+- [Claude Code 环境变量官方文档](https://code.claude.com/docs/zh-CN/env-vars)，使用参数说明见附录。
 
 ## 启动 Claude Code
 
@@ -296,3 +266,119 @@ npm config get registry
 - `ANTHROPIC_AUTH_TOKEN` 是否是真实有效的 DeepSeek key
 - 模型名是否和当前 DeepSeek 文档一致
 - 账户余额、额度、风控或限流是否正常
+
+## 附录
+
+## 配置参考资料
+
+- 更新日志位于：`.claude/cache/changelog.md`
+- <https://code.claude.com/docs/zh-CN/settings#claude-code-%E8%AE%BE%E7%BD%AE>
+- <https://code.claude.com/docs/zh-CN/env-vars>
+- <https://code.claude.com/docs/zh-CN/model-config>
+- <https://code.claude.com/docs/zh-CN/remote-control>
+- <https://code.claude.com/docs/zh-CN/costs>
+- <https://code.claude.com/docs/zh-CN/mcp>
+- <https://code.claude.com/docs/zh-CN/discover-plugins>
+
+### 部分配置参数说明
+
+- `"CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1"`
+  - 用于进一步减少与 Anthropic 服务器之间的非核心网络交互。
+  - 该变量的主要目的是在不影响核心 AI 功能（如对话和代码生成）的前提下，尽可能实现“网络精简”。启用后，它会产生以下具体效果：
+    - 禁用部分监控工具：它会关闭某些在 DISABLE_TELEMETRY 基础上仍然运行的辅助流量。
+    - 限制实验性功能：许多通过远程开关（Experiment Gates）控制的新特性或 A/B 测试会被禁用，系统将直接回退到本地默认值。
+    - 禁用 Remote Control（远程控制）：设置此变量会导致 Remote Control 功能因无法进行权限和组织校验而无法启用。
+    - 减少背景心跳：减少客户端与云端之间用于检查更新或同步状态的非必要请求。
+  - 使用场景
+    - 高安全性环境：在需要严格审计所有外发流量的企业内网中，开启此选项可以减少不必要的连接。
+    - 网络不稳定/受限：在弱网环境或计费流量下，减少背景请求可以提高 CLI 的稳定性。
+    - 追求极致纯净：如果不希望参与任何未记录的功能实验，设置此项可确保始终运行基础稳定版逻辑。
+
+- `CLAUDE_CODE_DISABLE_NONSTREAMING_FALLBACK: "1"`
+  - 默认行为：如果流式连接由于超时或网络抖动而中断，Claude Code 通常会尝试通过传统的非流式 API 调用来获取响应，以确保对话不中断。
+  - "禁用非流式回退" —— 开启表示如果流式传输失败，系统将直接报错而不是转入非流式模式，调试流式传输中断的具体原因时推荐开启。
+  - 可选不开启，
+
+- `DISABLE_TELEMETRY: "1"`
+  - 仅关闭遥测数据上传（使用统计/行为数据）。
+  - 过去设置 DISABLE_TELEMETRY=1 会错误地把 prompt 缓存TTL降到 5 分钟并关闭 recap，导致性能下降和 token 成本增加；现在 `version 2.1.108` 已修复为仅关闭数据上传，不再影响缓存（恢复≈1小时）和 recap，从而恢复性能与连续体验。
+
+- `CLAUDE_CODE_ENABLE_AWAY_SUMMARY: "1"`
+  - 启用离开/空闲后的会话总结（session recap）
+  - 默认已开启，即使关闭 telemetry 也会生效。
+  - 在你离开或上下文变长时，自动生成一段精简总结，用来替代历史对话，`version 2.1.110` 引入。
+  - 避免模型“忘记之前做了什么”，用短摘要替代长历史，减少输入长度，提高响应速度，支持长时间、多阶段任务。
+  - 触发时机
+    - 会话太长（context 接近上限）
+    - 用户一段时间未操作（away）
+    - 多轮复杂任务。
+
+- `CLAUDE_CODE_EFFORT_LEVEL: "max"`
+  - 选择工作量级别，每个级别都在令牌支出和功能之间进行权衡。
+  - 推荐通过以下任何方式更改工作量：
+    - 可运行 /effort 打开交互式滑块，运行 /effort 后跟级别名称直接设置，或运行 /effort auto 重置为模型默认值
+    - 在 skill 或 subagent markdown 文件中设置 effort 以在该 skill 或 subagent 运行时覆盖工作量级别
+  - 默认值适合大多数编码任务；可全局或者进行调整：
+    - low: 保留用于短期、范围有限、延迟敏感且不需要高智能的任务
+    - medium: 减少成本敏感工作的令牌使用，可以权衡一些智能
+    - high: 平衡令牌使用和智能。用作智能敏感工作的最低要求，或相对于 xhigh 减少令牌支出
+    - xhigh: 大多数编码和代理任务的最佳结果。Opus 4.7 上的推荐默认值
+    - max: 可以改进困难任务的性能，但可能显示收益递减，容易过度思考。在广泛采用前进行测试
+    - auto: 自动选择级别，根据任务和模型选择最佳级别
+
+- `ENABLE_TOOL_SEARCH: "false"`
+  - 控制 MCP 工具搜索。未设置：默认延迟所有 MCP 工具，但当 ANTHROPIC_BASE_URL 指向非第一方主机时提前加载。
+  - 可选值（如果代理转发 tool_reference 块，请设置 true）：
+    - true（始终延迟，包括代理）
+    - auto（阈值模式：如果工具适合在上下文的 10% 内则提前加载）
+    - auto:N（自定义阈值，例如 auto:5 表示 5%）
+    - false（提前加载所有）
+
+### 本地文件索引
+
+#### 零、最小关注集合（优先理解）
+
+| 类别 | 路径 |
+| ---------- | -------------------------------------- |
+| 身份/会话 | `~/.claude.json` |
+| 用户级策略 | `~/.claude/settings.json`、`~/.claude/` |
+| 项目级策略 | `./.claude/settings.json`、`./.claude/` |
+| 外部能力（工具接入） | `./.mcp.json` |
+
+---
+
+#### 一、全局（用户级）路径与配置
+
+| 路径 | 类型 | 内容/职责（压缩表达） |
+| ------------------------- | --- | -------------------------------------------------------- |
+| `~/.local/bin/claude` | 可执行 | **主体 CLI 入口（native binary）**：负责启动、命令分发、加载全局与项目配置并执行 |
+| `~/.local/share/claude/` | 目录 | **运行时/版本数据目录**：存储安装版本、自动更新缓存、运行辅助数据 |
+| `~/.claude/` | 目录 | **用户级主配置根目录**：MCP servers、全局 hooks、工具权限、agent 模板、跨工具共享配置 |
+| `~/.claude/settings.json` | 文件 | **用户级默认参数配置**：定义默认模型、temperature、工具策略、日志等级、超时等（被项目级覆盖） |
+| `~/.claude.json` | 文件 | **用户身份与会话状态文件**：保存登录 token、最近使用配置、CLI 状态缓存 |
+| `~/.config/claude/` | 目录 | **扩展/GUI 配置桥接目录**：部分 IDE（VSCode/JetBrains）或系统环境使用 |
+| `~/.cache/claude/` | 目录 | **临时缓存目录**：下载缓存、运行中间数据，用于性能优化 |
+
+---
+
+#### 二、项目级（workspace）路径与配置
+
+| 路径 | 类型 | 内容/职责（压缩表达） |
+| ------------------------- | -- | ------------------------------------------------------- |
+| `./.claude/` | 目录 | **项目级主配置根目录**：定义当前项目的行为（agents / hooks / tools），优先级高于全局 |
+| `./.claude/settings.json` | 文件 | **项目级参数覆盖配置**：覆盖用户级 settings，精确控制模型、工具、预算、执行策略 |
+| `./.claude/agents/` | 目录 | **多 Agent 编排目录**：定义主/子 agent 的职责、提示词与调度关系 |
+| `./.claude/hooks/` | 目录 | **自动化钩子目录**：任务执行前后触发脚本（如构建、测试、数据处理） |
+| `./.claude/tools/` | 目录 | **自定义工具封装目录**：对本地脚本/CLI/API 的抽象封装供 agent 调用 |
+| `./.mcp.json` | 文件 | **MCP 协议核心配置**：定义外部能力（数据库/API/本地服务）及通信方式 |
+| `./.claudeignore` | 文件 | **上下文过滤规则文件**：控制哪些文件进入模型上下文（优化 token 使用） |
+| `./.env` | 文件 | **运行时环境变量文件**：存储 API key、运行参数（供工具/MCP 使用） |
+
+#### 三、关键机制总结
+
+| 机制 | 说明 |
+| ------- | -------------------------------------------- |
+| 配置优先级 | 项目级 `./.claude` > 用户级 `~/.claude` |
+| 行为来源 | settings.json（参数） + agents/hooks/tools（执行逻辑） |
+| 工具接入 | `.mcp.json` 定义外部能力 |
+| 状态与配置分离 | `.claude.json`（状态） ≠ `settings.json`（策略） |
