@@ -106,13 +106,14 @@ function TableOfContents({
   return (
     <nav>
       {headings.map((heading) => (
-        <a
+        <Link
           className={heading.depth === 3 ? "toc-subitem" : undefined}
           href={`#${heading.id}`}
           key={heading.id}
+          prefetch={false}
         >
           {heading.text}
-        </a>
+        </Link>
       ))}
     </nav>
   );

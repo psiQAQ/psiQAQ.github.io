@@ -408,6 +408,15 @@ test("renders Markdown structure and repository images", async () => {
 
 test("links article headings from the document table of contents", async () => {
   const html = await (await render("/guides/others/zotero")).text();
+  const guideSource = await readFile(
+    new URL("../app/guides/[...slug]/page.tsx", import.meta.url),
+    "utf8",
+  );
+  const tocSource = guideSource.slice(guideSource.indexOf("function TableOfContents"));
+
+  assert.match(tocSource, /<Link\b/);
+  assert.match(tocSource, /prefetch=\{false\}/);
+  assert.doesNotMatch(tocSource, /<a\b/);
 
   assert.match(html, /本页目录/);
   assert.match(html, /href="#软件下载安装"/);
