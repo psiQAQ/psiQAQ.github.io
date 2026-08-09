@@ -27,6 +27,7 @@
 
 - 📄[WSL：Windows Linux 子系统](notes/operating-system/wsl.md)
 - 📄[Ubuntu：Linux 常用命令与配置](notes/operating-system/linux.md)
+- 📄[Docker：容器化部署实战](notes/operating-system/docker.md)
 - 📄[Hyper-V：Windows 虚拟化](notes/operating-system/Hyper-V.md)
 
 ## 智能体
