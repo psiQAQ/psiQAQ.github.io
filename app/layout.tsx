@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { CodeCopyController } from "@/components/code-copy-controller";
 import "./globals.css";
 
 const title = "科研 Agent 新手知识站";
@@ -27,6 +28,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="zh-CN">
       <body>
+        <CodeCopyController />
         <header className="site-header">
           <div className="header-inner">
             <Link className="brand" href="/">

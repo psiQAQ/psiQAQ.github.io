@@ -388,13 +388,21 @@ test("renders Markdown structure and repository images", async () => {
   const context7 = await (
     await render("/guides/agents/MCP/context7")
   ).text();
+  const markdownResource = await (
+    await render("/resources/others/git-pr-contributor-tutorial.md")
+  ).text();
   const hyperV = await (
     await render("/guides/operating-system/Hyper-V")
   ).text();
   const git = await (await render("/guides/others/git")).text();
 
   assert.match(zotero, /<h1[^>]*>Zotero 指南<\/h1>/);
-  assert.match(context7, /<pre><code/);
+  assert.match(context7, /class="article-code-block"/);
+  assert.match(context7, /<button[^>]+class="article-code-copy"[^>]+type="button"/);
+  assert.match(context7, /aria-label="复制代码"/);
+  assert.match(context7, />点我复制~<\/span>/);
+  assert.match(context7, /<pre><code class="language-[^"]+">/);
+  assert.match(markdownResource, /class="article-code-copy"/);
   assert.match(hyperV, /<img[^>]+Hyper-V/);
   assert.match(
     claudeCode,
@@ -449,6 +457,61 @@ test("navigates to a Chinese table-of-contents heading by its decoded id", async
   assert.equal(pushedUrl, "#核心概念");
   assert.equal(requestedId, "核心概念");
   assert.deepEqual(scrollOptions, { behavior: "auto" });
+});
+
+test("copies article code and restores its prompt after three seconds", async () => {
+  const { copyCode } = await import("../lib/code-copy.ts");
+  const writes = [];
+  const clearedTimers = [];
+  const labels = [];
+  let scheduled;
+
+  const timer = await copyCode("npm install\n", 7, {
+    clipboard: {
+      writeText: async (text) => writes.push(text),
+    },
+    clearTimeout: (id) => clearedTimers.push(id),
+    setLabel: (label) => labels.push(label),
+    setTimeout: (callback, delay) => {
+      scheduled = { callback, delay };
+      return 8;
+    },
+  });
+
+  assert.deepEqual(writes, ["npm install\n"]);
+  assert.deepEqual(clearedTimers, [7]);
+  assert.deepEqual(labels, ["已复制！"]);
+  assert.equal(scheduled.delay, 3000);
+  assert.equal(timer, 8);
+
+  scheduled.callback();
+  assert.deepEqual(labels, ["已复制！", "点我复制~"]);
+});
+
+test("reports clipboard failure without scheduling false success", async () => {
+  const { copyCode } = await import("../lib/code-copy.ts");
+  const clearedTimers = [];
+  const labels = [];
+  let scheduled = false;
+
+  const timer = await copyCode("secret", 12, {
+    clipboard: {
+      writeText: async () => {
+        throw new Error("clipboard denied");
+      },
+    },
+    clearTimeout: (id) => clearedTimers.push(id),
+    setLabel: (label) => labels.push(label),
+    setTimeout: () => {
+      scheduled = true;
+      return 13;
+    },
+  });
+
+  assert.deepEqual(clearedTimers, [12]);
+  assert.deepEqual(labels, ["复制失败"]);
+  assert.equal(scheduled, false);
+  assert.equal(timer, undefined);
 });
 
 test("does not publish internal root files", async () => {

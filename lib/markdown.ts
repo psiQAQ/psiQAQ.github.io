@@ -1,4 +1,4 @@
-import { Marked } from "marked";
+import { Marked, Renderer } from "marked";
 import {
   assetUrlFor,
   findDocumentByPath,
@@ -6,6 +6,8 @@ import {
   resolveRepositoryPath,
   type DocumentRecord,
 } from "./content";
+
+const defaultRenderer = new Renderer();
 
 function escapeAttribute(value: string): string {
   return value
@@ -79,6 +81,9 @@ export function renderMarkdown(document: DocumentRecord): string {
 
   marked.use({
     renderer: {
+      code(token) {
+        return `<div class="article-code-block"><button aria-label="复制代码" class="article-code-copy" type="button"><span aria-live="polite">点我复制~</span></button>${defaultRenderer.code(token)}</div>`;
+      },
       heading(token) {
         const id = headingId(token.text, headingCounts);
         return `<h${token.depth} id="${escapeAttribute(id)}">${this.parser.parseInline(token.tokens)}</h${token.depth}>`;
