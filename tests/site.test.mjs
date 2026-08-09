@@ -408,19 +408,47 @@ test("renders Markdown structure and repository images", async () => {
 
 test("links article headings from the document table of contents", async () => {
   const html = await (await render("/guides/others/zotero")).text();
-  const guideSource = await readFile(
-    new URL("../app/guides/[...slug]/page.tsx", import.meta.url),
-    "utf8",
-  );
-  const tocSource = guideSource.slice(guideSource.indexOf("function TableOfContents"));
-
-  assert.match(tocSource, /<Link\b/);
-  assert.match(tocSource, /prefetch=\{false\}/);
-  assert.doesNotMatch(tocSource, /<a\b/);
 
   assert.match(html, /本页目录/);
   assert.match(html, /href="#软件下载安装"/);
   assert.match(html, /id="软件下载安装"/);
+});
+
+test("navigates to a Chinese table-of-contents heading by its decoded id", async () => {
+  const { handleTableOfContentsNavigation } = await import(
+    "../lib/table-of-contents-navigation.ts"
+  );
+  let pushedUrl;
+  let requestedId;
+  let scrollOptions;
+  let prevented = false;
+
+  handleTableOfContentsNavigation(
+    { preventDefault: () => (prevented = true) },
+    "核心概念",
+    {
+      history: {
+        pushState: (_data, _unused, url) => {
+          pushedUrl = url;
+        },
+      },
+      document: {
+        getElementById: (id) => {
+          requestedId = id;
+          return {
+            scrollIntoView: (options) => {
+              scrollOptions = options;
+            },
+          };
+        },
+      },
+    },
+  );
+
+  assert.equal(prevented, true);
+  assert.equal(pushedUrl, "#核心概念");
+  assert.equal(requestedId, "核心概念");
+  assert.deepEqual(scrollOptions, { behavior: "auto" });
 });
 
 test("does not publish internal root files", async () => {

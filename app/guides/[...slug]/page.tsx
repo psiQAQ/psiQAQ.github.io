@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { categories, documents, findDocument } from "@/lib/content";
 import { extractHeadings, renderMarkdown } from "@/lib/markdown";
+import { TableOfContentsLink } from "./table-of-contents-link";
 
 type GuidePageProps = {
   params: Promise<{ slug: string[] }>;
@@ -106,14 +107,13 @@ function TableOfContents({
   return (
     <nav>
       {headings.map((heading) => (
-        <Link
+        <TableOfContentsLink
           className={heading.depth === 3 ? "toc-subitem" : undefined}
-          href={`#${heading.id}`}
+          id={heading.id}
           key={heading.id}
-          prefetch={false}
         >
           {heading.text}
-        </Link>
+        </TableOfContentsLink>
       ))}
     </nav>
   );
