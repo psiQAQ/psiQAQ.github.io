@@ -13,18 +13,51 @@ WSL 让 Windows 直接运行 Linux 用户空间，适合开发、命令行和容
 ## 安装不同发行版
 
 ```bash
+# ==== 在【管理员】PowerShell 里执行 ====
+
+# 1. 启用两个必需功能（已启用会提示无需操作，不影响）
+dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
+dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
+
+# 2. 核心：绕过被停用的 Windows Update，从网络直接下载安装新版 WSL + 内核
+wsl --update --web-download
+
+# 3. 让新版生效
+wsl --shutdown
+
+# 4. 验证：这次应打印版本号（例如 WSL 版本:
+wsl --version
+
+# 5. 装 Ubuntu（新版才认识 24.04）
 # 列出可以在线安装的 Linux 发行版的命令
 wsl --list --online
-
 # wsl --install -d <发行版名称> 安装想要的 Linux 发行版
 wsl --install -d Ubuntu-24.04
 
-# 列出所有已安装的 WSL 发行版，如果显示Ubuntu，则安装成功。
+# 6. 列出所有已安装的 WSL 发行版，如果显示Ubuntu，则安装成功。
 wsl --list --verbose
 
-# wsl -d <发行版名称> 启动指定的发行版
+# 7. wsl -d <发行版名称> 启动指定的发行版
 wsl -d Ubuntu-24.04
 ```
+
+### 手动下载可尝试手动下载：
+
+1. wsl镜像下载地址：[https://github.com/microsoft/WSL/releases/](https://github.com/microsoft/WSL/releases/)
+   目前最新版本：[wsl.2.7.11.0.x64.msi](https://github.com/microsoft/WSL/releases/download/2.7.11/wsl.2.7.11.0.x64.msi) (约三百 MB 的 msi 安装包)
+   下载后双击安装，再继续前面的 # 3. 让新版生效
+3. .wsl 文件(约几百 MB 的 rootfs 包)，即 All Ubuntu Distributions with AMD64 Downloads
+    1. **Ubuntu** (Default)
+       - URL: https://releases.ubuntu.com/26.04/ubuntu-26.04-wsl-amd64.wsl
+    2. **Ubuntu 26.04 LTS**
+       - URL: https://releases.ubuntu.com/26.04/ubuntu-26.04-wsl-amd64.wsl
+    3. **Ubuntu 24.04 LTS**
+       - URL: https://releases.ubuntu.com/24.04.4/ubuntu-24.04.4-wsl-amd64.wsl
+    4. **Ubuntu 22.04 LTS**
+       - URL: https://releases.ubuntu.com/jammy/ubuntu-22.04.5-wsl-amd64.wsl
+    5. **Ubuntu 20.04 LTS**
+       - URL: https://releases.ubuntu.com/focal/ubuntu-20.04.6-wsl-amd64.wsl
+    下载后运行 `wsl --install --from-file "<你的wsl文件地址，自行补全>/ubuntu-24.04.4-wsl-amd64.wsl"`，再回到前面第六步确认安装完成。
 
 ## 其他 WSL 命令
 
