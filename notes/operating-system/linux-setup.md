@@ -87,7 +87,7 @@ BitLocker 48位恢复密钥
 
 ## 3. 下载 Ubuntu 26.04
 
-从 [Ubuntu 官方下载页](https://ubuntu.com/download/desktop) 获取镜像；若使用镜像站，也必须从同一发布目录取得对应的 `SHA256SUMS`。
+优先从 [Ubuntu 官方下载页](https://ubuntu.com/download/desktop) 获取镜像。下载较慢时，可使用 [华为云 Ubuntu Releases 镜像目录](https://repo.huaweicloud.com/ubuntu-releases/)；无论使用哪一来源，都必须从同一发布目录取得对应的 `SHA256SUMS`。
 
 Ubuntu桌面版的安装镜像文件名为：ubuntu-<版本号>-desktop-amd64.iso
 
@@ -576,13 +576,19 @@ nvidia-smi
 
 DKMS 会在本机为正在运行的内核编译 NVIDIA 模块。只有使用自定义内核、特殊内核 flavour，或官方仓库暂时没有当前内核的预编译模块时才选择它。普通 Ubuntu Desktop、CUDA、PyTorch、Docker 和科学计算场景均应继续使用正文方案；不要安装 NVIDIA 官网 `.run` 包。([Ubuntu][2])
 
-在 Secure Boot 启用时，DKMS 模块不由 Canonical 密钥签名，需要创建并在启动时注册自己的 MOK；未完成注册时模块无法加载。若启动至 MokManager 时键盘无响应，这是内核启动前的固件界面问题，蓝牙键盘、SSH 与桌面键盘设置都无效。标准内核已有预编译模块时，应改回正文方案，而不是反复尝试 MOK。
+在 Secure Boot 启用时，DKMS 模块不由 Canonical 密钥签名，需要创建并在启动时注册自己的 MOK；未完成注册时模块无法加载。安装过程若要求设置 MOK 密码，重启后在 MokManager 依次选择 `Enroll MOK`、`Continue`、`Yes`，输入该密码后再重启。若启动至 MokManager 时键盘无响应，这是内核启动前的固件界面问题，蓝牙键盘、SSH 与桌面键盘设置都无效。标准内核已有预编译模块时，应改回正文方案，而不是反复尝试 MOK。
 
 需要 DKMS 时，先安装与当前内核匹配的 headers，再由 `ubuntu-drivers` 选择驱动：
 
 ```bash
 sudo apt install linux-headers-$(uname -r)
 sudo ubuntu-drivers install --include-dkms
+```
+
+若需要固定驱动分支，也可以手动安装：
+
+```bash
+sudo apt install nvidia-dkms-<版本>
 ```
 
 用以下命令确认当前实际加载的模块：
@@ -594,7 +600,7 @@ modinfo -F signer nvidia
 
 `/updates/dkms/nvidia.ko*` 或本机 MOK 签名表示正在使用 DKMS；`/kernel/nvidia-<版本>/nvidia.ko` 与 `Canonical Ltd. Kernel Module Signing` 表示正在使用预编译模块。系统同时安装相关包不代表两个模块同时工作，以上两个命令才是判断依据。
 
-若要从 DKMS 切回预编译模块，先确认 `dpkg -l | grep linux-modules-nvidia` 能找到对应包，再先模拟、后删除 DKMS 包；随后重启并按正文“验证”复查。不同驱动分支的包名不同，切勿使用通配删除命令。
+若要从 DKMS 切回预编译模块，先暂时关闭 Secure Boot，确保移除过程中系统可正常启动；再确认 `dpkg -l | grep linux-modules-nvidia` 能找到对应包，随后先模拟、后删除 DKMS 包。重启后按正文“验证”复查并重新开启 Secure Boot。不同驱动分支的包名不同，切勿使用通配删除命令。
 
 ```bash
 sudo apt -s purge nvidia-dkms-<版本>
