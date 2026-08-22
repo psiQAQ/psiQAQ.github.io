@@ -57,7 +57,7 @@ BIOS 模式：UEFI
 | U盘 | ≥8GB，推荐 16GB |
 | BitLocker恢复密钥 | 已备份 |
 
-> 这里修改成直接关闭 BitLocker恢复密钥，因为安装过程中会解密磁盘，如果恢复密钥丢失将无法恢复。
+安装前请确认恢复密钥已保存到 Microsoft 帐户或离线安全位置。后续若需要对 Windows 分区完整解密，恢复密钥丢失会增加数据恢复风险。
 
 如果 Windows 是：
 
@@ -87,11 +87,7 @@ BitLocker 48位恢复密钥
 
 ## 3. 下载 Ubuntu 26.04
 
-> 给出官方地址，同时也给出华为云地址，华为云下载速度快。
-
-Ubuntu各个版本的安装镜像文件可以从华为云下载：
-
-<http://repo.huaweicloud.com/ubuntu-releases/>
+从 [Ubuntu 官方下载页](https://ubuntu.com/download/desktop) 获取镜像；若使用镜像站，也必须从同一发布目录取得对应的 `SHA256SUMS`。
 
 Ubuntu桌面版的安装镜像文件名为：ubuntu-<版本号>-desktop-amd64.iso
 
@@ -106,7 +102,7 @@ ubuntu-26.04-desktop-amd64.iso
 下载后校验 SHA-256：
 
 ```powershell
-# 具体改成下载地址
+# 将路径替换为实际下载位置
 Get-FileHash `
   "$env:USERPROFILE\Downloads\ubuntu-26.04-desktop-amd64.iso" `
   -Algorithm SHA256
@@ -463,7 +459,7 @@ findmnt /boot/efi
 
 ---
 
-## 12. NVIDIA 驱动方案一：Canonical 预编译模块【推荐】
+## 12. NVIDIA 驱动：Canonical 预编译模块【推荐】
 
 如果没有 NVIDIA 电脑，可以跳过此步骤。
 
@@ -493,7 +489,7 @@ Secure Boot 可直接验证
 适合普通 Desktop / CUDA / AI / Docker
 ```
 
-Ubuntu 官方建议普通用户使用 `ubuntu-drivers`，默认选择预编译、已签名的模块。([Ubuntu][2])
+Ubuntu 官方建议普通用户使用 `ubuntu-drivers` 或“附加驱动”管理驱动；默认只会安装已知可与 Secure Boot 配合的预编译、已签名模块。([Ubuntu][1])
 
 ### 安装
 
@@ -501,7 +497,7 @@ Ubuntu 官方建议普通用户使用 `ubuntu-drivers`，默认选择预编译�
 
 ```bash
 sudo apt update
-sudo apt upgrade -y
+sudo apt upgrade
 sudo reboot
 ```
 
@@ -518,13 +514,7 @@ sudo ubuntu-drivers install
 sudo reboot
 ```
 
-不要加：
-
-```text
---include-dkms
-```
-
-除非明确需要 DKMS。
+不要添加 `--include-dkms`；它会改为选择 DKMS 方案，相关限制见文末附录。
 
 ### 验证
 
@@ -542,12 +532,12 @@ modinfo -F signer nvidia
 理想状态类似：
 
 ```text
-/lib/modules/<kernel>/kernel/nvidia-595-open/nvidia.ko
+/lib/modules/<kernel>/kernel/nvidia-<版本>/nvidia.ko
 
 Canonical Ltd. Kernel Module Signing
 ```
 
-而不是：
+模块路径不应位于：
 
 ```text
 /updates/dkms/nvidia.ko
@@ -559,7 +549,7 @@ Canonical Ltd. Kernel Module Signing
 mokutil --sb-state
 ```
 
-如果已经确认：
+若同时确认：
 
 ```text
 Canonical signed module
@@ -567,7 +557,7 @@ Canonical signed module
 nvidia-smi 正常
 ```
 
-可以在 BIOS 中保持或重新开启：
+即可在 BIOS 中保持或重新开启：
 
 ```text
 Secure Boot = Enabled
@@ -582,394 +572,41 @@ nvidia-smi
 
 ---
 
-## 13. NVIDIA 驱动方案二：DKMS
+## 附录：仅在需要时使用 DKMS
 
-DKMS：
+DKMS 会在本机为正在运行的内核编译 NVIDIA 模块。只有使用自定义内核、特殊内核 flavour，或官方仓库暂时没有当前内核的预编译模块时才选择它。普通 Ubuntu Desktop、CUDA、PyTorch、Docker 和科学计算场景均应继续使用正文方案；不要安装 NVIDIA 官网 `.run` 包。([Ubuntu][2])
 
-```text
-Dynamic Kernel Module Support
-```
+在 Secure Boot 启用时，DKMS 模块不由 Canonical 密钥签名，需要创建并在启动时注册自己的 MOK；未完成注册时模块无法加载。若启动至 MokManager 时键盘无响应，这是内核启动前的固件界面问题，蓝牙键盘、SSH 与桌面键盘设置都无效。标准内核已有预编译模块时，应改回正文方案，而不是反复尝试 MOK。
 
-工作方式是：
-
-```text
-NVIDIA kernel source
-        ↓
-你的电脑
-        ↓
-针对当前 Linux kernel 本地编译
-        ↓
-nvidia.ko
-```
-
-适合：
-
-```text
-自定义 kernel
-mainline kernel
-特殊 kernel flavour
-Canonical 尚未提供对应预编译模块
-```
-
-普通 Ubuntu Desktop **不推荐优先使用**。Ubuntu 官方明确指出，DKMS 模块并非使用 Canonical key 签名，因此 Secure Boot 下需要额外处理自己的签名密钥/MOK。([Ubuntu][1])
-
-### 安装内核
+需要 DKMS 时，先安装与当前内核匹配的 headers，再由 `ubuntu-drivers` 选择驱动：
 
 ```bash
-# 安装当前内核 headers
 sudo apt install linux-headers-$(uname -r)
-
-# 让 ubuntu-drivers 明确允许使用 DKMS
 sudo ubuntu-drivers install --include-dkms
 ```
 
-也可以手动安装指定分支：
-
-```bash
-sudo apt install nvidia-dkms-<版本>
-```
-
-例如：
-
-```text
-nvidia-dkms-595-open
-```
-
-### Secure Boot 下的问题
-
-DKMS 模块通常类似：
-
-```text
-/lib/modules/<kernel>/updates/dkms/nvidia.ko.zst
-```
-
-签名者可能是：
-
-```text
-<电脑名称> Secure Boot Module Signature key
-```
-
-这意味着：
-
-```text
-本机生成 MOK key
-        ↓
-签名 DKMS module
-        ↓
-重启
-        ↓
-MokManager
-        ↓
-Enroll MOK
-```
-
-启动时可能出现：
-
-```text
-Press any key to perform MOK management
-```
-
-然后：
-
-```text
-Enroll MOK
-→ Continue
-→ Yes
-→ 输入安装时设置的 MOK 密码
-→ Reboot
-```
-
-如果不完成 MOK 注册，在 Secure Boot 开启时 DKMS NVIDIA 模块可能无法加载。
-
----
-
-## 14. 实际踩坑：MOK 界面键盘完全失效
-
-实际可能遇到：
-
-```text
-安装 nvidia-driver / DKMS
-        ↓
-重启
-        ↓
-Press any key to perform MOK management
-        ↓
-笔记本内置键盘无响应
-        ↓
-有线 USB 键盘也无响应
-        ↓
-倒计时结束自动跳过
-```
-
-此时不是 Ubuntu 桌面键盘驱动的问题：
-
-```text
-MokManager 位于 Linux 内核启动之前
-```
-
-因此：
-
-```text
-蓝牙键盘
-SSH
-屏幕键盘
-Ubuntu 键盘设置
-```
-
-都不能解决。
-
-如果标准 Ubuntu 内核已经有 Canonical 预编译模块，最合理的方法不是继续折腾 MOK，而是切换回预编译模块。
-
----
-
-## 15. 如何判断自己是否误用了 DKMS
+用以下命令确认当前实际加载的模块：
 
 ```bash
 modinfo -n nvidia
-```
-
-如果看到：
-
-```text
-.../updates/dkms/nvidia.ko.zst
-```
-
-说明当前使用 DKMS。
-
-检查签名：
-
-```bash
 modinfo -F signer nvidia
 ```
 
-如果类似：
+`/updates/dkms/nvidia.ko*` 或本机 MOK 签名表示正在使用 DKMS；`/kernel/nvidia-<版本>/nvidia.ko` 与 `Canonical Ltd. Kernel Module Signing` 表示正在使用预编译模块。系统同时安装相关包不代表两个模块同时工作，以上两个命令才是判断依据。
 
-```text
-<hostname> Secure Boot Module Signature key
-```
-
-也是本机 DKMS/MOK 签名。
-
-检查预编译包：
-
-```bash
-dpkg -l |
-grep -E 'nvidia-driver|nvidia-dkms|linux-modules-nvidia'
-```
-
-例如系统可能同时存在：
-
-```text
-linux-modules-nvidia-595-open-7.0.0-30-generic
-linux-modules-nvidia-595-open-generic-hwe-26.04
-nvidia-dkms-595-open
-nvidia-driver-595-open
-```
-
-注意：
-
-```text
-包同时安装
-≠
-两个模块同时工作
-```
-
-真正加载哪一个由：
-
-```bash
-modinfo -n nvidia
-```
-
-判断。
-
----
-
-## 16. 从 DKMS 切回预编译模块
-
-先关闭 Secure Boot，保证当前系统可以正常启动。
-
-确认预编译模块存在：
-
-```bash
-dpkg -l | grep linux-modules-nvidia
-```
-
-先模拟删除 DKMS：
+若要从 DKMS 切回预编译模块，先确认 `dpkg -l | grep linux-modules-nvidia` 能找到对应包，再先模拟、后删除 DKMS 包；随后重启并按正文“验证”复查。不同驱动分支的包名不同，切勿使用通配删除命令。
 
 ```bash
 sudo apt -s purge nvidia-dkms-<版本>
-```
-
-确认不会误删必要驱动后再执行：
-
-```bash
 sudo apt purge nvidia-dkms-<版本>
-```
-
-然后重建模块依赖和 initramfs：
-
-```bash
 sudo depmod -a
 sudo update-initramfs -u
 sudo reboot
 ```
 
-如果：
-
-```bash
-reboot
-```
-
-提示：
-
-```text
-Operation inhibited by gnome-session
-```
-
-说明当前图形用户还有活动会话。
-
-保存所有工作后可以：
-
-```bash
-sudo systemctl reboot -i
-```
+两种方案的 CUDA/AI 性能通常无本质差异；主要区别是模块由谁编译和签名，以及内核升级时的维护成本。Canonical 预编译模块由 Canonical 构建与签名，可直接配合 Secure Boot；DKMS 由本机构建，需自行处理 MOK。
 
 ---
 
-## 17. 切换成功的验收标准
-
-重启：
-
-```bash
-uname -r
-modinfo -n nvidia
-modinfo -F signer nvidia
-nvidia-smi
-```
-
-实际成功状态示例：
-
-```text
-7.0.0-30-generic
-
-/lib/modules/7.0.0-30-generic/kernel/nvidia-595-open/nvidia.ko
-
-Canonical Ltd. Kernel Module Signing
-
-NVIDIA-SMI 595.84
-Driver Version: 595.84
-CUDA Version: 13.2
-```
-
-这说明已经实现：
-
-```text
-Ubuntu 官方内核
-        +
-Canonical 预编译 NVIDIA open kernel module
-        +
-Canonical 签名
-        +
-NVIDIA 用户态驱动
-```
-
-此时可以重新进入 BIOS：
-
-```text
-Secure Boot = Enabled
-```
-
-再次进入 Ubuntu：
-
-```bash
-mokutil --sb-state
-nvidia-smi
-```
-
-预期：
-
-```text
-SecureBoot enabled
-nvidia-smi 正常
-```
-
-不再需要 MOK。
-
----
-
-## 18. NVIDIA 两种方案对比
-
-| 项目 | Canonical 预编译 | DKMS |
-| ------------ | ------------- | -------- |
-| 编译位置 | Canonical | 本机 |
-| 标准 Ubuntu 内核 | **推荐** | 一般不需要 |
-| 自定义内核 | 可能没有模块 | **适合** |
-| 内核升级 | 下载对应模块 | 本机重新编译 |
-| 编译失败风险 | 低 | 较高 |
-| Canonical 签名 | **有** | 无 |
-| Secure Boot | **直接支持** | 通常需要 MOK |
-| MOK 操作 | 通常无需 | 经常需要 |
-| CUDA/AI性能 | 基本相同 | 基本相同 |
-
-两者区别主要是：
-
-```text
-模块如何产生
-+
-如何签名
-+
-如何跟随 kernel 更新
-```
-
-而不是 CUDA 或 GPU 本身性能。
-
----
-
-## 19. 最终推荐配置
-
-普通 Ubuntu 26.04 开发电脑：
-
-```text
-UEFI + GPT
-
-Windows
-+
-Ubuntu ext4
-
-Ubuntu 官方 HWE kernel
-
-NVIDIA：
-ubuntu-drivers install
-        ↓
-Canonical pre-built module
-        ↓
-Canonical signed
-        ↓
-Secure Boot Enabled
-```
-
-如果主要用途是：
-
-```text
-Python
-CUDA
-PyTorch
-Docker
-AI
-科学计算
-```
-
-通常也没有必要使用：
-
-```text
-DKMS
-NVIDIA 官网 .run 安装包
-独显直连
-```
-
-标准 Ubuntu 官方仓库提供的驱动栈通常是维护成本最低的方案。
-
----
-
-[1]: https://ubuntu.com/desktop/docs/en/26.04/how-to/graphics/nvidia-driver-packages/?utm_source=chatgpt.com "Select NVIDIA driver packages manually - Ubuntu Desktop documentation"
-[2]: https://ubuntu.com/desktop/docs/en/latest/how-to/graphics/install-nvidia-drivers/?utm_source=chatgpt.com "Install NVIDIA drivers - Ubuntu Desktop documentation"
+[1]: https://ubuntu.com/desktop/docs/en/latest/how-to/graphics/install-nvidia-drivers/ "Install NVIDIA drivers - Ubuntu Desktop documentation"
+[2]: https://ubuntu.com/desktop/docs/en/26.04/how-to/graphics/nvidia-driver-packages/ "Select NVIDIA driver packages manually - Ubuntu Desktop documentation"
