@@ -6,14 +6,14 @@
 
 > 在 `Ubuntu 24.04` 之前，Ubuntu 的软件源配置文件使用传统的 `One-Line-Style`，路径为 `/etc/apt/sources.list`；从 `Ubuntu 24.04` 开始，Ubuntu 的软件源配置文件变更为 `DEB822` 格式，路径为 `/etc/apt/sources.list.d/ubuntu.sources`。具体参考 [Ubuntu 软件仓库](<https://mirrors.tuna.tsinghua.edu.cn/help/ubuntu/>) 。
 
-例如对于 `ubuntu 24.04` 版本，`wsl` 命令行中，执行以下命令：
+### `ubuntu 24.04` 及其以后版本
 
 ```bash
 mkdir -p /etc/apt/sources.list.d
 sudo nano /etc/apt/sources.list.d/ubuntu.sources
 ```
 
-添加以下内容：
+`ubuntu 24.04` 添加以下内容：
 
 ```conf
 Types: deb
@@ -30,6 +30,36 @@ Types: deb
 URIs: https://mirrors.tuna.tsinghua.edu.cn/ubuntu
 Suites: noble-security
 Components: main universe restricted multiverse
+Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
+```
+
+`ubuntu 26.04` 添加以下内容（源码镜像 `deb-src` 可按需配置）：
+
+```conf
+Types: deb
+URIs: https://mirrors.tuna.tsinghua.edu.cn/ubuntu
+Suites: resolute resolute-updates resolute-backports
+Components: main restricted universe multiverse
+Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
+
+# 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释
+Types: deb-src
+URIs: https://mirrors.tuna.tsinghua.edu.cn/ubuntu
+Suites: resolute resolute-updates resolute-backports
+Components: main restricted universe multiverse
+Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
+
+# 以下安全更新软件源为官方源配置
+Types: deb
+URIs: http://security.ubuntu.com/ubuntu/
+Suites: resolute-security
+Components: main restricted universe multiverse
+Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
+
+Types: deb-src
+URIs: http://security.ubuntu.com/ubuntu/
+Suites: resolute-security
+Components: main restricted universe multiverse
 Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
 ```
 

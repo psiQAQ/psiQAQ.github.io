@@ -151,7 +151,8 @@ nano ~/.claude/settings.json
 
 注意把 `ANTHROPIC_AUTH_TOKEN` 替换为你自己的 key。
 
-参考
+参考:
+
 - [Deepseek 接入 Coding Agents](https://api-docs.deepseek.com/zh-cn/guides/coding_agents)
 - [Claude Code 环境变量官方文档](https://code.claude.com/docs/zh-CN/env-vars)，使用参数说明见附录。
 
