@@ -178,45 +178,81 @@ shutdown /s /t 0
 
 ### 5.3 压缩分区
 
-运行：
+`Win + R` 输入 `diskmgmt.msc`，选择空间充足的 NTFS 分区，右键 → 压缩卷 → 输入 Ubuntu 使用空间，例如 200GB = 204800MB，输入 `204800`，点击 `压缩`，等待完成，得到 `200GB 未分配空间`。
 
-```text
-diskmgmt.msc
-```
-
-选择空间充足的 NTFS 分区：
-
-```text
-右键
-→ 压缩卷
-→ 输入 Ubuntu 空间
-```
-
-例如：
-
-```text
-200GB = 204800MB
-```
-
-得到：
-
-```text
-200GB 未分配空间
-```
-
-这里：
-
-```text
-不要格式化
-不要新建 NTFS 卷
-不要分配盘符
-```
+注意：不要格式化、不要新建 NTFS 卷、不要分配盘符！
 
 ---
 
-## 6. 双硬盘时的推荐结构
+## 6. 开始安装 Ubuntu 26.04
 
-例如：
+### 1. 重启进入安装界面
+
+1. 确保 Ubuntu 26.04 安装 U 盘已经插入电脑；
+
+2. 重启电脑，连续快速按 `启动菜单快捷键（Boot Menu Key）`，不同品牌/机型快捷键不同，例如常见的 `F12`、`F11`、`F9`、`Esc` 等，根据自己的电脑型号选择对应快捷键，具体可参见：
+   ![开机热键启动汇总](./assets/linux-setup/开机热键启动汇总.png)
+
+3. 进入启动选项菜单后，选择 U 盘（展示为 U 盘的品牌名）对应的 USB 启动项；
+
+4. 进入安装界面后，选择第一个启动选项： `Try or Install Ubuntu`；
+
+### 2. Ubuntu 安装设置和启动流程
+
+1. `选择您的语言` 选择 `中文（简体）`；
+
+2. `可访问性` 设置保持默认；
+
+3. `键盘布局` 设置保持默认（汉语）；
+
+4. `连接到互联网` 选择 `我现在不想连接互联网`，避免安装过程中因为网络、软件源等问题导致卡住；
+
+5. `你想对 Ubuntu 做什么？` 选择 `安装 Ubuntu`；
+
+6. `您想如何安装 Ubuntu？` 选择 `交互式安装`；
+
+7. `您想先安装哪些应用？` 选择 `默认合集`；
+
+8. `安装推荐的专有软件` 不勾选；
+
+9. `您想如何安装 Ubuntu？` 选择 `手动安装`；
+
+10. `手动分区`：
+    * 选中之前为 Ubuntu 预留的 `空闲空间`
+    * 点击左下角的 `+` 按钮，创建分区
+    * 文件系统保持 `Ext4`
+    * 在挂载点中选择 `/`，即 Ubuntu 的根目录
+    * 确认分区设置无误后，点击 `OK`
+    * 如果磁盘压缩分区划出的 Ubuntu 安装位置与 Windows 系统盘在不同磁盘上，参考下一章节说明，有两种方案；
+
+11. `设置您的账户`，填写：
+    * 姓名
+    * 计算机名称
+    * Ubuntu 用户名
+    * 登录密码
+    * 确认密码
+
+12. `选择您的时区` 选择自己所在的地区和时区；
+
+13. 进入安装设置确认页面，确认无误后，点击 `安装`；
+
+14. 接下来等待 Ubuntu 26.04 完成文件复制和系统安装；
+
+15. 界面提示 `安装完成` 后，点击 `立即重启`；
+
+16. 如果重启过程中提示拔出安装介质，拔掉 Ubuntu 安装 U 盘，按 `Enter` 继续重启；
+
+17. 重启后进入 GRUB 双系统启动菜单；
+    * 如果要进入 Ubuntu 就选择第一个 Ubuntu 启动项
+    * 如果要进入 Windows 就选择菜单中的 `Windows Boot Manager`
+
+成功进入对应系统后，Ubuntu 26.04 + Windows 11 双系统安装完成！
+
+---
+
+## 9. 手动分区与双硬盘布局
+
+如果使用手动分区，当 Ubuntu 分配空间不在 Windows 系统硬盘/分区时的场景下，可按下列类似结构确认目标磁盘：
 
 ```text
 Disk 0：Windows SSD
@@ -229,149 +265,9 @@ Disk 1：数据/Ubuntu SSD
 └── 200GB 未分配
 ```
 
-有两种方案。
+此时将 Ubuntu 安装在非 Windows 系统硬盘/分区时有两种方案。方案 A 完全可用；方案 B 更推荐，因为 Windows 与 Ubuntu 启动链独立，任意一块硬盘拆除时另一系统仍更容易独立启动，重装 Windows 也不容易影响 Ubuntu 引导。
 
 ### 方案 A：共用 Windows EFI
-
-```text
-Disk 0 EFI  → /boot/efi
-Disk 1 ext4 → /
-```
-
-完全可用。
-
-### 方案 B：Ubuntu 独立 EFI【双硬盘更推荐】
-
-```text
-Disk 0
-├── Windows EFI
-└── Windows
-
-Disk 1
-├── 1GiB FAT32 ESP → /boot/efi
-└── 约199GiB ext4 → /
-```
-
-优点：
-
-```text
-Windows 与 Ubuntu 启动链独立
-任意一块硬盘拆除时另一系统仍更容易独立启动
-重装 Windows 不容易影响 Ubuntu 引导
-```
-
----
-
-## 7. 从 U 盘启动
-
-重启后进入 Boot Menu，常见：
-
-```text
-F12
-F2
-Esc
-F10
-```
-
-具体可参见
-
-![开机热键启动汇总](./assets/linux-setup/开机热键启动汇总.png)
-
-必须选择：
-
-```text
-UEFI: <U盘名称>
-```
-
-而不是 Legacy USB。
-
-先进入：
-
-```text
-Try Ubuntu
-```
-
-检查：
-
-```text
-屏幕
-键盘
-Wi-Fi
-触控板
-声音
-SSD/NVMe
-```
-
-如果 NVIDIA 电脑 Live 环境黑屏，可尝试：
-
-```text
-Ubuntu (safe graphics)
-```
-
----
-
-## 8. 如果 Ubuntu 看不到 SSD
-
-如果出现：
-
-```text
-Intel RST
-VMD
-RAID
-SSD 不可见
-```
-
-不要继续安装。
-
-不要直接：
-
-```text
-RAID → AHCI
-```
-
-否则 Windows 可能出现：
-
-```text
-INACCESSIBLE_BOOT_DEVICE
-```
-
-应先让 Windows 准备 AHCI 驱动，再在 BIOS 中关闭 RST/VMD。
-
-这一问题与普通分区问题不同，应单独解决后再安装 Ubuntu。
-
----
-
-## 9. 安装 Ubuntu
-
-推荐：
-
-```text
-Install Ubuntu
-→ Interactive installation
-→ Default selection
-```
-
-网络稳定时可以联网安装。
-
-安装类型优先：
-
-```text
-Install Ubuntu alongside Windows Boot Manager
-```
-
-绝对不要误选：
-
-```text
-Erase disk and install Ubuntu
-```
-
----
-
-## 10. 手动分区
-
-如果使用手动分区，可以选择两种方案，对于多硬盘且分区在非系统盘时，共用 EFI 便于后期扩容，独立 EFI 更利于双系统独立启动，硬盘单独拆除时另一系统仍更容易独立启动。
-
-### 共用 EFI
 
 现有 Windows EFI：
 
@@ -389,7 +285,9 @@ ext4
 格式化：是
 ```
 
-### 独立 EFI
+对应在 `手动分区界面` 中，`用于安装引导程序的设备` 选择 Windows EFI 所在磁盘。
+
+### 方案 B：Ubuntu 独立 EFI【双硬盘更推荐】
 
 Ubuntu 所在第二块硬盘：
 
@@ -407,6 +305,8 @@ ext4
 挂载：/
 ```
 
+对应在 `手动分区界面` 中，`用于安装引导程序的设备` 选择 Ubuntu 所在磁盘。
+
 普通桌面系统没有必要专门建立 swap 分区，可以使用 swapfile。
 
 ### 安装前必须再次检查
@@ -420,6 +320,67 @@ Microsoft Reserved
 Recovery
 OEM
 ```
+
+---
+
+## 10. Ubuntu 账户、sudo 与 root
+
+安装器要求填写的用户名和密码创建的是日常登录账户。Ubuntu 不设置一个供日常登录的独立“管理员账户”：`root` 账户仍然存在，但默认没有可用于直接登录的密码；安装时创建的账户通常属于 `sudo` 组，可在需要时临时取得管理员权限。([Ubuntu][3])
+
+| 账户 | 日常用途 | 管理系统的方式 |
+| --- | --- | --- |
+| 安装时创建的普通账户 | 登录桌面、保存文件、日常开发 | 通过 `sudo` 临时执行管理员命令 |
+| `root` | 系统的最高权限账户 | 默认锁定直接登录；仅在必要时由 `sudo` 临时进入 |
+
+可用以下命令确认当前账户是否具有管理员权限：
+
+```bash
+groups
+```
+
+输出中包含 `sudo` 表示该账户可以使用 `sudo`。
+
+### 如何使用 sudo
+
+对单条需要管理员权限的命令，在前面加 `sudo`：
+
+```bash
+sudo apt update
+```
+
+首次执行时输入的是**当前登录账户的密码**，不是 root 密码；终端不会显示密码字符，这是正常现象。`sudo` 只提升这一条命令的权限，因此应优先使用这种方式，并在执行前确认命令内容。([Ubuntu][4])
+
+如果确实需要连续执行多条系统管理命令，可以临时进入 root shell：
+
+```bash
+sudo -i
+# 在这里执行必要的管理员命令
+exit
+```
+
+完成后立即执行 `exit` 回到普通账户；不要把 root shell 当作日常终端。
+
+### root 密码：默认不设置，也不建议设置
+
+普通账户改自己的密码使用：
+
+```bash
+passwd
+```
+
+只有存在明确的离线维护、兼容旧流程等需求时，才考虑为 root 设置密码：
+
+```bash
+sudo passwd root
+```
+
+之后可用 `su -` 并输入 root 密码直接进入 root shell。对普通桌面电脑不推荐这样做：它新增了一套需要保护的最高权限密码，也失去了使用个人账户和 `sudo` 记录管理员操作的优势。若已不需要 root 密码，可重新锁定它：
+
+```bash
+sudo passwd -l root
+```
+
+这种设计遵循最小权限原则：日常操作保持普通权限，只有明确的管理动作才短暂提升；每个人使用自己的账户和密码，便于审计与撤销授权，而不是共享 root 密码。([Ubuntu][3])
 
 ---
 
@@ -501,6 +462,18 @@ sudo apt upgrade
 sudo reboot
 ```
 
+确认系统识别到 NVIDIA 显卡：
+
+```bash
+lspci | grep -E 'VGA|3D|Display'
+```
+
+`ubuntu-drivers` 通常已随 Ubuntu Desktop 安装。若提示找不到该命令，再安装其提供包：
+
+```bash
+sudo apt install ubuntu-drivers-common
+```
+
 查看可用驱动：
 
 ```bash
@@ -511,6 +484,13 @@ sudo ubuntu-drivers list
 
 ```bash
 sudo ubuntu-drivers install
+sudo reboot
+```
+
+若因兼容性要求必须指定分支，用以下命令代替上一条自动安装命令；不要同时执行两者：
+
+```bash
+sudo ubuntu-drivers install nvidia:<版本>
 sudo reboot
 ```
 
@@ -570,6 +550,38 @@ mokutil --sb-state
 nvidia-smi
 ```
 
+### 混合显卡模式（可选）
+
+本节只适用于带 **Intel 核显 + NVIDIA 独显** 的混合显卡笔记本，且驱动已经按上文安装完成。它与预编译模块或 DKMS 的选择无关；普通台式机、仅有 NVIDIA 显卡的电脑，以及 AMD 核显 + NVIDIA 独显的组合不要使用这些命令。
+
+查看当前模式：
+
+```bash
+prime-select query
+```
+
+选择一种模式后重启，不要连续执行多种模式命令：
+
+```bash
+# 独显模式：性能优先
+sudo prime-select nvidia
+sudo reboot
+```
+
+```bash
+# 核显模式：省电优先
+sudo prime-select intel
+sudo reboot
+```
+
+```bash
+# 按需混合模式：需要 NVIDIA 时再调用独显
+sudo prime-select on-demand
+sudo reboot
+```
+
+支持 PRIME 的 Ubuntu 系统也可在 GNOME 中对单个应用选择“使用独立显卡启动”。([Ubuntu][5])
+
 ---
 
 ## 附录：仅在需要时使用 DKMS
@@ -578,17 +590,20 @@ DKMS 会在本机为正在运行的内核编译 NVIDIA 模块。只有使用自�
 
 在 Secure Boot 启用时，DKMS 模块不由 Canonical 密钥签名，需要创建并在启动时注册自己的 MOK；未完成注册时模块无法加载。安装过程若要求设置 MOK 密码，重启后在 MokManager 依次选择 `Enroll MOK`、`Continue`、`Yes`，输入该密码后再重启。若启动至 MokManager 时键盘无响应，这是内核启动前的固件界面问题，蓝牙键盘、SSH 与桌面键盘设置都无效。标准内核已有预编译模块时，应改回正文方案，而不是反复尝试 MOK。
 
-需要 DKMS 时，先安装与当前内核匹配的 headers，再由 `ubuntu-drivers` 选择驱动：
+需要 DKMS 时，可由 `ubuntu-drivers` 自动选择分支：
 
 ```bash
 sudo apt install linux-headers-$(uname -r)
 sudo ubuntu-drivers install --include-dkms
 ```
 
-若需要固定驱动分支，也可以手动安装：
+若需要固定驱动分支，必须同时安装对应的 DKMS 内核模块和用户态驱动；不要只执行 `sudo apt install nvidia-driver-<版本>`：
 
 ```bash
+sudo apt install linux-headers-$(uname -r)
 sudo apt install nvidia-dkms-<版本>
+sudo apt install nvidia-driver-<版本>
+sudo reboot
 ```
 
 用以下命令确认当前实际加载的模块：
@@ -616,3 +631,6 @@ sudo reboot
 
 [1]: https://ubuntu.com/desktop/docs/en/latest/how-to/graphics/install-nvidia-drivers/ "Install NVIDIA drivers - Ubuntu Desktop documentation"
 [2]: https://ubuntu.com/desktop/docs/en/26.04/how-to/graphics/nvidia-driver-packages/ "Select NVIDIA driver packages manually - Ubuntu Desktop documentation"
+[3]: https://ubuntu.com/server/docs/security-users/ "User management - Ubuntu Server documentation"
+[4]: https://ubuntu.com/desktop/docs/en/latest/tutorial/install-ubuntu-desktop/ "Install Ubuntu Desktop - Ubuntu Desktop documentation"
+[5]: https://help.ubuntu.com/community/BinaryDriverHowto/Nvidia "NVIDIA drivers - Ubuntu Community Help Wiki"
