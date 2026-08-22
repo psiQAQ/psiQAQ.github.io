@@ -30,6 +30,7 @@
 - 📄[Windows + Ubuntu 双系统安装](notes/operating-system/linux-setup.md)
 - 📄[Docker：容器化部署实战](notes/operating-system/docker.md)
 - 📄[Hyper-V：Windows 虚拟化](notes/operating-system/Hyper-V.md)
+- 📄[PowerShell 7：Windows Agent 终端优化](notes/operating-system/powershell.md)
 
 ## 智能体
 
