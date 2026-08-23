@@ -32,6 +32,7 @@
 - 📄[Hyper-V：Windows 虚拟化](notes/operating-system/Hyper-V.md)
 - 📄[PowerShell 7：Windows Agent 终端优化](notes/operating-system/powershell.md)
 - 📄[Git 远程仓库 SSH 配置](notes/operating-system/SSH-git.md)
+- 📄[跨系统远程 SSH 登录配置](notes/operating-system/SSH-remote-login.md)
 
 ## 智能体
 

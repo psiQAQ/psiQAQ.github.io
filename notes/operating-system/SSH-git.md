@@ -681,8 +681,73 @@ ssh -T "git@$GIT_HOST"
 
 ---
 
+## 附录：通过 SOCKS 代理连接 Git SSH
+
+当本地代理软件提供 SOCKS5 监听地址、而 Git 托管平台的 SSH 端口无法直连时，可在**已有的目标 `Host` 块中**加入一条 `ProxyCommand`。以下示例中的 `127.0.0.1:7890` 必须替换为代理软件实际的 SOCKS 地址与端口；它不是 HTTP 代理端口。
+
+不要为同一个主机追加第二个 `Host github.com` 块，也不要在不需要全局代理时写入 `Host *`。每个 `Host` 块只能保留一个 `ProxyCommand`；不用代理时删除或注释该行。`ProxyCommand` 会将 SSH 的标准输入、输出交给代理程序，再由 OpenSSH 完成正常的主机指纹与密钥认证。([OpenSSH `ssh_config` 手册][6])
+
+### Windows：使用 Git for Windows 的 `connect.exe`
+
+`connect.exe` 不是 Windows 自带 OpenSSH 的组件。完整 Git for Windows 通常将其安装在 `C:\Program Files\Git\mingw64\bin\connect.exe`；当前机器也可先检查该路径：
+
+```powershell
+$ConnectExe = "$env:ProgramFiles\Git\mingw64\bin\connect.exe"
+if (Test-Path -LiteralPath $ConnectExe) {
+    Get-Item -LiteralPath $ConnectExe | Select-Object FullName, Length, LastWriteTime
+} else {
+    Write-Warning "未找到 $ConnectExe"
+}
+```
+
+若文件不存在，按第 1 节安装或更新**完整** Git for Windows 后再检查；不要把未知来源的 `connect.exe` 放入系统目录或 PATH。Git for Windows 曾修复旧版 `connect.exe` 读取不安全配置路径的问题，因此应使用 2.40.1 或更高版本。([Git for Windows 安全公告][7])
+
+在目标 Git 主机的现有 `Host` 块中加入以下一行。推荐写绝对路径，确保从 PowerShell、VS Code 和 Git 调用系统 OpenSSH 时都能找到程序：
+
+```sshconfig
+ProxyCommand "C:/Program Files/Git/mingw64/bin/connect.exe" -S 127.0.0.1:7890 %h %p
+```
+
+若已明确将 `C:\Program Files\Git\mingw64\bin` 加入当前 SSH 进程的 `PATH`，也可以简写为：
+
+```sshconfig
+ProxyCommand connect.exe -S 127.0.0.1:7890 %h %p
+```
+
+### Linux 与 macOS：使用 `nc`
+
+`nc -x` 使用 SOCKS5 代理；Ubuntu / Debian 缺少该命令时安装 `netcat-openbsd`。macOS 自带的 `nc` 通常已支持此选项：
+
+```bash
+# Ubuntu / Debian
+command -v nc || sudo apt install -y netcat-openbsd
+
+# macOS
+command -v nc
+```
+
+在目标 Git 主机的现有 `Host` 块中加入：
+
+```sshconfig
+ProxyCommand nc -x 127.0.0.1:7890 %h %p
+```
+
+确认本地代理已启动后，使用原有变量验证；该测试会读取 `~/.ssh/config` 中的代理配置：
+
+```bash
+# Windows / Linux / macOS
+ssh -T "git@$GIT_HOST"
+git ls-remote origin
+```
+
+若 `ssh -T` 仍超时，先确认 SOCKS 监听地址与端口正确，再检查代理规则是否允许 `GIT_SSH_HOST:$SSH_PORT` 出站。若只需绕过 GitHub.com 的 22 端口限制，优先比较第 6 节的 SSH over 443；不必同时叠加代理与 443 方案。
+
+---
+
 [1]: https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent?apiVersion=2022-11-28&platform=mac "Generating a new SSH key and adding it to the ssh-agent - GitHub Docs"
 [2]: https://docs.gitlab.com/user/ssh/ "Use SSH keys with GitLab - GitLab Docs"
 [3]: https://docs.gitlab.com/user/ssh_troubleshooting/ "Troubleshooting SSH - GitLab Docs"
 [4]: https://code.visualstudio.com/docs/sourcecontrol/overview "Source Control in VS Code"
 [5]: https://docs.github.com/en/authentication/troubleshooting-ssh/using-ssh-over-the-https-port "Using SSH over the HTTPS port - GitHub Docs"
+[6]: https://man.openbsd.org/OpenBSD-current/man5/ssh_config.5 "ssh_config(5) - OpenBSD manual pages"
+[7]: https://github.com/git-for-windows/git/security/advisories/GHSA-g4fv-xjqw-q7jm "Git for Windows connect.exe security advisory"
