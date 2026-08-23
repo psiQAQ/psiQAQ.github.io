@@ -23,15 +23,15 @@ PowerShell 7 适合 Claude Code、Codex、OpenCode 等需要频繁执行命令�
 1. 打开 Windows PowerShell：在开始菜单搜索 `PowerShell`，或按 `Win + R` 后输入 `powershell`。
 2. 执行安装命令：
 
-```powershell
-winget install --id Microsoft.PowerShell --source winget
-```
+    ```powershell
+    winget install --id Microsoft.PowerShell --source winget
+    ```
 
 3. 关闭并重新打开终端，执行下面的命令启动新版：
 
-```powershell
-pwsh
-```
+    ```powershell
+    pwsh
+    ```
 
 4. 验证当前会话版本：
 

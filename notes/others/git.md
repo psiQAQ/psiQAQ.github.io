@@ -39,6 +39,7 @@ git --version
 ## 配置用户信息
 
 在进行 `commit` 操作前，需要配置用户信息，包括用户名和邮箱，仅用于标识提交者，可任意填写。
+
 ```bash
 git config --global user.name "Your Name"
 git config --global user.email "youremail@domain.com"
