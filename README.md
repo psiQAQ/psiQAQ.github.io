@@ -31,6 +31,7 @@
 - 📄[Docker：容器化部署实战](notes/operating-system/docker.md)
 - 📄[Hyper-V：Windows 虚拟化](notes/operating-system/Hyper-V.md)
 - 📄[PowerShell 7：Windows Agent 终端优化](notes/operating-system/powershell.md)
+- 📄[Git 远程仓库 SSH 配置](notes/operating-system/SSH-git.md)
 
 ## 智能体
 
@@ -39,6 +40,7 @@
 - 📄[Claude Code：终端编程智能体](notes/agents/claude-code/claude-code.md)
 - 📺[Claude Code 国内安装视频](https://www.bilibili.com/video/BV1AjGD6mEV4)
 - 🚀[Claude Code Windows 启动脚本](notes/agents/claude-code/cc.bat)
+- 🚀[Claude Code Windows 更新脚本](notes/agents/claude-code/update-claude-code.bat)
 - 🚀[Claude Code macOS 快捷启动脚本](notes/agents/claude-code/ccmac.sh)
 - 🚀[Claude Code Linux/WSL 启动脚本](notes/agents/claude-code/cclinux.sh)
 - 🧾[Claude Code 全局指令模板](notes/agents/claude-code/CLAUDE.md)
