@@ -114,12 +114,11 @@ reg delete HKCU\Environment /v NO_PROXY /f
 
 ## 全局指令
 
-`AGENTS.md` 是 Codex 读取的智能体指令文件，已根据 [OpenAI GPT-5.6 Sol 提示指南](https://developers.openai.com/api/docs/guides/prompt-guidance-gpt-5p6) 适配，采用精简、结果导向的写法。当前指令覆盖：
+`AGENTS.md` 是 Codex 读取的智能体指令文件。随附模板参考 [OpenAI GPT-6 Astra 模型指南](https://developers.openai.com/api/docs/guides/latest-model?model=gpt-6-astra)，采用精简、结果导向的写法，并明确多步骤任务的完成边界。当前指令覆盖：
 
-- 沟通规范（中文为主）与输出格式；
-- 任务执行框架：目标、成功标准、约束、验证、停止条件；
-- 编码原则：先思考后编码、简洁优先、精准修改、目标驱动；
-- 自主权与审批边界：区分可直接执行与需确认的操作；
+- 指令优先级、适用范围与冲突处理；
+- 中文沟通、任务推进、完成条件与适度验证；
+- 最小改动、根因修复与自主权、审批边界；
 - Python 环境与依赖管理；
 - Git 工作流与安全边界；
 - 工具选择与子 Agent 协作规范；
@@ -136,18 +135,20 @@ reg delete HKCU\Environment /v NO_PROXY /f
 
 ### 推荐指令文件参考
 
-[AGENTS.md](./AGENTS.md) — 已按 [GPT-5.6 Sol 提示指南](https://developers.openai.com/api/docs/guides/prompt-guidance-gpt-5p6) 精简优化，去掉重复规则和过度指令，仅保留结果导向的关键约束。Windows 用户可以直接使用，其中两条原生 Windows 规则分别处理 UTF-8 文件写入和 Unicode 路径排序；筛选过程和实验结果见[附录](#附录windows-全局指令的实验依据)。
+[AGENTS.md](./AGENTS.md) 是可直接复用的用户级模板。它依据 [GPT-6 Astra 模型指南](https://developers.openai.com/api/docs/guides/latest-model?model=gpt-6-astra) 对主动推进、指令冲突和验证范围的建议，去除重复的输出模板与过度流程约束；同时保留中文沟通、权限边界、Python/Git 工作流，以及 Windows 的编码和 Unicode 路径排序规则。Windows 规则的可复现实验依据见[附录](#附录windows-全局指令的实验依据)。
 
-先下载到本地并移动到 `%USERPROFILE%\.codex\AGENTS.md` 或 `~/.codex/AGENTS.md`，对所有项目生效，或使用以下参考命令：
+下载后复制到 `%USERPROFILE%\.codex\AGENTS.md` 或 `~/.codex/AGENTS.md`，即可对所有项目生效。以下命令会覆盖同名目标文件；已有个人定制时请先备份。
 
-```bash
-# Windows（Powershell）
+```powershell
+# Windows（PowerShell）
 New-Item -ItemType Directory -Force "$env:USERPROFILE\.codex" | Out-Null
 Copy-Item .\AGENTS.md "$env:USERPROFILE\.codex\AGENTS.md"
+```
 
+```bash
 # macOS / Linux / WSL
-mkdir ~/.codex
-mv AGENTS.md ~/.codex/AGENTS.md
+mkdir -p ~/.codex
+cp AGENTS.md ~/.codex/AGENTS.md
 ```
 
 也可以将 `AGENTS.md` 放在项目根目录中，让 Codex 针对当前项目加载专门规则。
@@ -254,7 +255,7 @@ Codex 在 Windows 原生环境中主要通过 PowerShell 处理文件和命令�
 - Windows PowerShell 5.1 的 `Set-Content`、`Out-File` 和重定向符可能改变 UTF-8 文件的 BOM 或换行格式。一次很小的文本修改因此可能变成整文件 diff，甚至导致解析或构建失败。
 - PowerShell 的 `Sort-Object` 默认使用当前系统区域设置。包含中文或其他 Unicode 字符的路径在不同电脑上可能得到不同顺序，使测试结果和生成文件不稳定。
 
-本页提供的 [AGENTS.md](./AGENTS.md) 只增加了两条对应规则：修改 UTF-8 无 BOM 文件时保留编码、BOM 和换行；路径列表按 Unicode code point 排序，不使用依赖系统区域设置的 `Sort-Object`。补丁保持很小，因为全局指令会影响之后的每个任务，多余规则带来的命令和重试也会被重复放大。
+随附 [AGENTS.md](./AGENTS.md) 保留了两条对应的 Windows 规则：修改 UTF-8 无 BOM 文件时保留编码、BOM 和换行；路径列表按 Unicode code point 排序，不使用依赖系统区域设置的 `Sort-Object`。本附录只说明这两条规则的实验依据；其余通用任务约束见模板正文。由于全局指令会影响之后的每个任务，多余规则带来的命令和重试也会被重复放大。
 
 ### 测试方法
 
