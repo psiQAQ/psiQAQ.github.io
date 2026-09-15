@@ -99,6 +99,7 @@
 
 - 📚[Claude Code 入门学习指南](https://coding.stormzhang.ai/)
 - 📚[Codex 入门学习指南](https://coding.stormzhang.ai/)
+- 📚[CodexGuide：OpenAI Codex 中文教程与实战指南](https://codexguide.ai/)
 - 📺[Codex APP 入门实战](https://www.bilibili.com/video/BV1Kk9kBAEJv)
 - 📺[Codex 科研效率实战](https://www.bilibili.com/video/BV1NwEb6gEy1)
 
