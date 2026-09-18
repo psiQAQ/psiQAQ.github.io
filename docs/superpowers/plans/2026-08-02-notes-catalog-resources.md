@@ -142,8 +142,8 @@ Extend the route test to include `/resources`. Add one focused test that verifie
 
 - the page has a `资源` heading;
 - an existing external catalog link is present with `target="_blank"` and `rel="noreferrer"`;
-- `cc.bat` and `codex-reset-remaining.py` are shown by filename;
-- their escaped source content is present in `<pre><code>`;
+- `cc.bat` is shown by filename;
+- its escaped source content is present in `<pre><code>`;
 - each source block has an accessible copy button;
 - guide images are not listed as resource cards;
 - `/search` still contains Markdown guides but not resource source text.

@@ -55,8 +55,11 @@
 ### Codex
 
 - 📄[Codex：OpenAI 编程智能体](notes/agents/codex/codex.md)
-- 🧾[Codex 全局指令模板](notes/agents/codex/AGENTS.md)
-- 🧾[Codex 周额度重置时间查询脚本](notes/agents/codex/codex-reset-remaining.py)
+
+### 通用全局指令
+
+- 📄[Agent 全局指令演进记录](notes/agents/prompt/Global-Agent-Instructions-revolution.md)
+- 🧾[Agent 通用全局指令模板](notes/agents/prompt/AGENTS.md)
 
 ## 智能体扩展
 

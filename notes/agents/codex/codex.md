@@ -114,30 +114,20 @@ reg delete HKCU\Environment /v NO_PROXY /f
 
 ## 全局指令
 
-`AGENTS.md` 是 Codex 读取的智能体指令文件。随附模板参考 [OpenAI GPT-6 Astra 模型指南](https://developers.openai.com/api/docs/guides/latest-model?model=gpt-6-astra)，采用精简、结果导向的写法，并明确多步骤任务的完成边界。当前指令覆盖：
+Codex 读取适用的 AGENTS.md，并按用户级、项目级和更具体的目录级规则组成加载链。用户级目录默认是 ~/.codex；设置 CODEX_HOME 时以该目录为准。当前共享模板与它的选择依据分别见：
 
-- 指令优先级、适用范围与冲突处理；
-- 中文沟通、任务推进、完成条件与适度验证；
-- 最小改动、根因修复与自主权、审批边界；
-- Python 环境与依赖管理；
-- Git 工作流与安全边界；
-- 工具选择与子 Agent 协作规范；
-- 文档编写与验证要求；
-- Windows `.bat` 脚本规则。
+- [共享全局指令模板](../prompt/AGENTS.md)
+- [全局指令演进记录](../prompt/Global-Agent-Instructions-revolution.md)
 
-通常有三类用法：
+常见安装位置如下：
 
 | 类型 | 推荐位置 | 作用 |
 | ------- | ---------------------------------------- | ----------- |
-| 用户级全局指令 | `%USERPROFILE%\.codex\AGENTS.md` | 对所有项目生效 |
-| 项目级指令 | 项目根目录下的 `AGENTS.md` | 只对当前项目生效 |
-| 子目录局部指令 | 子目录下的 `AGENTS.md` 或 `AGENTS.override.md` | 对特定模块或子项目生效 |
+| 用户级全局指令 | %USERPROFILE%\.codex\AGENTS.md（或 CODEX_HOME\AGENTS.md） | 对所有项目生效 |
+| 项目级指令 | 项目根目录下的 AGENTS.md | 只对当前项目生效 |
+| 子目录局部指令 | 子目录下的 AGENTS.md 或 AGENTS.override.md | 对特定模块或子项目生效 |
 
-### 推荐指令文件参考
-
-[AGENTS.md](./AGENTS.md) 是可直接复用的用户级模板。它依据 [GPT-6 Astra 模型指南](https://developers.openai.com/api/docs/guides/latest-model?model=gpt-6-astra) 对主动推进、指令冲突和验证范围的建议，去除重复的输出模板与过度流程约束；同时保留中文沟通、权限边界、Python/Git 工作流，以及 Windows 的编码和 Unicode 路径排序规则。Windows 规则的可复现实验依据见[附录](#附录windows-全局指令的实验依据)。
-
-下载后复制到 `%USERPROFILE%\.codex\AGENTS.md` 或 `~/.codex/AGENTS.md`，即可对所有项目生效。以下命令会覆盖同名目标文件；已有个人定制时请先备份。
+下载共享模板后，可以复制到用户级目录：
 
 ```powershell
 # Windows（PowerShell）
@@ -151,9 +141,9 @@ mkdir -p ~/.codex
 cp AGENTS.md ~/.codex/AGENTS.md
 ```
 
-也可以将 `AGENTS.md` 放在项目根目录中，让 Codex 针对当前项目加载专门规则。
+也可以将 AGENTS.md 放在项目根目录中，让 Codex 针对当前项目加载专门规则。复制完成后，在 Codex 中确认当前会话读取了哪些 AGENTS.md 文件；随后在目标目录执行一个简单任务，检查输出或文件变化是否符合这条规则。Codex 应用也支持用 /init 为当前项目生成 AGENTS.md 脚手架。[3]
 
-> 补充说明：OpenAI 帮助文档也提到可以在 Codex 应用中用 `/init` 为当前项目生成 `AGENTS.md` 脚手架。[3]
+Windows PowerShell A/B 实验、适用范围和保留规则见[全局指令演进记录](../prompt/Global-Agent-Instructions-revolution.md#windows-powershell-ab-实验)。
 
 ## 配置文件
 
@@ -216,73 +206,6 @@ Windows / macOS 下的 Codex 桌面版可配合手机端 ChatGPT App 使用远�
 - `config.toml` 中是否启用了 `remote_connections`。
 
 参考📺[2026 最新｜Codex 手机远程连接 + 代理配置保姆级教程][2]
-
-## 查询周额度重置次数
-
-查询 ChatGPT 套餐周额度重置次数和时间限制，通常需要代理访问 ChatGPT Web 后端接口，这里提供一个脚本供你参考：
-
-[codex-reset-remaining.py](./codex-reset-remaining.py)
-
-使用 python 执行脚本或者让 Codex 帮你执行并返回结果，结果格式如下：
-
-```text
-Codex 重置次数（北京时间）
-可用次数：4
-
-分类：Codex 速率限制重置（codex_rate_limits，4 个）
-1. 状态：可用
-   创建时间：2026-06-12 11:16:50 北京时间
-   到期时间：2026-07-12 11:16:50 北京时间
-2. 状态：可用
-   创建时间：2026-06-18 08:07:44 北京时间
-   到期时间：2026-07-18 08:07:44 北京时间
-3. 状态：可用
-   创建时间：2026-06-27 07:32:03 北京时间
-   到期时间：2026-07-27 07:32:03 北京时间
-4. 状态：可用
-   创建时间：2026-07-02 03:48:51 北京时间
-   到期时间：2026-08-01 03:48:51 北京时间
-```
-
-> 脚本原理：读取本地 Codex 登录态里的 ChatGPT access token，然后调用 ChatGPT 后端的“rate-limit reset credits”接口，最后把返回的重置次数和到期时间格式化输出为北京时间。它不是通过 Codex CLI 官方命令查询，而是直接访问 ChatGPT Web 后端接口。
-
-## 附录：Windows 全局指令的实验依据
-
-### 为什么需要补充规则
-
-Codex 在 Windows 原生环境中主要通过 PowerShell 处理文件和命令，其中有两个容易被忽略的平台差异：
-
-- Windows PowerShell 5.1 的 `Set-Content`、`Out-File` 和重定向符可能改变 UTF-8 文件的 BOM 或换行格式。一次很小的文本修改因此可能变成整文件 diff，甚至导致解析或构建失败。
-- PowerShell 的 `Sort-Object` 默认使用当前系统区域设置。包含中文或其他 Unicode 字符的路径在不同电脑上可能得到不同顺序，使测试结果和生成文件不稳定。
-
-随附 [AGENTS.md](./AGENTS.md) 保留了两条对应的 Windows 规则：修改 UTF-8 无 BOM 文件时保留编码、BOM 和换行；路径列表按 Unicode code point 排序，不使用依赖系统区域设置的 `Sort-Object`。本附录只说明这两条规则的实验依据；其余通用任务约束见模板正文。由于全局指令会影响之后的每个任务，多余规则带来的命令和重试也会被重复放大。
-
-### 测试方法
-
-[Codex Windows Efficiency Kit](https://github.com/psiQAQ/codex-windows-efficiency-kit) 将这些问题做成了可复现的 Windows 原生 A/B 测试，而不是根据一次对话或主观感受判断效果：
-
-1. baseline 与 candidate 使用同一个 Codex 可执行文件、模型、Windows sandbox、测试夹具、重复次数和超时设置；两组之间只改变候选全局指令。
-2. 12 个计分用例覆盖字面量搜索、Unicode 和空格路径、JSON、CSV、大日志、UTF-8 无 BOM 编辑、子目录执行、子进程、定点修改和 Markdown 解析。每个用例重复 3 次，因此两组各有 36 次计分执行。
-3. 结果由独立 validator 检查文件内容、字节格式和结构化输出，不采用 Codex 自己声称“已完成”作为通过依据。诊断指令是否加载的 T00 用例单独保留，不计入工作负载统计。
-4. 候选规则只有在正确率和平均分不下降，命令数、失败命令、重复重试和脆弱命令模式均不增加，并且命令数或脆弱模式至少一项下降时，才会得到 `candidate-supported` 推荐。
-
-实验固定使用 Codex CLI 0.142.5、`gpt-5.4`、Windows 原生 `unelevated` sandbox，每个用例超时 300 秒。最终结果如下：
-
-| 指标 | 默认配置 | 候选指令 | 变化 |
-| --- | ---: | ---: | ---: |
-| 正确率 | 83.33% | 100% | +16.67 个百分点 |
-| 平均得分 | 76.61 | 90.17 | +13.56 |
-| 中位耗时 | 78.224 秒 | 67.285 秒 | -10.939 秒 |
-| 工作负载命令 | 457 | 386 | -71 |
-| 失败命令 | 46 | 34 | -12 |
-
-### 结论与适用范围
-
-在这套固定环境中，两条规则把正确率从 83.33% 提高到 100%，同时减少了 71 条工作负载命令和 12 条失败命令，中位耗时缩短 10.939 秒。机器判定结果为 `candidate-supported`。
-
-测试也否定了“提示词越完整越好”的假设。早期的宽泛 Windows 指令改善了正确性，却增加了命令、失败和重复尝试，因此没有全部进入最终版本；严格筛选后只保留了 UTF-8 文件写入和路径排序两条规则。耗时容易受机器负载影响，所以该项目把正确性和命令质量作为主要门槛，把耗时放在次要位置。
-
-仓库公开了 evaluator 源码、测试用例、validator、单元测试和验证记录，其他开发者可以在自己的环境中复跑。原始事件、日志和环境信息因可能包含本地路径或隐私而没有发布，因此这些数据证明的是上述固定环境中的改进，不代表其他 Codex 版本、模型或 Windows 配置一定获得相同幅度的提升。
 
 [1]: https://developers.openai.com/codex/config-basic "Config basics – Codex | OpenAI Developers"
 [2]: https://developers.openai.com/codex/guides/agents-md "Custom instructions with AGENTS.md – Codex | OpenAI Developers"

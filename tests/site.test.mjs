@@ -251,15 +251,14 @@ test("publishes a categorized resource card index", async () => {
   assert.match(html, /class="resource-card resource-card-video"/);
   assert.match(html, /class="resource-card resource-card-launcher"/);
   assert.match(html, /<h4>Claude Code 全局指令模板<\/h4>/);
-  assert.match(html, /<h4>Codex 全局指令模板<\/h4>/);
+  assert.match(html, /<h4>Agent 通用全局指令模板<\/h4>/);
 
   const sourceLinks = [
     "/resources/agents/claude-code/cc.bat",
     "/resources/agents/claude-code/ccmac.sh",
     "/resources/agents/claude-code/cclinux.sh",
     "/resources/agents/claude-code/CLAUDE.md",
-    "/resources/agents/codex/AGENTS.md",
-    "/resources/agents/codex/codex-reset-remaining.py",
+    "/resources/agents/prompt/AGENTS.md",
   ];
   for (const href of sourceLinks) assert.match(html, new RegExp(`href="${href}"`));
   for (let index = 1; index < sourceLinks.length - 1; index += 1) {
@@ -291,6 +290,18 @@ test("serves source detail pages and renders learning Markdown", async () => {
     assert.match(html, new RegExp(`<h1>${title.replace(".", "\\.")}<\\/h1>`));
     assert.match(html, new RegExp(sourceLiteral));
     assert.match(html, new RegExp(`aria-label="复制 ${filename.replace(".", "\\.")} 源码"`));
+  }
+
+  for (const [filename, title, sourceLiteral] of [
+    ["AGENTS.md", "Agent 通用全局指令模板", "# Global Agent Instructions"],
+  ]) {
+    const response = await render(`/resources/agents/prompt/${filename}`);
+    const html = await response.text();
+
+    assert.equal(response.status, 200, filename);
+    assert.match(html, new RegExp("<h1>" + title.replace(".", "\\.") + "<\\/h1>"));
+    assert.match(html, new RegExp(sourceLiteral));
+    assert.match(html, new RegExp("aria-label=\"复制 " + filename.replace(".", "\\.") + " 源码\""));
   }
 
   for (const [filename, title, sourceLiteral] of [
@@ -384,6 +395,9 @@ test("renders Markdown structure and repository images", async () => {
   const claudeCode = await (
     await render("/guides/agents/claude-code/claude-code")
   ).text();
+  const revolution = await (
+    await render("/guides/agents/prompt/Global-Agent-Instructions-revolution")
+  ).text();
   const zotero = await (await render("/guides/others/zotero")).text();
   const context7 = await (
     await render("/guides/agents/MCP/context7")
@@ -409,6 +423,8 @@ test("renders Markdown structure and repository images", async () => {
     /href="\/resources\/agents\/claude-code\/cc\.bat"/,
   );
   assert.match(claudeCode, /href="\/resources\/agents\/claude-code\/CLAUDE\.md"/);
+  assert.match(revolution, /<h1[^>]*>Global-Agent-Instructions-revolution<\/h1>/);
+  assert.match(revolution, /href="\/resources\/agents\/prompt\/AGENTS\.md"/);
   assert.match(git, /href="\/resources\/others\/git-pr-contributor-tutorial\.md"/);
   assert.match(git, /href="\/assets\/git-pr-flowchart-[^"]+\.html"/);
   assert.doesNotMatch(claudeCode, /github\.com\/psiQAQ\/psiQAQ\.github\.io\/blob\/main\/notes\/agents\/claude-code/);

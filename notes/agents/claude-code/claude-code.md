@@ -222,13 +222,21 @@ cc
 
 ## 全局指令
 
-CLAUDE.md 是 Claude Code 读取的项目/用户级指令文件，作用是告诉编码智能体“项目怎么构建、测试、改代码、遵守哪些规范”；通常放在项目根目录，必要时也可放在子目录做局部规则，用户全局规则则分别放在对应工具支持的用户配置目录中。
+Claude Code 的平台规则、共享模板和演进依据分开维护：
 
-本人使用指令文件参考：
+- [共享全局指令模板](../prompt/AGENTS.md)
+- [全局指令演进记录](../prompt/Global-Agent-Instructions-revolution.md)
+- [Claude Code 专用模板](./CLAUDE.md)
 
-[CLAUDE.md](./CLAUDE.md)
+使用者可以按任务选择三种方式：
 
-可以下载后放到 `%USERPROFILE%/.claude` 下或者项目根目录的 `.claude` 文件夹下。
+1. 只使用共享 AGENTS.md，适合跨 Codex、Claude Code 和其他支持该文件名的工具共用规则。
+2. 只使用 Claude 专用 CLAUDE.md，适合需要 Claude Code 特有约定的场景。
+3. 在同一目录的 CLAUDE.md 中加入下面一行，再追加 Claude 专用规则：
+
+    @AGENTS.md
+
+Claude Code 常见用户级文件位于 %USERPROFILE%/.claude/CLAUDE.md，项目级文件位于项目中的 CLAUDE.md 或 .claude/CLAUDE.md。它不会仅因文件名是 AGENTS.md 就自动读取共享规则；导入路径相对于包含它的 CLAUDE.md。更多加载范围和导入限制见 [Claude Code Memory 官方说明](https://code.claude.com/docs/en/memory)。
 
 ## 常见问题
 
