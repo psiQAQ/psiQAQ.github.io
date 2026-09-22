@@ -175,6 +175,7 @@ js_repl = false
 memories = true
 remote_connections = true
 network_proxy = true
+default_mode_request_user_input = true
 ```
 
 其中：
@@ -184,7 +185,10 @@ network_proxy = true
 | `js_repl` | 是否启用 JavaScript REPL |
 | `memories` | 是否启用记忆相关能力 |
 | `remote_connections` | 是否启用远程连接能力 |
+| `default_mode_request_user_input` | 是否允许非 Plan（Default）模式使用 `request_user_input` 提供结构化选项 |
 | `network_proxy` | 是否启用网络代理相关能力 |
+
+在非 Plan（Default）模式下，`default_mode_request_user_input = true` 允许 Codex 在需要用户作出实质选择时通过 `request_user_input` 提供结构化选项。具体何时提问、如何组织选项，遵循 [`AGENTS.md` 的 User Interaction 部分](../prompt/AGENTS.md#user-interaction)；能够根据现有信息或低风险默认值继续时，不应仅为提供选项而提问。
 
 ## 手机远程连接
 
