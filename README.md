@@ -66,6 +66,8 @@
 ### Skills
 
 - 📄[Skills：智能体能力扩展](notes/agents/skills/skills.md)
+- 📄[Agent 文档生命周期规划](notes/agents/skills/agent-document-lifecycle-planning.md)
+- 📄[Agent 开发工作流与决策流](notes/agents/skills/agent-development-workflows-and-decisions.md)
 - 📄[PPT 制作相关 Skills](notes/agents/skills/pptx-related-skills.md)
 
 ### MCP
