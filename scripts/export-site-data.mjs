@@ -1,4 +1,4 @@
-import { mkdir, readFile, readdir, writeFile } from "node:fs/promises";
+import { copyFile, mkdir, readFile, readdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { catalogEntries, resourceCategoryLabel } from "../lib/catalog.mjs";
 import { plainSearchText } from "../lib/search-content.mjs";
@@ -42,4 +42,21 @@ for (const [route, target] of aliases) {
   await mkdir(path.dirname(`dist/client${route}.html`), { recursive: true });
   await writeFile(`dist/client${route}.html`, `<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>文档已迁移</title><link rel="canonical" href="${target}"><script>location.replace(${JSON.stringify(target)}+location.search+location.hash)</script></head><body><h1>文档已迁移</h1><p>请访问<a href="${target}">当前文档地址</a>。</p></body></html>`);
 }
-console.log(`[site-data] Exported ${index.length} search entries and ${aliases.length} compatibility pages.`);
+async function pageFiles(directory) {
+  const files = [];
+  for (const entry of await readdir(directory, { withFileTypes: true })) {
+    const file = path.join(directory, entry.name);
+    if (entry.isDirectory() && entry.name !== "assets" && !entry.name.startsWith(".")) files.push(...await pageFiles(file));
+    else if (entry.isFile() && entry.name.endsWith(".html") && !["index.html", "404.html"].includes(entry.name)) files.push(file);
+  }
+  return files;
+}
+// GitHub Pages resolves a trailing slash through a directory index. Keep the
+// flat HTML and RSC files as well, for existing URLs and client navigation.
+const pages = await pageFiles("dist/client");
+for (const file of pages) {
+  const directory = file.slice(0, -5);
+  await mkdir(directory, { recursive: true });
+  await copyFile(file, path.join(directory, "index.html"));
+}
+console.log(`[site-data] Exported ${index.length} search entries, ${aliases.length} compatibility pages and ${pages.length} directory indexes.`);

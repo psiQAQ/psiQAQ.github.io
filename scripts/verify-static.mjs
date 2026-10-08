@@ -38,6 +38,10 @@ const mainPages = ["/", "/library", "/resources", "/search", "/404"];
 const routes = [...mainPages, ...Object.keys(baseline.pages), "/resources/agents/claude-code/cc.bat", "/resources/agents/claude-code/update-claude-code.bat", "/resources/agents/claude-code/ccmac.sh", "/resources/agents/claude-code/cclinux.sh", "/guides/others/zotero", "/guides/others/blender", "/guides/models/models-dev"];
 const pages = new Map();
 for (const route of routes) pages.set(route, await readFile(`dist/client${route === "/" ? "/index" : route}.html`, "utf8"));
+for (const [route, html] of pages) {
+  if (route === "/" || route === "/404") continue;
+  assert.equal(await readFile(`dist/client${route}/index.html`, "utf8"), html, `GitHub Pages directory index: ${route}/`);
+}
 for (const [route, fragments] of Object.entries(baseline.interfaceText)) {
   const html = pages.get(route === "shared" ? "/" : route);
   const text = decode(html.replace(/<script\b[^>]*>[\s\S]*?<\/script>/g, "").replace(/<[^>]+>/g, " ")).replace(/\s+/g, " ");

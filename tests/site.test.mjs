@@ -79,6 +79,16 @@ test("exports the site for the psiQAQ GitHub Pages root", async () => {
   assert.doesNotMatch(home, /chatgpt\.site/);
 });
 
+test("publishes directory entries for trailing-slash URLs on GitHub Pages", async () => {
+  for (const route of ["resources", "library", "guides/agents/MCP/blender", "guides/agents/claude-code/tutorial/常用命令", "resources/models/models-dev.md", "resources/agents/prompt/AGENTS.md", "guides/models/models-dev"]) {
+    const direct = await readFile(new URL(`../dist/client/${route}.html`, import.meta.url));
+    const directory = await readFile(new URL(`../dist/client/${route}/index.html`, import.meta.url));
+    assert.deepEqual(directory, direct, `${route}/ must serve the complete page without a preview-server rewrite`);
+  }
+  const alias = await readFile(new URL("../dist/client/guides/models/models-dev/index.html", import.meta.url), "utf8");
+  assert.match(alias, /location\.search\+location\.hash/);
+});
+
 test("defines the GitHub Pages build and deployment workflow", async () => {
   const workflow = await readFile(
     new URL("../.github/workflows/pages.yml", import.meta.url),
