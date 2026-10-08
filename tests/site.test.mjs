@@ -31,17 +31,15 @@ function catalogBlock(readme) {
   return match[1];
 }
 
-test("renders the beginner home page without starter metadata", async () => {
+test("opens the knowledge base at the site root", async () => {
   const response = await render("/");
   const html = await response.text();
-
   assert.equal(response.status, 200);
-  assert.match(html, /完成第一篇结构化文献笔记/);
-  assert.match(html, /<a href="\/start" class="button primary">新手路径<\/a>/);
-  assert.match(html, /<a href="\/library" class="button secondary">知识库<\/a>/);
-  assert.match(html, /<title>科研 Agent 新手知识站/);
+  assert.match(html, /<h1>知识库<\/h1>/);
+  assert.match(html, /<title>知识库/);
+  assert.match(html, /href="\/guides\/agents\/codex\/codex"/);
   assert.match(html, /property="og:image" content="https:\/\/psiqaq\.github\.io\/og\.png"/);
-  assert.doesNotMatch(html, /codex-preview|Your site is taking shape/);
+  assert.doesNotMatch(html, /新手路径|结构化文献笔记|科研 Agent 新手知识站|codex-preview|Your site is taking shape/);
 });
 
 test("exports the site for the psiQAQ GitHub Pages root", async () => {
@@ -108,120 +106,96 @@ test("uses a documentation-first global shell", async () => {
   const home = await (await render("/")).text();
   const guide = await (await render("/guides/agents/MCP/zotero")).text();
   const guideSource = await readFile(
-    new URL("../app/guides/[...slug]/page.tsx", import.meta.url),
+    new URL("../components/document-shell.tsx", import.meta.url),
     "utf8",
   );
 
-  assert.match(home, /href="\/search#site-search"/);
-  assert.match(home, /href="\/resources">资源<\/a>/);
-  assert.match(home, /aria-label="搜索文档"/);
+  assert.match(home, /href="\/search"/);
+  assert.match(home, /href="\/resources">资源导航<\/a>/);
+  assert.match(home, /搜索文档与资源/);
   assert.match(guide, /aria-label="文档导航"/);
   assert.match(guide, /href="\/guides\/agents\/codex\/codex"/);
   assert.match(
     guide,
     /<a(?=[^>]*aria-current="page")(?=[^>]*href="\/guides\/agents\/MCP\/zotero")[^>]*>/,
   );
-  assert.match(guide, /浏览文档与本页目录/);
+  assert.match(guide, /浏览全站文档/);
   assert.match(
     guideSource,
-    /headings\.length > 0 && \(\s*<aside className="guide-toc"/,
+    /headings\.length > 0 && <aside className="guide-toc"/,
   );
 });
 
-test("presents the knowledge base as a focused documentation product", async () => {
-  const home = await (await render("/")).text();
+test("presents the knowledge base and independent search page", async () => {
   const library = await (await render("/library")).text();
   const search = await (await render("/search")).text();
-
-  assert.match(home, /篇公开指南/);
-  assert.match(home, /个主题/);
-  assert.match(library, /<h3>Claude Code<\/h3>/);
-  assert.doesNotMatch(library, /Claude Code 全局指令模板/);
-  assert.doesNotMatch(library, /Codex 全局指令模板/);
+  assert.match(library, /篇公开指南/);
+  assert.match(library, /<h3>3\.1 Claude Code<\/h3>/);
+  assert.doesNotMatch(library, /library-index/);
+  assert.doesNotMatch(library, /Claude Code 全局指令模板|Codex 全局指令模板/);
   assert.match(search, /<input(?=[^>]*id="site-search")(?=[^>]*autofocus)[^>]*>/);
 });
 
-test("keeps the homepage focused on three primary destinations", async () => {
-  const html = await (await render("/")).text();
-  const heroActions = html.match(/<div class="hero-actions">([\s\S]*?)<\/div>/)?.[1];
-  const topicNav = html.match(/<nav aria-label="全部主题">([\s\S]*?)<\/nav>/)?.[1];
-  assert.ok(heroActions, "homepage must expose its primary destinations");
-  assert.ok(topicNav, "homepage must expose the complete topic navigation");
-
-  for (const [href, label] of [
-    ["/start", "新手路径"],
-    ["/library", "知识库"],
-    ["/resources", "资源"],
-  ]) {
-    assert.match(heroActions, new RegExp(`href="${href}"[^>]*>${label}<`));
+test("uses two site destinations and keeps search in the header", async () => {
+  for (const route of ["/", "/library", "/resources", "/guides/agents/codex/codex"]) {
+    const html = await (await render(route)).text();
+    const destinations = [...html.matchAll(/<div class="site-destinations">([\s\S]*?)<\/div>/g)];
+    assert.equal(destinations.length, 2, route);
+    for (const [, navigation] of destinations) {
+      const links = [...navigation.matchAll(/href="([^"]+)"[^>]*>([^<]+)</g)].map(match => [match[1], match[2]]);
+      assert.deepEqual(links, [["/library", "知识库"], ["/resources", "资源导航"]], route);
+    }
+    assert.match(html, /id="global-search"/);
   }
-
-  const topics = [
-    "基础环境",
-    "系统与运行环境",
-    "智能体",
-    "智能体扩展",
-    "大模型选型与排行榜",
-  ];
-  for (const topic of topics) {
-    assert.match(topicNav, new RegExp(`href="/library#${encodeURIComponent(topic)}"`));
-  }
-  for (let index = 1; index < topics.length; index += 1) {
-    assert.ok(topicNav.indexOf(topics[index - 1]) < topicNav.indexOf(topics[index]));
-  }
-
-  assert.doesNotMatch(
-    html,
-    /knowledge-overview-header|浏览全部主题|从安装到第一篇笔记|step-grid|精选指南|新手最常用的四个入口|<p class="eyebrow">完整知识库<\/p>|篇公开指南，按需查阅/,
-  );
+  const root = await (await render("/")).text();
+  const library = await (await render("/library")).text();
+  assert.equal(root.match(/<div class="library-sections">[\s\S]*?<\/main>/)?.[0], library.match(/<div class="library-sections">[\s\S]*?<\/main>/)?.[0]);
+  assert.doesNotMatch(root, /home-destinations|library-index|href="\/start"/);
 });
 
-test("ships the documentation visual system", async () => {
+test("ships accessible document layouts and both color themes", async () => {
   const css = await readFile(new URL("../app/globals.css", import.meta.url), "utf8");
-
-  for (const selector of [
-    ".global-search",
-    ".docs-navigation",
-    ".mobile-docs-nav",
-    ".knowledge-overview",
-  ]) {
-    assert.match(css, new RegExp(selector.replace(".", "\\.")));
+  for (const selector of [".document-shell", ".document-sidebar", ".docs-navigation", ".mobile-docs-nav", ".search-popover", ".guide-toc"]) {
+    assert.ok(css.includes(selector), selector);
   }
-  assert.match(css, /--surface-raised:/);
-  assert.match(css, /\.resource-card-video\s*\{[^}]*background:\s*#fff8f8;/s);
-  assert.match(css, /\.resource-card \.resource-type\s*\{[^}]*font-size:\s*1\.4rem;/s);
-  for (const selector of [
-    ".global-search kbd",
-    ".docs-navigation-group > p",
-    ".guide-toc > p",
-  ]) {
-    const pattern = `${selector.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\s*\\{[^}]*color:\\s*var\\(--muted\\);`;
-    assert.match(css, new RegExp(pattern, "s"));
-  }
+  assert.match(css, /html\[data-theme="dark"\]/);
+  assert.match(css, /prefers-color-scheme: dark/);
+  assert.match(css, /:focus-visible/);
+  assert.match(css, /overflow-x: auto/);
+  assert.doesNotMatch(css, /body\s*\{[^}]*overflow-x:\s*hidden/s);
 });
 
 test("serves the main knowledge routes", async () => {
-  for (const pathname of ["/start", "/library", "/resources", "/search"]) {
+  for (const pathname of ["/library", "/resources", "/search"]) {
     const response = await render(pathname);
     assert.equal(response.status, 200, pathname);
   }
 });
 
-test("publishes a categorized resource card index", async () => {
+test("publishes a categorized resource navigation index", async () => {
   const response = await render("/resources");
   const html = await response.text();
   const search = await (await render("/search")).text();
 
   assert.equal(response.status, 200);
-  assert.match(html, /<h1>资源<\/h1>/);
+  assert.match(html, /<h1>资源导航<\/h1>/);
   assert.match(
     html,
     /<a(?=[^>]*href="https:\/\/artificialanalysis\.ai\/")(?=[^>]*target="_blank")(?=[^>]*rel="noreferrer")[^>]*>/,
   );
-  assert.match(html, /<h2>智能体<\/h2>/);
-  assert.match(html, /<h3>Claude Code<\/h3>/);
-  assert.match(html, /<h2>大模型选型与排行榜<\/h2>/);
-  assert.match(html, /<h2>资源<\/h2>/);
+  assert.match(html, /<h2>1\. Agent 安装与配置<\/h2>/);
+  assert.match(html, /<h3>1\.1 Claude Code<\/h3>/);
+  assert.match(html, /<h3>1\.2 通用全局指令<\/h3>/);
+  assert.deepEqual([...html.matchAll(/<h2>([^<]+)<\/h2>/g)].map(match => match[1]), ["1. Agent 安装与配置", "2. Agent 学习资料", "3. LLM 参数汇总", "4. LLM 评测排行榜", "5. 开发与模型工具", "6. AI 新闻", "7. AI 行业观察"]);
+  const parameters = html.match(/<section id="LLM 参数汇总">([\s\S]*?)<\/section>/)?.[1];
+  const rankings = html.match(/<section id="LLM 评测排行榜">([\s\S]*?)<\/section>/)?.[1];
+  assert.ok(parameters && rankings);
+  assert.match(parameters, /Models\.dev/);
+  assert.doesNotMatch(parameters, /Artificial Analysis|Arena AI/);
+  assert.match(rankings, /Artificial Analysis/);
+  assert.match(rankings, /Arena AI/);
+  assert.doesNotMatch(rankings, /Models\.dev/);
+  for (const id of ["资源", "大模型选型与排行榜", "资源--Agent 入门与实践", "资源--Agent 原理与优化", "资源--MCP 市场", "资源--开发与模型工具", "资源--AI 新闻", "资源--AI 行业观察"]) assert.ok(html.includes(`id="${id}"`), `Compatible anchor: ${id}`);
   assert.match(
     html,
     /汇集 Agent 学习资料、实用脚本、开发工具、大模型评测、AI 新闻与行业观察。/,
@@ -231,13 +205,10 @@ test("publishes a categorized resource card index", async () => {
     "Agent 入门与实践",
     "Agent 原理与优化",
     "MCP 市场",
-    "开发与模型工具",
-    "AI 新闻",
-    "AI 行业观察",
   ];
-  for (const group of resourceGroups) assert.match(html, new RegExp(`<h3>${group}</h3>`));
+  for (const [index, group] of resourceGroups.entries()) assert.match(html, new RegExp(`<h3>2\\.${index + 1} ${group}</h3>`));
   for (let index = 1; index < resourceGroups.length; index += 1) {
-    assert.ok(html.indexOf(`<h3>${resourceGroups[index - 1]}</h3>`) < html.indexOf(`<h3>${resourceGroups[index]}</h3>`));
+    assert.ok(html.indexOf(`<h3>2.${index} ${resourceGroups[index - 1]}</h3>`) < html.indexOf(`<h3>2.${index + 1} ${resourceGroups[index]}</h3>`));
   }
   assert.doesNotMatch(html, /外部 Agent 学习指南|bilibili：技术爬爬虾|bilibili：张司机在路上/);
   assert.match(
@@ -357,18 +328,59 @@ test("organizes public notes under one catalog", async () => {
   );
 });
 
-test("presents the complete five-step path", async () => {
-  const html = await (await render("/start")).text();
-
-  for (const text of [
-    "准备必要环境",
-    "选择 Agent",
-    "添加科研 Skills",
-    "配置 Zotero",
-    "完成首次任务",
-  ]) {
-    assert.match(html, new RegExp(text));
+test("resource pages use their own category and group navigation", async () => {
+  for (const route of ["/resources", "/resources/agents/prompt/AGENTS.md"]) {
+    const html = await (await render(route)).text();
+    const sidebar = html.match(/<aside class="document-sidebar">([\s\S]*?)<\/aside>/)?.[1];
+    assert.ok(sidebar);
+    assert.match(sidebar, /aria-label="资源分类导航"/);
+    for (const label of ["Agent 安装与配置", "Agent 学习资料", "LLM 参数汇总", "LLM 评测排行榜", "开发与模型工具", "MCP 市场", "AI 新闻", "AI 行业观察"]) assert.ok(sidebar.includes(label), label);
+    assert.doesNotMatch(sidebar, /基础环境|系统与运行环境|href="\/guides\/|新手路径/);
+    assert.match(html, /浏览资源分类/);
+    assert.match(sidebar, new RegExp('href="/resources#' + encodeURIComponent("Agent 学习资料--MCP 市场") + '"'));
   }
+  const resource = await (await render("/resources/agents/prompt/AGENTS.md")).text();
+  assert.match(resource, /href="\/resources#[^"]+" aria-current="location"/);
+});
+
+test("knowledge indexes use numbered category and group links to their sections", async () => {
+  for (const route of ["/", "/library"]) {
+    const html = await (await render(route)).text();
+    const sidebar = html.match(/<aside class="document-sidebar">([\s\S]*?)<\/aside>/)?.[1];
+    assert.ok(sidebar);
+    assert.match(sidebar, /aria-label="知识库分类导航"/);
+    assert.match(html, /浏览知识库分类/);
+    assert.doesNotMatch(sidebar, /<details|href="\/guides\//);
+    const navigation = [...sidebar.matchAll(/class="navigation-(?:category|group)-link" href="([^"]+)"[^>]*>([^<]+)</g)];
+    const headings = [...html.matchAll(/<h[23]>([^<]+)<\/h[23]>/g)].map(match => match[1]);
+    assert.deepEqual(navigation.map(match => match[2]), headings);
+    assert.deepEqual(headings, ["1. 基础环境", "2. 系统与运行环境", "3. 智能体", "3.1 Claude Code", "3.2 Codex", "3.3 通用全局指令", "4. 智能体扩展", "4.1 Skills", "4.2 MCP", "4.3 周边工具与扩展", "4.4 代码读取与生成"]);
+    for (const [, href] of navigation) {
+      assert.ok(href.startsWith("/library#"));
+      const id = decodeURIComponent(href.split("#")[1]);
+      assert.ok(html.includes(`id="${id}"`), `${route}: ${href}`);
+    }
+  }
+});
+
+test("Models.dev appears in resources with its complete article and old static entry", async () => {
+  const library = await (await render("/library")).text();
+  assert.doesNotMatch(library, /Models\.dev|大模型选型与排行榜/);
+  const resources = await (await render("/resources")).text();
+  assert.match(resources, /href="\/resources\/models\/models-dev\.md"/);
+  const article = await (await render("/resources/models/models-dev.md")).text();
+  assert.match(article, /<article class="article-content">/);
+  assert.match(article, /LLM 参数汇总/);
+  assert.doesNotMatch(article, /source-resource|复制源码/);
+  const alias = await readFile("dist/client/guides/models/models-dev.html", "utf8");
+  assert.match(alias, /\/resources\/models\/models-dev\.md/);
+  assert.match(alias, /location\.search\+location\.hash/);
+});
+
+test("removes the beginner route and navigation", async () => {
+  assert.equal((await render("/start")).status, 404);
+  await assert.rejects(access("dist/client/start.html"), { code: "ENOENT" });
+  for (const route of ["/", "/library", "/resources", "/search"]) assert.doesNotMatch(await (await render(route)).text(), /href="\/start"|新手路径/);
 });
 
 test("renders every Markdown guide published by README", async () => {
@@ -540,7 +552,7 @@ test("includes published guides in local search data", async () => {
 
   assert.match(html, /Zotero：文献管理/);
   assert.match(html, /Codex：OpenAI 编程智能体/);
-  assert.match(html, /搜索全部公开指南/);
+  assert.match(html, /搜索公开指南与资源/);
 });
 
 test("offers recovery for unknown routes", async () => {

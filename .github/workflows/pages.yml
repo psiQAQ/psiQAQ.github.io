@@ -31,8 +31,12 @@ jobs:
         run: npm ci
       - name: Build static site
         run: npm run build
-      - name: Verify static entry point
-        run: test -f dist/client/index.html
+      - name: Lint site
+        run: npm run lint
+      - name: Check site types
+        run: npm run typecheck:site
+      - name: Verify built site and preserved content
+        run: npm run test:built
       - name: Upload GitHub Pages artifact
         uses: actions/upload-pages-artifact@v4
         with:

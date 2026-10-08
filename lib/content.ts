@@ -1,4 +1,6 @@
 import readme from "../README.md?raw";
+import { catalogEntries } from "./catalog.mjs";
+import { plainSearchText } from "./search-content.mjs";
 
 export type DocumentRecord = {
   sourcePath: string;
@@ -47,18 +49,6 @@ type CatalogEntry = {
   target: string;
 };
 
-const catalogTypes: Record<string, { type: CatalogType; label: string }> = {
-  "📄": { type: "document", label: "文档" },
-  "📺": { type: "video", label: "视频" },
-  "🚀": { type: "launcher", label: "启动工具" },
-  "🧾": { type: "template", label: "源码与模板" },
-  "📊": { type: "analysis", label: "数据分析" },
-  "⚔️": { type: "ranking", label: "排行榜" },
-  "📰": { type: "news", label: "新闻" },
-  "📚": { type: "learning", label: "学习资料" },
-  "🌐": { type: "website", label: "网站" },
-};
-
 const markdownModules = import.meta.glob("../notes/**/*.md", {
   eager: true,
   import: "default",
@@ -100,58 +90,6 @@ function decodePath(path: string): string {
   }
 }
 
-function catalogEntries(markdown: string): CatalogEntry[] {
-  const block = markdown.match(
-    /<!-- site-catalog:start -->([\s\S]*?)<!-- site-catalog:end -->/,
-  )?.[1];
-  if (!block) throw new Error("README is missing the public catalog markers");
-
-  const entries: CatalogEntry[] = [];
-  let category = "";
-  let group = "";
-
-  for (const line of block.split(/\r?\n/)) {
-    const categoryMatch = line.match(/^##\s+(.+?)\s*$/);
-    if (categoryMatch) {
-      category = categoryMatch[1];
-      group = category;
-      continue;
-    }
-
-    const groupMatch = line.match(/^###\s+(.+?)\s*$/);
-    if (groupMatch) {
-      group = groupMatch[1];
-      continue;
-    }
-
-    const linkMatch = line.match(/^\s*-\s+(\S+)\[([^\]]+)]\(([^)]+)\)\s*$/);
-    if (!linkMatch) {
-      if (/^\s*-\s+.*\[[^\]]+]\([^)]+\)/.test(line)) {
-        throw new Error(`README catalog entry must use a supported icon: ${line.trim()}`);
-      }
-      continue;
-    }
-    if (!category) throw new Error("README catalog entry has no category");
-
-    const catalogType = catalogTypes[linkMatch[1]];
-    if (!catalogType) {
-      throw new Error(`README catalog entry uses unknown icon: ${linkMatch[1]}`);
-    }
-
-    entries.push({
-      category,
-      group: group || category,
-      icon: linkMatch[1],
-      type: catalogType.type,
-      typeLabel: catalogType.label,
-      label: linkMatch[2].trim(),
-      target: linkMatch[3].trim(),
-    });
-  }
-
-  return entries;
-}
-
 function localCatalogPath(target: string): string {
   const path = decodePath(target.split(/[?#]/, 1)[0])
     .replace(/^\.\//, "")
@@ -160,17 +98,6 @@ function localCatalogPath(target: string): string {
     throw new Error(`README local target must stay under notes/: ${target}`);
   }
   return path;
-}
-
-function plainText(markdown: string): string {
-  return markdown
-    .replace(/```[\s\S]*?```/g, " ")
-    .replace(/`([^`]+)`/g, "$1")
-    .replace(/!\[[^\]]*\]\([^)]*\)/g, " ")
-    .replace(/\[([^\]]+)\]\([^)]*\)/g, "$1")
-    .replace(/[#>*_|~-]+/g, " ")
-    .replace(/\s+/g, " ")
-    .trim();
 }
 
 const markdownByPath = new Map(
@@ -195,7 +122,7 @@ const fileByPath = new Map(
   Object.entries(fileModules).map(([path, url]) => [normalizeModulePath(path), url]),
 );
 
-const catalog = catalogEntries(readme);
+const catalog = catalogEntries(readme) as CatalogEntry[];
 for (const entry of catalog) {
   if (!/^https?:\/\//i.test(entry.target)) localCatalogPath(entry.target);
   if (entry.type === "document") {
@@ -227,12 +154,12 @@ export const documents: DocumentRecord[] = catalog.flatMap((entry) => {
       category: entry.category,
       group: entry.group,
       markdown,
-      searchText: plainText(markdown),
+      searchText: plainSearchText(markdown),
     },
   ];
 });
 
-export const resources: ResourceRecord[] = catalog.flatMap((entry) => {
+export const resources: ResourceRecord[] = catalog.flatMap<ResourceRecord>((entry) => {
   if (entry.type === "document") return [];
 
   if (/^https?:\/\//i.test(entry.target)) {

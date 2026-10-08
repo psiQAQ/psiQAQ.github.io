@@ -1,4 +1,5 @@
 import { Marked, Renderer } from "marked";
+import { cleanHeadingText, headingId, type DocumentHeading } from "./headings";
 import {
   assetUrlFor,
   findDocumentByPath,
@@ -22,37 +23,7 @@ function splitSuffix(href: string): [string, string] {
   return index < 0 ? [href, ""] : [href.slice(0, index), href.slice(index)];
 }
 
-function cleanHeadingText(text: string): string {
-  return text
-    .replace(/<[^>]+>/g, "")
-    .replace(/[`*_~\[\]]/g, "")
-    .trim();
-}
-
-function headingId(text: string, counts: Map<string, number>): string {
-  const base = cleanHeadingText(text)
-    .toLowerCase()
-    .replace(/[^\p{L}\p{N}\s-]/gu, "")
-    .replace(/\s+/g, "-")
-    .replace(/-+/g, "-") || "section";
-  const count = counts.get(base) ?? 0;
-  counts.set(base, count + 1);
-  return count ? `${base}-${count + 1}` : base;
-}
-
-export type DocumentHeading = {
-  depth: number;
-  id: string;
-  text: string;
-};
-
-export function extractHeadings(markdown: string): DocumentHeading[] {
-  const counts = new Map<string, number>();
-  return [...markdown.matchAll(/^(#{2,3})\s+(.+)$/gm)].map((match) => {
-    const text = cleanHeadingText(match[2]);
-    return { depth: match[1].length, id: headingId(text, counts), text };
-  });
-}
+export type { DocumentHeading } from "./headings";
 
 function rewriteLink(document: DocumentRecord, href: string): string {
   if (/^(?:[a-z]+:|#|\/)/i.test(href)) return href;
@@ -75,9 +46,10 @@ function rewriteLink(document: DocumentRecord, href: string): string {
   );
 }
 
-export function renderMarkdown(document: DocumentRecord): string {
+export function parseMarkdown(document: DocumentRecord): { html: string; headings: DocumentHeading[] } {
   const marked = new Marked({ gfm: true });
   const headingCounts = new Map<string, number>();
+  const headings: DocumentHeading[] = [];
 
   marked.use({
     renderer: {
@@ -86,6 +58,9 @@ export function renderMarkdown(document: DocumentRecord): string {
       },
       heading(token) {
         const id = headingId(token.text, headingCounts);
+        if (token.depth === 2 || token.depth === 3) {
+          headings.push({ depth: token.depth, id, text: cleanHeadingText(token.text) });
+        }
         return `<h${token.depth} id="${escapeAttribute(id)}">${this.parser.parseInline(token.tokens)}</h${token.depth}>`;
       },
       link(token) {
@@ -113,5 +88,10 @@ export function renderMarkdown(document: DocumentRecord): string {
     },
   });
 
-  return marked.parse(document.markdown, { async: false }) as string;
+  const html = marked.parse(document.markdown, { async: false }) as string;
+  return { html, headings };
+}
+
+export function renderMarkdown(document: DocumentRecord): string {
+  return parseMarkdown(document).html;
 }

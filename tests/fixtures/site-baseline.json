@@ -1,0 +1,1614 @@
+{
+  "commit": "5d0c234ea6955db2369b59eeaca17995357d6e01",
+  "files": {
+    "notes/agents/MCP/Exa.md": {
+      "bytes": 563,
+      "sha256": "052e0576d3f6e7ebbe22f5c95b9d0a6016c7fd3b4e10b2b18fc9a01676ae9660",
+      "gitBlobId": "6b393184669e0098e414e41eabce931a209cdb9a"
+    },
+    "notes/agents/MCP/blender.md": {
+      "bytes": 11550,
+      "sha256": "8cfaf28ff86894a8cdd99078934e6982da445dd8ccf0407ccaa8bb95e8c891aa",
+      "gitBlobId": "44b2378f67edcc95719a8361744bbf47889f0b32"
+    },
+    "notes/agents/MCP/context7.md": {
+      "bytes": 1718,
+      "sha256": "336d6b9a9ee822f26bb8c5a5dfbee75f9b10b4abc698c6bd5f5e62d958fe9390",
+      "gitBlobId": "7d248478bf7aef317ffa65fe6425855315713ebb"
+    },
+    "notes/agents/MCP/gh_grep.md": {
+      "bytes": 664,
+      "sha256": "70c41eba9184e3aee482e31ddfd55fb6e117aebd90607a6f21c33337e72c8a9e",
+      "gitBlobId": "d9dd5f7487c1f4eaae85c14cd746e3e979162845"
+    },
+    "notes/agents/MCP/zotero.md": {
+      "bytes": 9740,
+      "sha256": "692b8b2f091ba448e04213917552dfc13e24bff58f8e350085bf4c9462faccd5",
+      "gitBlobId": "b7e1bdf7829e0c2dcbfc45e0e8faff1cc613546f"
+    },
+    "notes/agents/claude-code/CLAUDE.md": {
+      "bytes": 6651,
+      "sha256": "b35b566cb676a05a5ca2c96495f5e12fcc55b7a42ba4080bf41e54e1c1249793",
+      "gitBlobId": "4000307a44f50dd7dda25c26f93ff0b957c399fd"
+    },
+    "notes/agents/claude-code/assets/screenshot/Claude-Code-hello.png": {
+      "bytes": 28230,
+      "sha256": "db57ccd08f545e041fd0ec39e5cbf8bcd92e0700264805e90ffd9605fef3ac78",
+      "gitBlobId": "73660b60c93848bdae88e059734baaa3cc154cb8"
+    },
+    "notes/agents/claude-code/assets/screenshot/Claude-Code-settings.png": {
+      "bytes": 37012,
+      "sha256": "7870c96efdc3f549cd75bc875629807d67d585952d4f704eb0119089aaaf482c",
+      "gitBlobId": "7676df708c62d6be44c46ca2b1d762d7a0fbe8ab"
+    },
+    "notes/agents/claude-code/assets/screenshot/Claude-npm-setup.png": {
+      "bytes": 7760,
+      "sha256": "821130cbfd607a6c6379d453945ac7829bd3d3367f069ba5c6e3af852f4188e0",
+      "gitBlobId": "0e5eeb3c9429626fd8f9475a0e9a922aa1bb11eb"
+    },
+    "notes/agents/claude-code/assets/screenshot/DeepSeek-apikey.png": {
+      "bytes": 107368,
+      "sha256": "35994c0b520970f7751f53e67aec7b51b06272c2f6f1ed744e875c3d00c594a9",
+      "gitBlobId": "259024907442df9ea5c3ee14c454988d97087067"
+    },
+    "notes/agents/claude-code/assets/screenshot/Folder-hiden-ext.png": {
+      "bytes": 137490,
+      "sha256": "182e294bb8d50a5d008e7219c88d472116b87d5ce06f5feb3e5d72795cfe98c2",
+      "gitBlobId": "66fa5b627c467d92ef3d4846b02cbcc53641ebe9"
+    },
+    "notes/agents/claude-code/assets/screenshot/Git-Nodejs-setup-verify.png": {
+      "bytes": 16589,
+      "sha256": "b96ff0db2a7747d906ad7bfe4020aa4c56c1c53c427b15ae9a1eae94bfb25eaf",
+      "gitBlobId": "29e0f75c28c1e465653140b3ffec85ef0dddd025"
+    },
+    "notes/agents/claude-code/cc.bat": {
+      "bytes": 4049,
+      "sha256": "4c3031a9f1e2ae7cd47be0c0963a4a3d8a925e1fcceca09ae7a75592109adfee",
+      "gitBlobId": "c01055a2b141009dd63bc4d42d543e72c94b9e7f"
+    },
+    "notes/agents/claude-code/cclinux.sh": {
+      "bytes": 3340,
+      "sha256": "cf7391774ee2915cde76937e407bfc88c1368c0e0f7cd28b65b4985077d0845d",
+      "gitBlobId": "0040279f227b9a9a18a391dc9c0276d98e48a05d"
+    },
+    "notes/agents/claude-code/ccmac.sh": {
+      "bytes": 4591,
+      "sha256": "3062002b9fb034f34820c0f501c7efa08b74ae245d854b71e133770f39d95680",
+      "gitBlobId": "fdc76dd3732f4ae72e2491ba9af736a702931571"
+    },
+    "notes/agents/claude-code/claude-code.md": {
+      "bytes": 17586,
+      "sha256": "1721060289a7f0e4e9a6d854aed49443552888f02ff8b2ea66df55f192c9e083",
+      "gitBlobId": "37120a75218e3c3154670992032b0ebcdc817631"
+    },
+    "notes/agents/claude-code/tutorial/assets/imgs/image1-1.png": {
+      "bytes": 65135,
+      "sha256": "f3206cac5bde8bf7696e16f04ffa57ac08cd7f1e2ec1396a5f333e9fc8d932f3",
+      "gitBlobId": "21421ca7588a9be29ac63c6a1814c36d67e3401a"
+    },
+    "notes/agents/claude-code/tutorial/assets/imgs/image10.png": {
+      "bytes": 24762,
+      "sha256": "3263cdc973310b7a53ac8e0c6c9729318eb156581825e20375b573da4e461b51",
+      "gitBlobId": "ae513de70493d39ce32b1dd8c4e0fec1c0ce05d1"
+    },
+    "notes/agents/claude-code/tutorial/assets/imgs/image16.png": {
+      "bytes": 10392,
+      "sha256": "2737017da7e73bd401304d54e66c1e89729d621b14222aa3743783b5cd4e11b5",
+      "gitBlobId": "cc11fc51eae7f0e40ba7339c626008ab166d9cd8"
+    },
+    "notes/agents/claude-code/tutorial/assets/imgs/image19.png": {
+      "bytes": 32705,
+      "sha256": "978a3d2bf8ac05b523505c2aa05740a23ad73d1284224e6ccf9057e540a7114d",
+      "gitBlobId": "8dd04e26b13f7d3c4f368f25764a57a4d36ebdb8"
+    },
+    "notes/agents/claude-code/tutorial/assets/imgs/image5.png": {
+      "bytes": 21800,
+      "sha256": "bf7fc808eb6fe58e53f63080e0d4cbd44e4469d4928d3e64e3aa07248d1bc97d",
+      "gitBlobId": "ea93be99e6eceb9a50798f29dde5fde0d15a4e08"
+    },
+    "notes/agents/claude-code/tutorial/交互模式.md": {
+      "bytes": 3169,
+      "sha256": "6f805bb62b79ee87e29f753e6de311de781a6f0ba88170d270cee039d7f85e74",
+      "gitBlobId": "54cd52641d2ab51d45fde5fbc84931f1c5a48eda"
+    },
+    "notes/agents/claude-code/tutorial/常用命令.md": {
+      "bytes": 7424,
+      "sha256": "4c3dbc9aa4f0663862384b7e8e9a5ca479b3046931d655c9a35fa24ef0692a99",
+      "gitBlobId": "d0b019a50cf1c370b62a7ed3d066bbab72eace8c"
+    },
+    "notes/agents/claude-code/tutorial/最佳实践.md": {
+      "bytes": 15500,
+      "sha256": "38faa93c9411485a674e7925e06cc4c0e0bfdc047c0a91583539a306a2df4918",
+      "gitBlobId": "5fa4211abe7fe3e0138d7fed343f1599ee6c56de"
+    },
+    "notes/agents/claude-code/update-claude-code.bat": {
+      "bytes": 2280,
+      "sha256": "39ac7338089c68b8c05e5a2fd667d32f02f3cb3acc698043c396c7515e47c4e7",
+      "gitBlobId": "c8d29920211540791cbc047d02c6a7e38c7510bb"
+    },
+    "notes/agents/codex/codex-sqlite-bug-fix.md": {
+      "bytes": 23171,
+      "sha256": "08b43fff939e6f89de9082584579f7e4fbdce74c14d1716082f6a22d59909473",
+      "gitBlobId": "d236c47583a334ac149f8dfa4838b1cdf9d8b0a9"
+    },
+    "notes/agents/codex/codex.md": {
+      "bytes": 8022,
+      "sha256": "230609273d860d0b6de28a3731e5aa73383e58681e08aa3240a292e42f147aec",
+      "gitBlobId": "f9df4f3459cbce1dac95103e432775707eb8f6e3"
+    },
+    "notes/agents/prompt/AGENTS.md": {
+      "bytes": 9911,
+      "sha256": "8e4394eed6dbe6ac996477dba43b24204fa9e6a191909f9d41feb06db5725595",
+      "gitBlobId": "5a2ac09c043e0cdcc120d7576f12087acc80a1f0"
+    },
+    "notes/agents/prompt/Global-Agent-Instructions-revolution.md": {
+      "bytes": 7821,
+      "sha256": "4bd1903e233daddd1a31698664ce6201a1971f444da4c929a6d1c12b66f90969",
+      "gitBlobId": "5ffd7b51bd506b7b1c22cdd7f3987bcb96f6a71d"
+    },
+    "notes/agents/skills/agent-development-workflows-and-decisions.md": {
+      "bytes": 34864,
+      "sha256": "ce21b806fd48fb7a008725c0cf1a0d71a4f2807e1ce3a10d9596b40e8fc6e044",
+      "gitBlobId": "82c7ddbdb62932a050f1b44b1a2faa2208d30824"
+    },
+    "notes/agents/skills/agent-document-lifecycle-planning.md": {
+      "bytes": 28476,
+      "sha256": "76ad4efb2decafd17d2687a7052fd22e1873374bbf16fc9ade83ed656c307818",
+      "gitBlobId": "3ea0064cbaf64c81356b88f7f52d8b261e5bf285"
+    },
+    "notes/agents/skills/pptx-related-skills.md": {
+      "bytes": 6631,
+      "sha256": "fa7a07bbb4e7cd99024b8f78b83c4115de5638221ff60c407af1575e9ec22828",
+      "gitBlobId": "6fb82ebdd2d9f1162e6f77f9567ed265ba0ade55"
+    },
+    "notes/agents/skills/skills.md": {
+      "bytes": 4436,
+      "sha256": "5ec828fbc4fc305bdb5ed31199b05ab7f15d3b24660ad4819137774d9f8ed0df",
+      "gitBlobId": "02a4f4d49cedab22bf3a143a506d8dc397979909"
+    },
+    "notes/agents/tools/academic-research-skills.md": {
+      "bytes": 4706,
+      "sha256": "624825c984a2bc5720a46686323a7dfa3d96a3f414bf674ff117a13b4cdcc56f",
+      "gitBlobId": "a2b2eb37360297356312f336fe74031c3716914a"
+    },
+    "notes/agents/tools/claude-tap.md": {
+      "bytes": 1223,
+      "sha256": "d3e6159a7cb6b0e930fcc01eb45060dbbea14247c56a432474c84f2e7f3bc999",
+      "gitBlobId": "4f86dc84c6a4e0697dbf9ad03ee5b358a0d629e3"
+    },
+    "notes/agents/tools/graphify.md": {
+      "bytes": 18070,
+      "sha256": "f7eaf7b2b5e44b3adf372a46ee8cd9c2f20b9a3354333f1e75e10f9ffbf4eb18",
+      "gitBlobId": "04f320ef979f2e8427a589b4851e62f261f19204"
+    },
+    "notes/agents/tools/ponytail.md": {
+      "bytes": 4091,
+      "sha256": "4114b3d954e81d899d04bd406a5368ef18d6b3945c9b274289f26f633e0b384c",
+      "gitBlobId": "eb64508a23c22dfd13889059531b6dac2f378cbe"
+    },
+    "notes/agents/tools/statusline.md": {
+      "bytes": 5589,
+      "sha256": "5a6a917bb246e1e736443ab2bce58d7910a1307320aed601df04bb734c56b0c4",
+      "gitBlobId": "0e69c30e87e97b717a236dc9bb018b781c60f2d0"
+    },
+    "notes/models/models-dev.md": {
+      "bytes": 12312,
+      "sha256": "e6cf7a7b0ab2eb509a12cb466c3af488a1d4cb0ef5b0f0bccd4256900a507c21",
+      "gitBlobId": "b94c795d982021762f477312733321a0beea7627"
+    },
+    "notes/operating-system/Hyper-V.md": {
+      "bytes": 8484,
+      "sha256": "691091da7503b2818f1d18af5d95a3c896bf8aadff8bd08325d26109276bd7df",
+      "gitBlobId": "c8ded96f93fcc865952a0ccf899eb79408da16ae"
+    },
+    "notes/operating-system/SSH-git.md": {
+      "bytes": 31425,
+      "sha256": "fd5644bf7550e11e1c4db0145c1eed8e89836a11b5b5f1027d59cad453b90422",
+      "gitBlobId": "29ce910f915ecb84b9eaa8733ab720a65e21abc4"
+    },
+    "notes/operating-system/SSH-remote-login.md": {
+      "bytes": 19214,
+      "sha256": "3c50818f3554cb9ae98e69726ab6f73d99ee0496613329db0be1a8df04e1333b",
+      "gitBlobId": "599bb988bf9795f0974e636386df9c70e09c8238"
+    },
+    "notes/operating-system/assets/screenshot/Hyper-V-TPM.png": {
+      "bytes": 119241,
+      "sha256": "26922b77c2d425f3201d6c9a44b16cf41a9e8e6d81c3ed1bd893acf3e61ec09a",
+      "gitBlobId": "2a0888e1a27049fb4be37380fe62a7f33c8aaaf5"
+    },
+    "notes/operating-system/assets/screenshot/Hyper-V-account-skip.png": {
+      "bytes": 128255,
+      "sha256": "f9bb5565f097d3674e406375a09afceb97a72886dec28914c977e88dd9ad40df",
+      "gitBlobId": "b1699fcd964a508566c42ba28bb13696851a5842"
+    },
+    "notes/operating-system/assets/screenshot/Hyper-V-controller.png": {
+      "bytes": 42437,
+      "sha256": "d71a7f2a8da7f8b06664da005383046573aec749261858ca4e7f22ae2eb6d451",
+      "gitBlobId": "887c654e73548cd2bce864742e912d9d61f683f5"
+    },
+    "notes/operating-system/assets/screenshot/Hyper-V-finished-guide.png": {
+      "bytes": 32625,
+      "sha256": "33eb30f6bd75cb6855a67f957dbef251c0e187eb7abcd6def7fd9e54cb4b3c83",
+      "gitBlobId": "03d32518af5cf75cb14323654c7cd82d7e3429fb"
+    },
+    "notes/operating-system/assets/screenshot/Hyper-V-force-restart.png": {
+      "bytes": 33789,
+      "sha256": "2ded196dc6650431d58b57901f91fada3884d1c7839e10e7efc656e84afbfb1a",
+      "gitBlobId": "d3f378136a0d2c16f6acee8a327baa7f347057f8"
+    },
+    "notes/operating-system/assets/screenshot/Hyper-V-interface.png": {
+      "bytes": 956425,
+      "sha256": "b65e4cebf781f5db42f7dcba960283fd8c4f9865df63f639302e2f2ffb6bb490",
+      "gitBlobId": "8efa42837130aa380524bef0b435ba838b724166"
+    },
+    "notes/operating-system/assets/screenshot/Hyper-V-internel-request.png": {
+      "bytes": 137386,
+      "sha256": "f49bc10912e10ce60ad225d26b944302f8399b48fd19faad656d3d941beb580d",
+      "gitBlobId": "de8390a7fa78c632504a07c942572e0a5eecc4ed"
+    },
+    "notes/operating-system/assets/screenshot/Hyper-V-internet-config.png": {
+      "bytes": 32511,
+      "sha256": "56270517c19d2f2df2fe65a0b1b312988006826583feefce581fdca8cacbbd4a",
+      "gitBlobId": "feee21d573820568f66a3fa88edfd6bf4662e6b3"
+    },
+    "notes/operating-system/assets/screenshot/Hyper-V-link.png": {
+      "bytes": 37061,
+      "sha256": "f605c994561e631738967d4e66ff1e998da46d8e7c40a8af8c104bb80decaccb",
+      "gitBlobId": "555c16cb8bbeb96851bc621f2e4da91f4e63e950"
+    },
+    "notes/operating-system/assets/screenshot/Hyper-V-powershell.png": {
+      "bytes": 8710,
+      "sha256": "af556f79f34185630ec0b76ae00503d7a887c11f913a34a632584a4608a07fb4",
+      "gitBlobId": "803507628ab4a4c24ebd64441127b738accf62c9"
+    },
+    "notes/operating-system/assets/screenshot/Hyper-V-press.png": {
+      "bytes": 13424,
+      "sha256": "7c151a853cf72a7941a143b210b23fd709f5c356992c0923843181ff13e73842",
+      "gitBlobId": "722a1717b106fa14c5b1f3fc89541c51a4778ab8"
+    },
+    "notes/operating-system/assets/screenshot/Hyper-V-starter.png": {
+      "bytes": 69636,
+      "sha256": "938d95ab8da4e3e4d1faa266e696ac2c8ff349c817183f7efdb6b7fdc5a8095b",
+      "gitBlobId": "1ec928f869714946eb02df567db066edcfeff671"
+    },
+    "notes/operating-system/assets/screenshot/Hyper-V-upgrade.png": {
+      "bytes": 112070,
+      "sha256": "f8e29166f3b719574ff61e25abffff18ccc67eeb39aa9944720ffa9bab13be74",
+      "gitBlobId": "521eac41b7486990e3fdb41f00007090c112eb08"
+    },
+    "notes/operating-system/docker.md": {
+      "bytes": 34537,
+      "sha256": "013ab3e3216632a4e149bd941018b2d0b7cf1c072002a83746aa691d239798dc",
+      "gitBlobId": "b22d62190e6434524186dae34a275d710856032e"
+    },
+    "notes/operating-system/linux-setup.md": {
+      "bytes": 19884,
+      "sha256": "51bfa5fd0f5d660ea1d1c5c66feddce9e0884b8306439550d105ca43d1eaaf0f",
+      "gitBlobId": "fa7f6d78c780519080ae1053881900f35f11bb6b"
+    },
+    "notes/operating-system/linux.md": {
+      "bytes": 3975,
+      "sha256": "604da41b442085968d0ae7d5012d006edb44985d3133650f08ef1aa44732906d",
+      "gitBlobId": "2c673255163476c4f810859ef6deb2c96be4d17a"
+    },
+    "notes/operating-system/powershell.md": {
+      "bytes": 7289,
+      "sha256": "ec8c9aedb46aa39c3430d4c415fe4f74411107f0f0c326f85018ccc0b22a5fa9",
+      "gitBlobId": "2a0575ba8b4ebbe97fc3ba644588ae5886afe755"
+    },
+    "notes/operating-system/wsl.md": {
+      "bytes": 6051,
+      "sha256": "38b195f7e968888b493d60d1cd1e81f61742b64aa9b9cdc1e0d2666f724b2b24",
+      "gitBlobId": "a0be5464dbd5af4312996b90b9a88c7b85705b86"
+    },
+    "notes/others/git-pr-contributor-tutorial.md": {
+      "bytes": 8834,
+      "sha256": "e638474036714cd29eddc7d1d5be64cb64287d79fd63f7cc8aafb1a50ff326d5",
+      "gitBlobId": "f7ef05c97f9112f93b8037cb111c0f29a9976e7e"
+    },
+    "notes/others/git-pr-flowchart.html": {
+      "bytes": 9057,
+      "sha256": "610aae26e89574e7112a82fc9f0bd48a11cfabf855b3b15da8323f6322fe671a",
+      "gitBlobId": "874bd1f1e75c56c5d17c3ca98dacda6157afc749"
+    },
+    "notes/others/git.md": {
+      "bytes": 3327,
+      "sha256": "7013cf10214c5c81b6fab192f378f4d14a4a9fa236008aa661f12b05bc732c3a",
+      "gitBlobId": "a5c76abb1841af8fafaab08f7919b8a389f79141"
+    },
+    "notes/programme-env/assets/screenshot/Git-Nodejs-Download-Nodejs.png": {
+      "bytes": 188231,
+      "sha256": "4a13f629cf217d0835aab93e41f3e834a2d27920fac138820f2bce8263ccd5a1",
+      "gitBlobId": "eca470150471348ed62d1d76be7da4b99fc349b2"
+    },
+    "notes/programme-env/miniforge.md": {
+      "bytes": 5555,
+      "sha256": "54cd54838353b0393f0fefba0a097ed5c5b4732600893390b354f427ab0f6c6a",
+      "gitBlobId": "7dc002efa18c6ab44308d608a5ad7e4e227d9535"
+    },
+    "notes/programme-env/nodejs.md": {
+      "bytes": 2250,
+      "sha256": "450aa97b392662e65c0f8798f9a7c5e640e4150d050176ac44c665e86bebc7e7",
+      "gitBlobId": "e23cafda980592b7017fcf1ee2bab2b8ec8491c3"
+    },
+    "notes/programme-env/uv.md": {
+      "bytes": 7776,
+      "sha256": "f71943717dd58f85c30ab9fde3d7a2f8a9542eb7d9d061f4fe808ed0aa9a0dc8",
+      "gitBlobId": "2593e938c65260d301beb7c8bbc8f5a30df1d3df"
+    }
+  },
+  "entries": [
+    {
+      "icon": "📄",
+      "title": "Git：版本控制基础",
+      "category": "基础环境",
+      "group": "基础环境",
+      "target": "notes/others/git.md"
+    },
+    {
+      "icon": "📄",
+      "title": "Node.js：JavaScript 运行环境",
+      "category": "基础环境",
+      "group": "基础环境",
+      "target": "notes/programme-env/nodejs.md"
+    },
+    {
+      "icon": "📄",
+      "title": "UV：Python 开发基础设施",
+      "category": "基础环境",
+      "group": "基础环境",
+      "target": "notes/programme-env/uv.md"
+    },
+    {
+      "icon": "📄",
+      "title": "Miniforge：Python 开发基础设施",
+      "category": "基础环境",
+      "group": "基础环境",
+      "target": "notes/programme-env/miniforge.md"
+    },
+    {
+      "icon": "📄",
+      "title": "WSL：Windows Linux 子系统",
+      "category": "系统与运行环境",
+      "group": "系统与运行环境",
+      "target": "notes/operating-system/wsl.md"
+    },
+    {
+      "icon": "📄",
+      "title": "Ubuntu：Linux 常用命令与配置",
+      "category": "系统与运行环境",
+      "group": "系统与运行环境",
+      "target": "notes/operating-system/linux.md"
+    },
+    {
+      "icon": "📄",
+      "title": "Windows + Ubuntu 双系统安装",
+      "category": "系统与运行环境",
+      "group": "系统与运行环境",
+      "target": "notes/operating-system/linux-setup.md"
+    },
+    {
+      "icon": "📄",
+      "title": "Docker：容器化部署实战",
+      "category": "系统与运行环境",
+      "group": "系统与运行环境",
+      "target": "notes/operating-system/docker.md"
+    },
+    {
+      "icon": "📄",
+      "title": "Hyper-V：Windows 虚拟化",
+      "category": "系统与运行环境",
+      "group": "系统与运行环境",
+      "target": "notes/operating-system/Hyper-V.md"
+    },
+    {
+      "icon": "📄",
+      "title": "PowerShell 7：Windows Agent 终端优化",
+      "category": "系统与运行环境",
+      "group": "系统与运行环境",
+      "target": "notes/operating-system/powershell.md"
+    },
+    {
+      "icon": "📄",
+      "title": "Git 远程仓库 SSH 配置",
+      "category": "系统与运行环境",
+      "group": "系统与运行环境",
+      "target": "notes/operating-system/SSH-git.md"
+    },
+    {
+      "icon": "📄",
+      "title": "跨系统远程 SSH 登录配置",
+      "category": "系统与运行环境",
+      "group": "系统与运行环境",
+      "target": "notes/operating-system/SSH-remote-login.md"
+    },
+    {
+      "icon": "📄",
+      "title": "Claude Code：终端编程智能体",
+      "category": "智能体",
+      "group": "Claude Code",
+      "target": "notes/agents/claude-code/claude-code.md"
+    },
+    {
+      "icon": "📺",
+      "title": "Claude Code 国内安装视频",
+      "category": "智能体",
+      "group": "Claude Code",
+      "target": "https://www.bilibili.com/video/BV1AjGD6mEV4"
+    },
+    {
+      "icon": "🚀",
+      "title": "Claude Code Windows 启动脚本",
+      "category": "智能体",
+      "group": "Claude Code",
+      "target": "notes/agents/claude-code/cc.bat"
+    },
+    {
+      "icon": "🚀",
+      "title": "Claude Code Windows 更新脚本",
+      "category": "智能体",
+      "group": "Claude Code",
+      "target": "notes/agents/claude-code/update-claude-code.bat"
+    },
+    {
+      "icon": "🚀",
+      "title": "Claude Code macOS 快捷启动脚本",
+      "category": "智能体",
+      "group": "Claude Code",
+      "target": "notes/agents/claude-code/ccmac.sh"
+    },
+    {
+      "icon": "🚀",
+      "title": "Claude Code Linux/WSL 启动脚本",
+      "category": "智能体",
+      "group": "Claude Code",
+      "target": "notes/agents/claude-code/cclinux.sh"
+    },
+    {
+      "icon": "🧾",
+      "title": "Claude Code 全局指令模板",
+      "category": "智能体",
+      "group": "Claude Code",
+      "target": "notes/agents/claude-code/CLAUDE.md"
+    },
+    {
+      "icon": "📄",
+      "title": "Claude Code 命令速查",
+      "category": "智能体",
+      "group": "Claude Code",
+      "target": "notes/agents/claude-code/tutorial/常用命令.md"
+    },
+    {
+      "icon": "📺",
+      "title": "Claude Code 命令使用视频",
+      "category": "智能体",
+      "group": "Claude Code",
+      "target": "https://www.bilibili.com/video/BV1caE86BEyQ/?p=1"
+    },
+    {
+      "icon": "📄",
+      "title": "Claude Code 交互模式指南",
+      "category": "智能体",
+      "group": "Claude Code",
+      "target": "notes/agents/claude-code/tutorial/交互模式.md"
+    },
+    {
+      "icon": "📺",
+      "title": "Claude Code 交互模式视频",
+      "category": "智能体",
+      "group": "Claude Code",
+      "target": "https://www.bilibili.com/video/BV1caE86BEyQ/?p=2"
+    },
+    {
+      "icon": "📄",
+      "title": "Claude Code 使用最佳实践",
+      "category": "智能体",
+      "group": "Claude Code",
+      "target": "notes/agents/claude-code/tutorial/最佳实践.md"
+    },
+    {
+      "icon": "📺",
+      "title": "Claude Code 最佳实践视频",
+      "category": "智能体",
+      "group": "Claude Code",
+      "target": "https://www.bilibili.com/video/BV1caE86BEyQ/?p=3"
+    },
+    {
+      "icon": "📄",
+      "title": "Codex：OpenAI 编程智能体",
+      "category": "智能体",
+      "group": "Codex",
+      "target": "notes/agents/codex/codex.md"
+    },
+    {
+      "icon": "📄",
+      "title": "Agent 全局指令演进记录",
+      "category": "智能体",
+      "group": "通用全局指令",
+      "target": "notes/agents/prompt/Global-Agent-Instructions-revolution.md"
+    },
+    {
+      "icon": "🧾",
+      "title": "Agent 通用全局指令模板",
+      "category": "智能体",
+      "group": "通用全局指令",
+      "target": "notes/agents/prompt/AGENTS.md"
+    },
+    {
+      "icon": "📄",
+      "title": "Skills：智能体能力扩展",
+      "category": "智能体扩展",
+      "group": "Skills",
+      "target": "notes/agents/skills/skills.md"
+    },
+    {
+      "icon": "📄",
+      "title": "ARS：学术研究工作流",
+      "category": "智能体扩展",
+      "group": "Skills",
+      "target": "notes/agents/tools/academic-research-skills.md"
+    },
+    {
+      "icon": "📄",
+      "title": "Agent 文档生命周期规划",
+      "category": "智能体扩展",
+      "group": "Skills",
+      "target": "notes/agents/skills/agent-document-lifecycle-planning.md"
+    },
+    {
+      "icon": "📄",
+      "title": "Agent 开发工作流与决策流",
+      "category": "智能体扩展",
+      "group": "Skills",
+      "target": "notes/agents/skills/agent-development-workflows-and-decisions.md"
+    },
+    {
+      "icon": "📄",
+      "title": "PPT 制作相关 Skills",
+      "category": "智能体扩展",
+      "group": "Skills",
+      "target": "notes/agents/skills/pptx-related-skills.md"
+    },
+    {
+      "icon": "📄",
+      "title": "Zotero：文献管理",
+      "category": "智能体扩展",
+      "group": "MCP",
+      "target": "notes/agents/MCP/zotero.md"
+    },
+    {
+      "icon": "📄",
+      "title": "Blender：开源三维建模 MCP 接入",
+      "category": "智能体扩展",
+      "group": "MCP",
+      "target": "notes/agents/MCP/blender.md"
+    },
+    {
+      "icon": "📄",
+      "title": "Context7 MCP：技术文档检索",
+      "category": "智能体扩展",
+      "group": "MCP",
+      "target": "notes/agents/MCP/context7.md"
+    },
+    {
+      "icon": "📄",
+      "title": "Exa MCP：AI 联网搜索",
+      "category": "智能体扩展",
+      "group": "MCP",
+      "target": "notes/agents/MCP/Exa.md"
+    },
+    {
+      "icon": "📄",
+      "title": "gh_grep MCP：GitHub 代码搜索",
+      "category": "智能体扩展",
+      "group": "MCP",
+      "target": "notes/agents/MCP/gh_grep.md"
+    },
+    {
+      "icon": "📄",
+      "title": "claude-tap：Agent 会话拆解与可视化",
+      "category": "智能体扩展",
+      "group": "周边工具与扩展",
+      "target": "notes/agents/tools/claude-tap.md"
+    },
+    {
+      "icon": "📄",
+      "title": "Claude Code 会话状态栏工具",
+      "category": "智能体扩展",
+      "group": "周边工具与扩展",
+      "target": "notes/agents/tools/statusline.md"
+    },
+    {
+      "icon": "📄",
+      "title": "graphify：代码库知识图谱",
+      "category": "智能体扩展",
+      "group": "代码读取与生成",
+      "target": "notes/agents/tools/graphify.md"
+    },
+    {
+      "icon": "📄",
+      "title": "ponytail：防止过度设计插件",
+      "category": "智能体扩展",
+      "group": "代码读取与生成",
+      "target": "notes/agents/tools/ponytail.md"
+    },
+    {
+      "icon": "📚",
+      "title": "Claude Code 入门学习指南",
+      "category": "Agent 学习资料",
+      "group": "Agent 入门与实践",
+      "target": "https://coding.stormzhang.ai/"
+    },
+    {
+      "icon": "📚",
+      "title": "Codex 入门学习指南",
+      "category": "Agent 学习资料",
+      "group": "Agent 入门与实践",
+      "target": "https://coding.stormzhang.ai/"
+    },
+    {
+      "icon": "📚",
+      "title": "CodexGuide：OpenAI Codex 中文教程与实战指南",
+      "category": "Agent 学习资料",
+      "group": "Agent 入门与实践",
+      "target": "https://codexguide.ai/"
+    },
+    {
+      "icon": "📺",
+      "title": "Codex APP 入门实战",
+      "category": "Agent 学习资料",
+      "group": "Agent 入门与实践",
+      "target": "https://www.bilibili.com/video/BV1Kk9kBAEJv"
+    },
+    {
+      "icon": "📺",
+      "title": "Codex 科研效率实战",
+      "category": "Agent 学习资料",
+      "group": "Agent 入门与实践",
+      "target": "https://www.bilibili.com/video/BV1NwEb6gEy1"
+    },
+    {
+      "icon": "📺",
+      "title": "Claude Code 后端通信原理",
+      "category": "Agent 学习资料",
+      "group": "Agent 原理与优化",
+      "target": "https://www.bilibili.com/video/BV1G2o5BqELx"
+    },
+    {
+      "icon": "📺",
+      "title": "Claude Code 缓存优化",
+      "category": "Agent 学习资料",
+      "group": "Agent 原理与优化",
+      "target": "https://www.bilibili.com/video/BV1ZQ5u6bEJ7"
+    },
+    {
+      "icon": "🌐",
+      "title": "Model Context Protocol Observatory",
+      "category": "Agent 学习资料",
+      "group": "MCP 市场",
+      "target": "https://mcpobservatory.com/"
+    },
+    {
+      "icon": "📚",
+      "title": "Models.dev：AI 模型参数查询",
+      "category": "LLM 参数汇总",
+      "group": "LLM 参数汇总",
+      "target": "notes/models/models-dev.md"
+    },
+    {
+      "icon": "📊",
+      "title": "Artificial Analysis：大模型评测",
+      "category": "LLM 评测排行榜",
+      "group": "LLM 评测排行榜",
+      "target": "https://artificialanalysis.ai/"
+    },
+    {
+      "icon": "⚔️",
+      "title": "Arena AI：大模型竞技排名",
+      "category": "LLM 评测排行榜",
+      "group": "LLM 评测排行榜",
+      "target": "https://arena.ai/"
+    },
+    {
+      "icon": "📺",
+      "title": "Git 与 GitHub 核心概念",
+      "category": "开发与模型工具",
+      "group": "开发与模型工具",
+      "target": "https://www.bilibili.com/video/BV1ySLc6QEcB"
+    },
+    {
+      "icon": "📺",
+      "title": "Markdown 完全指南",
+      "category": "开发与模型工具",
+      "group": "开发与模型工具",
+      "target": "https://www.bilibili.com/video/BV1tJXZBgEoC"
+    },
+    {
+      "icon": "🌐",
+      "title": "Can I Run AI：本地模型检测",
+      "category": "开发与模型工具",
+      "group": "开发与模型工具",
+      "target": "https://www.canirun.ai"
+    },
+    {
+      "icon": "📚",
+      "title": "Git PR 教程文档（普通贡献者视角）",
+      "category": "开发与模型工具",
+      "group": "开发与模型工具",
+      "target": "notes/others/git-pr-contributor-tutorial.md"
+    },
+    {
+      "icon": "🌐",
+      "title": "Git PR 流程图（普通贡献者视角）",
+      "category": "开发与模型工具",
+      "group": "开发与模型工具",
+      "target": "notes/others/git-pr-flowchart.html"
+    },
+    {
+      "icon": "📰",
+      "title": "24 小时更新雷达：AI 新闻聚合",
+      "category": "AI 新闻",
+      "group": "AI 新闻",
+      "target": "https://learnprompt.github.io/ai-news-radar/"
+    },
+    {
+      "icon": "📰",
+      "title": "AIHOT：AI 热点聚合",
+      "category": "AI 新闻",
+      "group": "AI 新闻",
+      "target": "https://aihot.virxact.com/"
+    },
+    {
+      "icon": "📺",
+      "title": "AI Agent 发展史",
+      "category": "AI 行业观察",
+      "group": "AI 行业观察",
+      "target": "https://www.bilibili.com/video/BV1NL9tBsELS"
+    },
+    {
+      "icon": "📺",
+      "title": "姚顺宇 AI 访谈",
+      "category": "AI 行业观察",
+      "group": "AI 行业观察",
+      "target": "https://www.bilibili.com/video/BV1YR5E6EE9o"
+    },
+    {
+      "icon": "📺",
+      "title": "中美大模型差距讨论",
+      "category": "AI 行业观察",
+      "group": "AI 行业观察",
+      "target": "https://www.bilibili.com/video/BV1HDVT6bE8x"
+    },
+    {
+      "icon": "📺",
+      "title": "程序员视角下的 AI 叙事",
+      "category": "AI 行业观察",
+      "group": "AI 行业观察",
+      "target": "https://www.bilibili.com/video/BV1gyEd6xEyu"
+    }
+  ],
+  "pages": {
+    "/guides/others/git": {
+      "articleHash": "fadfea95937a6688d754fba3451022978722894839580a84500d82be08907907",
+      "headingIds": [
+        "git-指南",
+        "windows-git-下载和安装",
+        "配置环境变量",
+        "linuxwsl-安装",
+        "配置用户信息",
+        "参考学习资料",
+        "可选代理配置http-vs-socks5-socks5h",
+        "三种代理的本质区别",
+        "配置命令",
+        "附录"
+      ],
+      "images": [],
+      "contentHash": "f61733b84e84b131aae7aa0c45bfab8abaf67453990702fe0094cdd5fc785367"
+    },
+    "/guides/programme-env/nodejs": {
+      "articleHash": "b4a89a381751465a8d29ca36b12e0205563d87e54b5011d4bec9287bb7835520",
+      "headingIds": [
+        "nodejs-指南",
+        "安装-nodejs",
+        "windowsmac-用户下载安装包并安装",
+        "linuxwsl-安装-nodejs",
+        "配置-nodejs-包管理路径",
+        "检查安装",
+        "配置镜像"
+      ],
+      "images": [
+        "/assets/Git-Nodejs-Download-Nodejs-ZpRfar3f.png"
+      ],
+      "contentHash": "b4a89a381751465a8d29ca36b12e0205563d87e54b5011d4bec9287bb7835520"
+    },
+    "/guides/programme-env/uv": {
+      "articleHash": "91a376c2277cb14d77cf33ff2da6c55d1c3d925e5e69ef33b4785769f64dbde7",
+      "headingIds": [
+        "uv-指南",
+        "与-miniforge-的关系和区别",
+        "安装与-shell-配置",
+        "windows-安装-uv",
+        "linuxwslmacos-安装-uv",
+        "镜像源配置",
+        "python-本体安装源配置",
+        "python-包安装源配置",
+        "基础项目创建",
+        "常用命令速查"
+      ],
+      "images": [],
+      "contentHash": "91a376c2277cb14d77cf33ff2da6c55d1c3d925e5e69ef33b4785769f64dbde7"
+    },
+    "/guides/programme-env/miniforge": {
+      "articleHash": "7880c233901a48999b26ed35c6d677b6db1df3ae9d7a8cf263b0a5065f5ece42",
+      "headingIds": [
+        "miniforge-指南",
+        "与-uv-的关系和区别",
+        "windows-安装-miniforge",
+        "安装建议",
+        "手动配置环境变量",
+        "初始化命令行配置",
+        "linuxwsl-安装-miniforge",
+        "macos-安装-miniforge",
+        "配置镜像",
+        "基础项目创建",
+        "常用安装包推荐",
+        "更多内容"
+      ],
+      "images": [],
+      "contentHash": "7880c233901a48999b26ed35c6d677b6db1df3ae9d7a8cf263b0a5065f5ece42"
+    },
+    "/guides/operating-system/wsl": {
+      "articleHash": "c2a7325bb91a40735e9660632c95f9affaab7e07913405909bb761518d17f461",
+      "headingIds": [
+        "wsl-指南",
+        "配置-windows-环境",
+        "安装不同发行版",
+        "手动下载可尝试手动下载",
+        "其他-wsl-命令",
+        "可选配置",
+        "迁移-wsl-到-d-盘",
+        "配置镜像源",
+        "新建用户",
+        "设置用户",
+        "配置网络镜像",
+        "配置vscode",
+        "推荐配置",
+        "trouble-shooting"
+      ],
+      "images": [],
+      "contentHash": "c2a7325bb91a40735e9660632c95f9affaab7e07913405909bb761518d17f461"
+    },
+    "/guides/operating-system/linux": {
+      "articleHash": "a319a2aededc65cd2dc9520c150df6947817aa176afde9bbb515bd5bd18fe301",
+      "headingIds": [
+        "linux-之-ubuntu-常用命令与配置",
+        "配置-ubuntu-镜像",
+        "ubuntu-2404-及其以后版本",
+        "基础命令",
+        "文件管理",
+        "用户管理",
+        "系统管理",
+        "软件管理"
+      ],
+      "images": [],
+      "contentHash": "a319a2aededc65cd2dc9520c150df6947817aa176afde9bbb515bd5bd18fe301"
+    },
+    "/guides/operating-system/linux-setup": {
+      "articleHash": "1957c537c26c92db6f654e789faa3686349427049d56e241a41c53c0acd4ca06",
+      "headingIds": [
+        "windows-1011-ubuntu-2604-lts-双系统安装指南",
+        "1-安装前检查",
+        "2-备份",
+        "3-下载-ubuntu-2604",
+        "4-rufus-制作安装盘",
+        "5-windows-中准备-ubuntu-空间",
+        "51-bitlocker",
+        "52-关闭休眠快速启动",
+        "53-压缩分区",
+        "6-开始安装-ubuntu-2604",
+        "1-重启进入安装界面",
+        "2-ubuntu-安装设置和启动流程",
+        "9-手动分区与双硬盘布局",
+        "10-ubuntu-账户sudo-与-root",
+        "如何使用-sudo",
+        "root-密码默认不设置也不建议设置",
+        "11-安装后检查",
+        "12-nvidia-驱动canonical-预编译模块推荐",
+        "安装",
+        "验证",
+        "混合显卡模式可选",
+        "附录仅在需要时使用-dkms"
+      ],
+      "images": [],
+      "contentHash": "1957c537c26c92db6f654e789faa3686349427049d56e241a41c53c0acd4ca06"
+    },
+    "/guides/operating-system/docker": {
+      "articleHash": "b0fc3c50fbdf73015835026b225cc15b01d4ddd9ff1e6d03a4706145619d2fed",
+      "headingIds": [
+        "docker-实战指南",
+        "核心概念",
+        "容器与虚拟机的区别",
+        "安装-docker",
+        "ubuntu-安装-docker-engine",
+        "便捷安装脚本",
+        "windows-安装-docker-desktop",
+        "macos-安装-docker-desktop",
+        "验证安装",
+        "下载和管理镜像",
+        "运行第一个容器",
+        "查看和管理容器",
+        "持久化数据",
+        "bind-mount",
+        "named-volume",
+        "docker-run-常用参数",
+        "查看日志和进入容器",
+        "日志与配置",
+        "在运行中的容器内执行命令",
+        "使用-dockerfile-构建镜像",
+        "推送到-docker-hub",
+        "docker-网络",
+        "自定义-bridge-与容器名-dns",
+        "常见网络模式",
+        "docker-compose",
+        "用-ai-辅助排查-docker",
+        "分析日志",
+        "解释-docker-inspect",
+        "把-docker-run-转成-compose",
+        "使用-docker-mcp-toolkit-连接-codex-和-claude-code",
+        "在-docker-desktop-中启用-toolkit",
+        "连接-codex",
+        "连接-claude-code",
+        "验证连接",
+        "附录-a常用命令速查",
+        "附录-b国内网络环境下的安装与镜像拉取",
+        "dockerinstaller",
+        "dockerimagepusher"
+      ],
+      "images": [],
+      "contentHash": "b0fc3c50fbdf73015835026b225cc15b01d4ddd9ff1e6d03a4706145619d2fed"
+    },
+    "/guides/operating-system/Hyper-V": {
+      "articleHash": "ec78011a5aaed536a7ae50061f3c3df04f1ec055b4f9b615ca169286dade602d",
+      "headingIds": [
+        "hyper-v-指南",
+        "安装-hyper-v",
+        "先看自己是否满足条件",
+        "开启-hyper-v",
+        "准备-windows-11-镜像",
+        "第二步创建虚拟机",
+        "打开-hyper-v-管理器",
+        "新建虚拟机",
+        "按向导完成基础配置",
+        "启用-tpm",
+        "第三步在虚拟机里安装-windows-11",
+        "开始安装系统",
+        "关于联网安装和本地账户",
+        "方案一断网安装",
+        "方案二联网安装后再创建本地账户",
+        "一个容易忽略的小细节",
+        "这两条命令到底算什么",
+        "进入系统桌面"
+      ],
+      "images": [
+        "/assets/Hyper-V-powershell-Di67JUbD.png",
+        "/assets/Hyper-V-starter-CMhD7NQN.png",
+        "/assets/Hyper-V-controller-7vivQpc2.png",
+        "/assets/Hyper-V-finished-guide-BtOwUgGz.png",
+        "/assets/Hyper-V-TPM-C1jnxom3.png",
+        "/assets/Hyper-V-link-CHw7kElM.png",
+        "/assets/Hyper-V-press-BMHWQryg.png",
+        "/assets/Hyper-V-force-restart-CLlQMgkz.png",
+        "/assets/Hyper-V-internel-request-CshYhMI8.png",
+        "/assets/Hyper-V-account-skip-VRylyd_a.png",
+        "/assets/Hyper-V-interface-C4iUj8fo.png"
+      ],
+      "contentHash": "ec78011a5aaed536a7ae50061f3c3df04f1ec055b4f9b615ca169286dade602d"
+    },
+    "/guides/operating-system/powershell": {
+      "articleHash": "b31a146e3f900ef6a0619ce3ba12b071aaf0feaf739a5764b427cfcd2031f7bc",
+      "headingIds": [
+        "powershell-7windows-agent-终端优化",
+        "为什么值得升级",
+        "安装-powershell-7",
+        "推荐完成项使用-windows-terminal-作为默认入口",
+        "可选启用历史预测补全",
+        "与-51-共存时的注意事项",
+        "附录windows-10-的-winget-问题",
+        "winget-找不到命令",
+        "已安装-app-installer仍找不到-winget",
+        "参考"
+      ],
+      "images": [],
+      "contentHash": "b31a146e3f900ef6a0619ce3ba12b071aaf0feaf739a5764b427cfcd2031f7bc"
+    },
+    "/guides/operating-system/SSH-git": {
+      "articleHash": "f88688eff10be5748a79d14210e7c5f0a47b080b5b3a108dfc0ac00ac6b7586a",
+      "headingIds": [
+        "git-远程仓库-ssh-配置windows-linux-macos",
+        "1-检查并安装-git-与-openssh",
+        "windows-安装-git-与-openssh",
+        "linux-安装-git-与-openssh",
+        "macos-安装-git-与-openssh",
+        "2-检查或生成专用密钥",
+        "windows-生成专用密钥",
+        "linux-与-macos-生成专用密钥",
+        "3-启动-ssh-agent-并加载私钥",
+        "windows-启动-ssh-agent-并加载私钥",
+        "linux-启动-ssh-agent-并加载私钥",
+        "macos-启动-ssh-agent-并加载私钥",
+        "4-配置-sshconfig",
+        "windows-ssh-config-配置",
+        "linux-ssh-config-配置",
+        "macos-ssh-config-配置",
+        "5-将公钥添加到-git-托管平台",
+        "windows-公钥",
+        "6-测试-ssh-身份认证",
+        "github-的-ssh-over-443",
+        "7-用-ssh-克隆或切换仓库远程地址",
+        "8-验证仓库读取和写入权限",
+        "9-同一电脑配置多个账户或平台",
+        "10-常见问题",
+        "检查-dns-与-ssh-22-端口连通性",
+        "单次强制指定私钥测试",
+        "11-日常检查命令",
+        "附录github-ssh-快速部署命令",
+        "windows",
+        "linux",
+        "macos",
+        "附录通过-socks-代理连接-git-ssh",
+        "windows使用-git-for-windows-的-connectexe",
+        "linux-与-macos使用-nc"
+      ],
+      "images": [],
+      "contentHash": "f88688eff10be5748a79d14210e7c5f0a47b080b5b3a108dfc0ac00ac6b7586a"
+    },
+    "/guides/operating-system/SSH-remote-login": {
+      "articleHash": "1deae2ea0b5b6328057514faeb6dfcab6853cd7c38d4f1bdafd8fbe3a14538c6",
+      "headingIds": [
+        "跨系统远程-ssh-登录配置windows-linux-macos",
+        "1-设置占位符",
+        "windows-powershell设置变量",
+        "linux-macos-shell设置变量",
+        "2-服务端安装并启用-openssh-server",
+        "windows安装并启用服务",
+        "ubuntu-debian安装并启用服务",
+        "macos启用-remote-login",
+        "3-客户端生成专用密钥",
+        "windows-powershell生成密钥并收紧权限",
+        "linux-macos-shell生成密钥",
+        "4-在服务端添加客户端公钥",
+        "windows-服务端普通用户",
+        "ubuntu-debian-或-macos-服务端普通用户",
+        "windows-服务端管理员账户的例外",
+        "5-启动-ssh-agent-并保护客户端私钥",
+        "windows-powershell启用-agent-并加载密钥",
+        "ubuntu-debian启动-agent-并加载密钥",
+        "macos加载密钥到-keychain",
+        "6-配置客户端连接别名",
+        "windows-powershell追加连接别名",
+        "ubuntu-debian追加连接别名",
+        "macos追加连接别名",
+        "7-测试-ssh-身份认证",
+        "8-可选验证成功后的服务端加固",
+        "windows验证并重启服务",
+        "ubuntu-debian检查并重载服务",
+        "macos检查并重启-remote-login",
+        "9-排障",
+        "检查-dns-与端口",
+        "10-推荐最终状态",
+        "参考资料"
+      ],
+      "images": [],
+      "contentHash": "1deae2ea0b5b6328057514faeb6dfcab6853cd7c38d4f1bdafd8fbe3a14538c6"
+    },
+    "/guides/agents/claude-code/claude-code": {
+      "articleHash": "093db3b576eaac7a003da9dca58f02bde6dc102fadbce01a4dbf1b4c08c568e5",
+      "headingIds": [
+        "claude-code-指南",
+        "安装-git",
+        "安装-nodejs",
+        "安装-claude-code",
+        "后续更新-claude-code",
+        "申请-deepseek-api并把它接到-claude-code",
+        "先申请-deepseek-api-key",
+        "配置-claude-code",
+        "1-创建或打开配置文件",
+        "2-写入示例配置",
+        "启动-claude-code",
+        "快捷启动方式",
+        "全局指令",
+        "常见问题",
+        "1-claude-命令找不到",
+        "2-npm-下载太慢或超时",
+        "3-claude-code-能启动但模型调用失败",
+        "附录",
+        "配置参考资料",
+        "部分配置参数说明",
+        "本地文件索引",
+        "零最小关注集合优先理解",
+        "一全局用户级路径与配置",
+        "二项目级workspace路径与配置",
+        "三关键机制总结"
+      ],
+      "images": [
+        "/assets/Claude-npm-setup-CHArJj7Q.png",
+        "/assets/DeepSeek-apikey-Dw00Rb55.png",
+        "/assets/Claude-Code-hello-yJq2xVkS.png"
+      ],
+      "contentHash": "093db3b576eaac7a003da9dca58f02bde6dc102fadbce01a4dbf1b4c08c568e5"
+    },
+    "/resources/agents/claude-code/CLAUDE.md": {
+      "articleHash": null,
+      "headingIds": [],
+      "images": [],
+      "contentHash": null
+    },
+    "/guides/agents/claude-code/tutorial/常用命令": {
+      "articleHash": "76f2fc0604b0e8881031f33992063f3b2f87473a0490a8eef5f89aee321a09ab",
+      "headingIds": [
+        "claude-code-常用命令",
+        "命令概述",
+        "会话管理命令",
+        "context-命令",
+        "模型与设置命令",
+        "model-命令",
+        "项目与工具命令",
+        "skills-命令",
+        "开发工作流命令",
+        "并行与后台命令",
+        "实用工具与诊断命令",
+        "配置与环境命令",
+        "memory-说明",
+        "claudemd-与-memorymd-的区别"
+      ],
+      "images": [
+        "/assets/image19-DlYAAHPu.png",
+        "/assets/image10-KW72DHxk.png",
+        "/assets/image1-1-0vEwTRjT.png",
+        "/assets/image5-ZOoeSHty.png"
+      ],
+      "contentHash": "76f2fc0604b0e8881031f33992063f3b2f87473a0490a8eef5f89aee321a09ab"
+    },
+    "/guides/agents/claude-code/tutorial/交互模式": {
+      "articleHash": "e86a898e8d5e79515e13c3c4704cd5177aa980eed94ae1e2d95f49c8bda65180",
+      "headingIds": [
+        "claude-code-交互模式",
+        "常规控制快捷键",
+        "文本编辑快捷键",
+        "多行输入方法",
+        "命令历史与搜索"
+      ],
+      "images": [
+        "/assets/image16-C23ermBN.png"
+      ],
+      "contentHash": "e86a898e8d5e79515e13c3c4704cd5177aa980eed94ae1e2d95f49c8bda65180"
+    },
+    "/guides/agents/claude-code/tutorial/最佳实践": {
+      "articleHash": "bce05723507666c5e78ea6db4ac1e867429eca6ea53095838eb9868cb9b13f1e",
+      "headingIds": [
+        "claude-code-最佳实践",
+        "规则一给-claude-一个自查的机会",
+        "一个比方包工头盖房子",
+        "怎么做别只说要做什么要说完成的标准",
+        "规则一延伸说明",
+        "规则二先看地图再上路计划模式",
+        "一个比方开车去陌生的地方",
+        "三个简单步骤",
+        "规则二延伸说明",
+        "规则三三文鱼原则指令要具体",
+        "一个比方在餐厅点菜",
+        "小技巧用-符号直接引用文件",
+        "规则三延伸说明",
+        "规则四给-claude-一份员工手册claudemd",
+        "一个比方入职第一天的新同事",
+        "怎么做init",
+        "关键一定要保持简洁",
+        "规则五让-claude-采访你最大的转折点",
+        "一个比方别像病人自己给自己看病",
+        "那一句改变一切的话",
+        "规则五延伸说明",
+        "规则六清理桌面管理上下文",
+        "一个比方被埋住的书桌",
+        "三个解决办法",
+        "规则六延伸说明",
+        "规则七多厨房并行并行多会话",
+        "一个比方三位大厨同时开工",
+        "直接出自官方手册的小技巧写完再让另一个会话审查",
+        "延伸说明",
+        "小结"
+      ],
+      "images": [],
+      "contentHash": "bce05723507666c5e78ea6db4ac1e867429eca6ea53095838eb9868cb9b13f1e"
+    },
+    "/guides/agents/codex/codex": {
+      "articleHash": "6ee9e69a47c5f391fda9263a30089f7b3b87058ac2dec7b6e7c5be0584dec3dc",
+      "headingIds": [
+        "codex-指南",
+        "安装建议",
+        "桌面端app版本安装",
+        "命令行cli版本安装",
+        "代理配置",
+        "方式一env-文件推荐",
+        "方式二环境变量",
+        "全局指令",
+        "配置文件",
+        "示例配置",
+        "手机远程连接"
+      ],
+      "images": [],
+      "contentHash": "6ee9e69a47c5f391fda9263a30089f7b3b87058ac2dec7b6e7c5be0584dec3dc"
+    },
+    "/guides/agents/prompt/Global-Agent-Instructions-revolution": {
+      "articleHash": "7f95daa561e0fd2a05b256751ba3a24e9c4880749fa5e5da15140dc705132a8c",
+      "headingIds": [
+        "global-agent-instructions-revolution",
+        "使用入口",
+        "平台官方规则",
+        "codexagentsmd-加载链",
+        "claude-codeclaudemd-与导入",
+        "三种共享方式",
+        "演进依据",
+        "gpt-56-调整",
+        "windows-powershell-ab-实验",
+        "gpt-6-astra-重构",
+        "上游-agentsmd-的-41-项融合",
+        "演进节点",
+        "后续维护记录格式"
+      ],
+      "images": [],
+      "contentHash": "7f95daa561e0fd2a05b256751ba3a24e9c4880749fa5e5da15140dc705132a8c"
+    },
+    "/resources/agents/prompt/AGENTS.md": {
+      "articleHash": null,
+      "headingIds": [],
+      "images": [],
+      "contentHash": null
+    },
+    "/guides/agents/skills/skills": {
+      "articleHash": "cdb2becfaf489de6c012e800379119655508a068434ce2e310a502a940c86087",
+      "headingIds": [
+        "skills",
+        "skills-管理工具",
+        "安装目录",
+        "skills-introduction",
+        "claude-code-推荐-skills",
+        "codex-推荐-skills",
+        "skills-管理",
+        "利用镜像站安装-skills",
+        "github-镜像站"
+      ],
+      "images": [],
+      "contentHash": "cdb2becfaf489de6c012e800379119655508a068434ce2e310a502a940c86087"
+    },
+    "/guides/agents/tools/academic-research-skills": {
+      "articleHash": "00e475622cdc63f61e0c969f102bfac6991c91d61de6f24ad3a2d3d3a0d3fc55",
+      "headingIds": [
+        "academic-research-skills-使用说明",
+        "1-它如何影响-agent",
+        "2-claude-code-安装",
+        "3-codex-安装",
+        "4-通用使用方式",
+        "5-通用提示词示例",
+        "1-收敛研究问题",
+        "2-做文献综述规划",
+        "3-把资料整理成论文结构",
+        "4-审稿前自查",
+        "5-回复审稿意见",
+        "6-最后建议"
+      ],
+      "images": [],
+      "contentHash": "00e475622cdc63f61e0c969f102bfac6991c91d61de6f24ad3a2d3d3a0d3fc55"
+    },
+    "/guides/agents/skills/agent-document-lifecycle-planning": {
+      "articleHash": "73f8dd0261488da03bfdf4aa4a436177f09cf124c65ea4d8a74392320367853a",
+      "headingIds": [
+        "agent-文档生命周期规划三个方案",
+        "0-选型与安装速览",
+        "codex安装所选方案",
+        "claude-code安装所选方案",
+        "文档职责与维护顺序",
+        "安装范围与路径",
+        "1-spec-kit维护功能规格计划与任务",
+        "11-它如何组织文档规划",
+        "12-推荐安装固定版本的全局-cli再初始化项目",
+        "13-全局层只安装什么",
+        "14-项目初始化会增加哪些文件",
+        "15-最小使用流程与文档位置",
+        "2-openspec同步当前规格并归档变更",
+        "21-它如何避免规格与改动混在一起",
+        "22-推荐安装全局-npm-包-项目初始化",
+        "23-全局安装与配置目录",
+        "24-codex-项目初始化会增加哪些文件",
+        "25-旧版迁移可能触及的额外文件",
+        "26-最小使用流程与文档产物",
+        "3-planning-with-files记录长期任务的状态与下一步",
+        "31-安装路线与-hooks-边界",
+        "32-全局安装实际改动哪些路径",
+        "33-windows-全局安装需要额外注意路径",
+        "34-使用后项目里会生成什么",
+        "附录-a安装后的核对"
+      ],
+      "images": [],
+      "contentHash": "73f8dd0261488da03bfdf4aa4a436177f09cf124c65ea4d8a74392320367853a"
+    },
+    "/guides/agents/skills/agent-development-workflows-and-decisions": {
+      "articleHash": "e1a20b23c68651cca86ab9529034e2cb68f6424f064b62e49393fd4b037646b3",
+      "headingIds": [
+        "agent-开发工作流与决策流四个方案",
+        "0-选型与安装速览",
+        "codex安装所选方案",
+        "claude-code安装所选方案",
+        "从问题到交付",
+        "安装范围与生效入口",
+        "1-superpowers从需求澄清走到执行验证",
+        "11-推荐安装codex-原生插件",
+        "12-安装后哪些文件影响-codex",
+        "13-使用时生成哪些项目文档",
+        "2-matt-pocock-skills按阶段形成决策与交接材料",
+        "21-推荐安装通过-skills-cli-全局安装到-codex",
+        "22-两种安装方式的全局路径不同",
+        "23-每个项目需要执行一次初始化",
+        "24-按阶段调用不必一次运行全部-skills",
+        "3-ecc把计划评审接入工程执行",
+        "31-推荐安装使用-ecc-的-codex-原生插件",
+        "32-原生插件究竟注册了什么",
+        "33-计划画布的运行路径与使用边界",
+        "4-gstack多视角评审产品与工程决策",
+        "41-推荐安装运行官方-setup明确选择-codex",
+        "42-从源码到全局-skills-的文件范围",
+        "43-用户状态目录与条件性的-claude-code-配置修改",
+        "44-以计划评审和交接开始使用",
+        "附录-a安装与使用核对"
+      ],
+      "images": [],
+      "contentHash": "e1a20b23c68651cca86ab9529034e2cb68f6424f064b62e49393fd4b037646b3"
+    },
+    "/guides/agents/skills/pptx-related-skills": {
+      "articleHash": "b0cbcb10c942a1eaa1605181978fc970470c6589da93bf114cfd8febd423821a",
+      "headingIds": [
+        "制作-pptx-相关-skills",
+        "0-通用型所有-ppt-主题都适合安装",
+        "1-技术-调研汇报图文补充",
+        "2-工作总结汇报图文补充",
+        "3-工具使用分享教程文字居多补充",
+        "4-ppt-风格",
+        "guizang-ppt-skill"
+      ],
+      "images": [],
+      "contentHash": "b0cbcb10c942a1eaa1605181978fc970470c6589da93bf114cfd8febd423821a"
+    },
+    "/guides/agents/MCP/zotero": {
+      "articleHash": "60b93d65a3ec24412dfda8a2f584d3a0ffe72c14e2a2e744978c90b5bb6efc13",
+      "headingIds": [
+        "zotero-指南",
+        "软件下载安装",
+        "浏览器扩展",
+        "zotero-插件",
+        "1-插件市场",
+        "2-常用插件推荐",
+        "3-zotero-agent",
+        "为什么还要自己写一个-ai-插件",
+        "zotero-agent-的优势",
+        "安装过程",
+        "提示词范例"
+      ],
+      "images": [],
+      "contentHash": "60b93d65a3ec24412dfda8a2f584d3a0ffe72c14e2a2e744978c90b5bb6efc13"
+    },
+    "/guides/agents/MCP/blender": {
+      "articleHash": "d129cde43855df4a7a852d97f2973086499deedfa5f06eb828b9fc8148a7399d",
+      "contentHash": "d129cde43855df4a7a852d97f2973086499deedfa5f06eb828b9fc8148a7399d",
+      "headingIds": [
+        "blender-指南",
+        "选择安装方式",
+        "安装集成-extension",
+        "配置-mcp-客户端",
+        "验证实际场景连接",
+        "常用工具与任务",
+        "常见排障",
+        "切换方式与卸载",
+        "资源网址",
+        "参考与更新说明"
+      ],
+      "images": []
+    },
+    "/guides/agents/MCP/context7": {
+      "articleHash": "ca1d190f9f4d48826b8f4575319d3d589bb8534b1e30309c25df73e1c65af959",
+      "headingIds": [
+        "context7-mcp",
+        "文档来源",
+        "未收录文档的处理方式",
+        "使用示例",
+        "context7-官网地址",
+        "安装方式",
+        "claude-code",
+        "codex"
+      ],
+      "images": [],
+      "contentHash": "ca1d190f9f4d48826b8f4575319d3d589bb8534b1e30309c25df73e1c65af959"
+    },
+    "/guides/agents/MCP/Exa": {
+      "articleHash": "0c623adf1c3582693decf14f11bed96170aaa3e306e694b9dfe8d0cc31670c5a",
+      "headingIds": [
+        "exa",
+        "exa-官网地址",
+        "安装方式",
+        "claude-code",
+        "codex"
+      ],
+      "images": [],
+      "contentHash": "0c623adf1c3582693decf14f11bed96170aaa3e306e694b9dfe8d0cc31670c5a"
+    },
+    "/guides/agents/MCP/gh_grep": {
+      "articleHash": "6851e196369152a82a1b50edeccceb75c0f11417174bb39ad572167a4d02ab4b",
+      "headingIds": [
+        "ghgrep",
+        "ghgrep-官网地址",
+        "安装方式",
+        "claude-code",
+        "codex"
+      ],
+      "images": [],
+      "contentHash": "6851e196369152a82a1b50edeccceb75c0f11417174bb39ad572167a4d02ab4b"
+    },
+    "/guides/agents/tools/claude-tap": {
+      "articleHash": "835327e705031dd010e5d395fa961fcb1378b4935d698383e5ed530647f177ea",
+      "headingIds": [
+        "claude-tap",
+        "项目地址",
+        "安装",
+        "使用方法",
+        "推荐快捷启动方式"
+      ],
+      "images": [],
+      "contentHash": "835327e705031dd010e5d395fa961fcb1378b4935d698383e5ed530647f177ea"
+    },
+    "/guides/agents/tools/statusline": {
+      "articleHash": "54c0b79e2aa5db0d182f26d18aeb4fece12ad17d3e3fbaa69be2bda44031f7d0",
+      "headingIds": [
+        "claude-code-状态栏工具",
+        "ccstatusline",
+        "项目地址",
+        "安装-ccstatusline",
+        "打开配置文件",
+        "将状态栏安装到-claude-code",
+        "claude-hud",
+        "三步安装",
+        "附录"
+      ],
+      "images": [],
+      "contentHash": "54c0b79e2aa5db0d182f26d18aeb4fece12ad17d3e3fbaa69be2bda44031f7d0"
+    },
+    "/guides/agents/tools/graphify": {
+      "articleHash": "2262c3fc035771f5b3aa1279009d9754028c912c395bc3517a3a59de926c5b0e",
+      "headingIds": [
+        "graphify-代码库加速-skill",
+        "1-安装方式推荐使用-uv-tool",
+        "通用安装",
+        "当前平台支持",
+        "项目常驻集成claudemd-agentsmd-推荐内容",
+        "claude-code写入-claudemd",
+        "codex写入-agentsmd",
+        "实现过程",
+        "2-graphify-到底在哪里执行",
+        "3-的含义",
+        "4-是否只能处理当前文件夹",
+        "5-是否代表所有文件",
+        "6-最终结论",
+        "7-附加说明",
+        "1-旧教程里哪些信息已经过时",
+        "2-现在最实用的使用顺序",
+        "3-输出目录里最值得先看的文件"
+      ],
+      "images": [],
+      "contentHash": "2262c3fc035771f5b3aa1279009d9754028c912c395bc3517a3a59de926c5b0e"
+    },
+    "/guides/agents/tools/ponytail": {
+      "articleHash": "64b88003c767a567e3b736fed9bdddbd48d5c8204f62443f37fb79b28e5fb8a0",
+      "headingIds": [
+        "ponytail",
+        "项目地址",
+        "安装",
+        "claude-code",
+        "codex",
+        "github-copilot-cli",
+        "opencode",
+        "gemini-cli",
+        "它会如何影响-agent",
+        "常用命令",
+        "claude-code-支持-slash-command-的宿主",
+        "codex-2",
+        "使用建议",
+        "1-让它一直处于-full",
+        "2-在改动前先跑一次-review",
+        "一个实用理解"
+      ],
+      "images": [],
+      "contentHash": "64b88003c767a567e3b736fed9bdddbd48d5c8204f62443f37fb79b28e5fb8a0"
+    },
+    "/resources/others/git-pr-contributor-tutorial.md": {
+      "articleHash": "daab2e5e819f4e8f30e9709d1ea5a2ac968df9e38f096cd86b37d269f7e93159",
+      "headingIds": [
+        "git-pr-教程普通贡献者视角",
+        "0-先理解-3-个仓库概念",
+        "1-环境准备只做一次",
+        "2-fork-他人仓库到你名下",
+        "方式-a推荐命令行-fork",
+        "方式-b网页-fork",
+        "3-clone-你的-fork-到本地",
+        "4-添加-upstream官方仓库",
+        "5-同步最新主分支后再开新分支",
+        "6-创建功能分支并开始修改",
+        "7-本地测试与自检",
+        "8-查看改动并提交-commit",
+        "9-推送分支到你自己的-fork",
+        "10-发起-pull-request",
+        "方式-a推荐命令行创建-pr",
+        "方式-b网页创建-pr",
+        "11-根据评审意见继续更新-pr",
+        "12-常用同步操作避免分支过旧",
+        "13-pr-合并后清理分支",
+        "14-一套最小可用命令清单速查",
+        "15-新手最容易踩的坑"
+      ],
+      "images": [],
+      "contentHash": "daab2e5e819f4e8f30e9709d1ea5a2ac968df9e38f096cd86b37d269f7e93159"
+    },
+    "/resources/models/models-dev.md": {
+      "articleHash": "62721bf5b33296769161c14f2e385fec5cbad48f4c478a70922512864f65ec1f",
+      "headingIds": [
+        "modelsdevai-模型规格价格与能力查询",
+        "适合解决什么问题",
+        "它和排行榜网站的区别",
+        "网站页面怎么看",
+        "models-页面能查什么",
+        "模型详情页怎么看",
+        "providers-页面能查什么",
+        "labs-页面能查什么",
+        "普通用户的使用流程",
+        "1-查某个模型是否适合当前任务",
+        "2-查模型价格",
+        "3-查多模态支持",
+        "4-查-agent-能力",
+        "适合让-agent-阅读使用的提示词",
+        "api-查询方式",
+        "仓库结构和贡献方式",
+        "使用时的注意事项",
+        "推荐用法总结"
+      ],
+      "images": [],
+      "contentHash": "62721bf5b33296769161c14f2e385fec5cbad48f4c478a70922512864f65ec1f"
+    }
+  },
+  "interfaceText": {
+    "/": [
+      "知识库",
+      "32 篇公开指南",
+      "已经知道要解决什么问题时，直接按主题进入对应指南。"
+    ],
+    "shared": [
+      "Agent Lab Notes",
+      "环境配置、工具选型与工作流笔记。",
+      "GitHub",
+      "查看源仓库"
+    ]
+  },
+  "textAssets": [
+    {
+      "source": "notes/others/git-pr-flowchart.html",
+      "href": "/assets/git-pr-flowchart-CxeScUVd.html"
+    }
+  ],
+  "interfaceChanges": {
+    "date": "2026-10-08",
+    "reason": "User browser feedback: remove beginner path and independent home, open knowledge base at root, move Models.dev to resources, and simplify navigation. User resource feedback: seven ordered topics, separate LLM parameters and rankings, and promote tools, news and industry."
+  },
+  "contentChanges": [
+    {
+      "date": "2026-10-08",
+      "source": "notes/agents/MCP/blender.md",
+      "reason": "User requested a substantive Blender MCP guide update from the local project and its published Pages download site.",
+      "previousSha256": "807d1580c3d7e2425013802e754a08df446e1c50095d6a39dbcfec1beff61707"
+    }
+  ]
+}

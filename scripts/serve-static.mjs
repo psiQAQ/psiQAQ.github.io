@@ -19,6 +19,7 @@ createServer(async (request, response) => {
     }
     throw new Error("not found");
   } catch {
-    response.writeHead(404, { "Content-Type": "text/plain; charset=utf-8" }).end("Not found");
+    response.writeHead(404, { "Content-Type": "text/html; charset=utf-8" });
+    createReadStream(resolve(root, "404.html")).pipe(response);
   }
 }).listen(3000, () => console.log("Preview: http://127.0.0.1:3000"));

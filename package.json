@@ -7,9 +7,11 @@
   },
   "scripts": {
     "dev": "vinext dev",
-    "build": "vinext build && node scripts/decode-static-paths.mjs",
+    "build": "vinext build && node scripts/decode-static-paths.mjs && node scripts/export-site-data.mjs",
     "start": "node scripts/serve-static.mjs",
-    "test": "npm run build && node --test tests/site.test.mjs",
+    "test": "npm run build && npm run test:built",
+    "test:built": "node --test tests/*.test.mjs && node scripts/verify-static.mjs",
+    "typecheck:site": "tsc --project tsconfig.site.json --noEmit --incremental false",
     "lint": "eslint . --ignore-pattern dist --ignore-pattern .next"
   },
   "dependencies": {

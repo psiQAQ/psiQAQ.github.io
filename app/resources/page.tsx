@@ -1,30 +1,35 @@
 import Link from "next/link";
+import { DocumentShell } from "@/components/document-shell";
 import { resources } from "@/lib/content";
+import { resourceCategoryLabel, catalogGroupId, resourceSectionAliases } from "@/lib/catalog.mjs";
 
-export const metadata = { title: "资源" };
+export const metadata = { title: "资源导航" };
 
 const categories = [...new Set(resources.map((resource) => resource.category))];
 
 export default function ResourcesPage() {
   return (
-    <main className="page-shell content-page">
+    <DocumentShell currentHref="/resources">
       <header className="page-intro compact">
         <p className="eyebrow">{resources.length} 项公开资源</p>
-        <h1>资源</h1>
+        <h1>资源导航</h1>
         <p>汇集 Agent 学习资料、实用脚本、开发工具、大模型评测、AI 新闻与行业观察。</p>
       </header>
 
       <div className="resource-sections">
-        {categories.map((category) => {
+        {categories.map((category, categoryIndex) => {
           const items = resources.filter((resource) => resource.category === category);
           const groups = [...new Set(items.map((resource) => resource.group))];
+          const subgroups = groups.filter(group => group !== category);
 
           return (
-            <section key={category}>
-              <h2>{category}</h2>
+            <section id={category} key={category}>
+              {resourceSectionAliases(category).map(id => <span className="section-anchor" id={id} key={id} aria-hidden="true" />)}
+              <h2>{`${categoryIndex + 1}. ${resourceCategoryLabel(category)}`}</h2>
               {groups.map((group) => (
-                <div className="resource-group" key={group}>
-                  {group !== category && <h3>{group}</h3>}
+                <div className="resource-group" id={group !== category ? catalogGroupId(category, group) : undefined} key={group}>
+                  {group !== category && resourceSectionAliases(category, group).map(id => <span className="section-anchor" id={id} key={id} aria-hidden="true" />)}
+                  {group !== category && <h3>{`${categoryIndex + 1}.${subgroups.indexOf(group) + 1} ${group}`}</h3>}
                   <div className="resource-list">
                     {items
                       .filter((resource) => resource.group === group)
@@ -83,6 +88,6 @@ export default function ResourcesPage() {
           );
         })}
       </div>
-    </main>
+    </DocumentShell>
   );
 }

@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { CodeCopyController } from "@/components/code-copy-controller";
+import { SearchBox } from "@/components/search-box";
+import { ThemePicker } from "@/components/theme-picker";
+import { themeBootstrap } from "@/lib/theme";
 import "./globals.css";
 
-const title = "科研 Agent 新手知识站";
-const description = "从零搭建科研 Agent 工具链，完成第一篇结构化文献笔记。";
+const title = "Agent Lab Notes";
+const description = "环境配置、工具选型与工作流笔记。通过知识库、资源导航和搜索查阅。";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://psiqaq.github.io/"),
@@ -26,8 +29,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="zh-CN">
+    <html lang="zh-CN" suppressHydrationWarning>
+      <head><script dangerouslySetInnerHTML={{ __html: themeBootstrap }} /></head>
       <body>
+        <a className="skip-link" href="#main-content">跳转到正文</a>
         <CodeCopyController />
         <header className="site-header">
           <div className="header-inner">
@@ -36,13 +41,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <span>Agent Lab Notes</span>
             </Link>
             <nav aria-label="主导航">
-              <Link href="/start">新手路径</Link>
-              <Link href="/library">知识库</Link>
-              <Link href="/resources">资源</Link>
-              <Link className="global-search" href="/search#site-search" aria-label="搜索文档">
-                <span>搜索文档</span>
-                <kbd>/</kbd>
-              </Link>
+              <SearchBox />
+              <ThemePicker />
+              <noscript><Link href="/search">搜索</Link></noscript>
               <a href="https://github.com/psiQAQ/psiQAQ.github.io" rel="noreferrer" target="_blank">
                 GitHub
               </a>
@@ -52,7 +53,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {children}
         <footer className="site-footer">
           <div className="page-shell footer-inner">
-            <p>把重复配置变成路径，把时间留给研究问题。</p>
+            <p>环境配置、工具选型与工作流笔记。</p>
             <a href="https://github.com/psiQAQ/psiQAQ.github.io" rel="noreferrer" target="_blank">
               查看源仓库
             </a>
