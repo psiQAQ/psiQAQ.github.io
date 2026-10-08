@@ -60,7 +60,7 @@ test("exports the site for the psiQAQ GitHub Pages root", async () => {
   for (const path of [
     "../dist/client/index.html",
     "../dist/client/404.html",
-    "../dist/client/guides/others/zotero.html",
+    "../dist/client/guides/agents/MCP/zotero.html",
     "../dist/client/guides/agents/claude-code/tutorial/常用命令.html",
   ]) {
     await access(new URL(path, import.meta.url));
@@ -106,7 +106,7 @@ test("defines the GitHub Pages build and deployment workflow", async () => {
 
 test("uses a documentation-first global shell", async () => {
   const home = await (await render("/")).text();
-  const guide = await (await render("/guides/others/zotero")).text();
+  const guide = await (await render("/guides/agents/MCP/zotero")).text();
   const guideSource = await readFile(
     new URL("../app/guides/[...slug]/page.tsx", import.meta.url),
     "utf8",
@@ -119,7 +119,7 @@ test("uses a documentation-first global shell", async () => {
   assert.match(guide, /href="\/guides\/agents\/codex\/codex"/);
   assert.match(
     guide,
-    /<a(?=[^>]*aria-current="page")(?=[^>]*href="\/guides\/others\/zotero")[^>]*>/,
+    /<a(?=[^>]*aria-current="page")(?=[^>]*href="\/guides\/agents\/MCP\/zotero")[^>]*>/,
   );
   assert.match(guide, /浏览文档与本页目录/);
   assert.match(
@@ -161,7 +161,6 @@ test("keeps the homepage focused on three primary destinations", async () => {
     "系统与运行环境",
     "智能体",
     "智能体扩展",
-    "科研助力",
     "大模型选型与排行榜",
   ];
   for (const topic of topics) {
@@ -231,6 +230,7 @@ test("publishes a categorized resource card index", async () => {
   const resourceGroups = [
     "Agent 入门与实践",
     "Agent 原理与优化",
+    "MCP 市场",
     "开发与模型工具",
     "AI 新闻",
     "AI 行业观察",
@@ -350,7 +350,7 @@ test("organizes public notes under one catalog", async () => {
   await access(new URL("AGENTS.md", root));
   await assert.rejects(access(new URL("20260614.md", root)), { code: "ENOENT" });
 
-  assert.equal((await render("/guides/others/zotero")).status, 200);
+  assert.equal((await render("/guides/agents/MCP/zotero")).status, 200);
   assert.equal(
     (await render("/guides/agents/claude-code/tutorial/常用命令")).status,
     200,
@@ -398,7 +398,7 @@ test("renders Markdown structure and repository images", async () => {
   const revolution = await (
     await render("/guides/agents/prompt/Global-Agent-Instructions-revolution")
   ).text();
-  const zotero = await (await render("/guides/others/zotero")).text();
+  const zotero = await (await render("/guides/agents/MCP/zotero")).text();
   const context7 = await (
     await render("/guides/agents/MCP/context7")
   ).text();
@@ -431,7 +431,7 @@ test("renders Markdown structure and repository images", async () => {
 });
 
 test("links article headings from the document table of contents", async () => {
-  const html = await (await render("/guides/others/zotero")).text();
+  const html = await (await render("/guides/agents/MCP/zotero")).text();
 
   assert.match(html, /本页目录/);
   assert.match(html, /href="#软件下载安装"/);

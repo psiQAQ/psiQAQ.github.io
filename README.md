@@ -66,12 +66,15 @@
 ### Skills
 
 - 📄[Skills：智能体能力扩展](notes/agents/skills/skills.md)
+- 📄[ARS：学术研究工作流](notes/agents/tools/academic-research-skills.md)
 - 📄[Agent 文档生命周期规划](notes/agents/skills/agent-document-lifecycle-planning.md)
 - 📄[Agent 开发工作流与决策流](notes/agents/skills/agent-development-workflows-and-decisions.md)
 - 📄[PPT 制作相关 Skills](notes/agents/skills/pptx-related-skills.md)
 
 ### MCP
 
+- 📄[Zotero：文献管理](notes/agents/MCP/zotero.md)
+- 📄[Blender：开源三维建模 MCP 接入](notes/agents/MCP/blender.md)
 - 📄[Context7 MCP：技术文档检索](notes/agents/MCP/context7.md)
 - 📄[Exa MCP：AI 联网搜索](notes/agents/MCP/Exa.md)
 - 📄[gh_grep MCP：GitHub 代码搜索](notes/agents/MCP/gh_grep.md)
@@ -80,17 +83,11 @@
 
 - 📄[claude-tap：Agent 会话拆解与可视化](notes/agents/tools/claude-tap.md)
 - 📄[Claude Code 会话状态栏工具](notes/agents/tools/statusline.md)
-- 📄[Blender：开源三维建模 MCP 接入](notes/others/blender.md)
 
 ### 代码读取与生成
 
 - 📄[graphify：代码库知识图谱](notes/agents/tools/graphify.md)
 - 📄[ponytail：防止过度设计插件](notes/agents/tools/ponytail.md)
-
-## 科研助力
-
-- 📄[Zotero：文献管理](notes/others/zotero.md)
-- 📄[ARS：学术研究工作流](notes/agents/tools/academic-research-skills.md)
 
 ## 大模型选型与排行榜
 
@@ -112,6 +109,10 @@
 
 - 📺[Claude Code 后端通信原理](https://www.bilibili.com/video/BV1G2o5BqELx)
 - 📺[Claude Code 缓存优化](https://www.bilibili.com/video/BV1ZQ5u6bEJ7)
+
+### MCP 市场
+
+- 🌐[Model Context Protocol Observatory](https://mcpobservatory.com/)
 
 ### 开发与模型工具
 

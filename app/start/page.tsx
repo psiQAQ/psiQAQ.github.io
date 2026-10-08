@@ -23,7 +23,7 @@ const steps = [
     number: "04",
     title: "配置 Zotero",
     description: "连接你的文献库。任何批量写入先使用 dry-run 查看将要发生的变化。",
-    links: [["Zotero 指南", "/guides/others/zotero"]],
+    links: [["Zotero 指南", "/guides/agents/MCP/zotero"]],
   },
   {
     number: "05",
