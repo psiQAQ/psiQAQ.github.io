@@ -137,14 +137,14 @@
       "gitBlobId": "f9df4f3459cbce1dac95103e432775707eb8f6e3"
     },
     "notes/agents/prompt/AGENTS.md": {
-      "bytes": 11988,
-      "sha256": "9643fc840d330a831ad40166b19a4572aa252c945145c1b948ab364a0b8b626d",
-      "gitBlobId": "4081e0db2005a7a7fd2099d0b0f661356fcc9702"
+      "bytes": 10150,
+      "sha256": "28482f9574f419a760dbc3756e0cd40d281c009f7bf1d503d06b7f140a57e029",
+      "gitBlobId": "ceef6671e43e43212fb92ffcfe88b57aa76628e4"
     },
     "notes/agents/prompt/Global-Agent-Instructions-revolution.md": {
-      "bytes": 25529,
-      "sha256": "cde266058bb56857a530f16b7683a88e452bee5dfe8e67051c4a8c521a4c8250",
-      "gitBlobId": "461cdadfb05933307b867c44a7845a11301c897e"
+      "bytes": 28352,
+      "sha256": "1a988fb7b1a43f1b3499b9d4880ba700a0f35749a497d3020fc4fe858ddfd48e",
+      "gitBlobId": "e071b9ef24497416aebfcea96ec3ab1148ab8502"
     },
     "notes/agents/skills/agent-development-workflows-and-decisions.md": {
       "bytes": 34864,
@@ -1239,7 +1239,7 @@
       "contentHash": "6ee9e69a47c5f391fda9263a30089f7b3b87058ac2dec7b6e7c5be0584dec3dc"
     },
     "/guides/agents/prompt/Global-Agent-Instructions-revolution": {
-      "articleHash": "2ceab82d9ff11fb5ee8b1bc75367294af08020052d017efb763eac6dbd2ab78c",
+      "articleHash": "ea0ef5c8b987da90dd889428c593736d7f6df3aa4d829a759a75def397a07acc",
       "headingIds": [
         "global-agent-instructions-revolution",
         "使用入口",
@@ -1257,11 +1257,12 @@
         "2026-10-25重组模块并精简表述",
         "2026-10-25gemini-argon-复核与消歧",
         "2026-10-25精简为高信息密度的个人偏好",
+        "2026-10-25复核-opus-精简稿并确认九项取舍",
         "演进节点",
         "后续维护记录格式"
       ],
       "images": [],
-      "contentHash": "2ceab82d9ff11fb5ee8b1bc75367294af08020052d017efb763eac6dbd2ab78c"
+      "contentHash": "ea0ef5c8b987da90dd889428c593736d7f6df3aa4d829a759a75def397a07acc"
     },
     "/resources/agents/prompt/AGENTS.md": {
       "articleHash": null,
