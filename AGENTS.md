@@ -119,3 +119,17 @@
 
 - 每次完成其他文档的实质性改进后，复盘用户明确提出或手动确认的写作、排版、命令组织与验证偏好。
 - 若某项偏好可复用于多个文档，应及时以通用、可执行的规则更新本 `AGENTS.md`；一次性项目背景、具体账户、固定命令或仅适用于单篇文章的细节不写入全局指令。
+
+## Agent skills
+
+### Issue tracker
+
+Issue 和 spec 保存在 `.scratch/<feature>/`。创建、读取或更新任务前，阅读 `docs/agents/issue-tracker.md`。
+
+### Triage labels
+
+使用五个默认 triage 状态名。分类或更新任务状态前，阅读 `docs/agents/triage-labels.md`。
+
+### Domain docs
+
+采用 single-context：根目录 `GLOSSARY.md` 与 `docs/adr/`。探索代码前，按 `docs/agents/domain.md` 读取相关领域文档。
