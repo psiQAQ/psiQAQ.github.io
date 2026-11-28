@@ -1,13 +1,26 @@
 ---
-title: "科研 Agent 工具链笔记"
+title: "Agent 使用笔记"
 visibility: public
 ---
 
-# 科研 Agent 工具链笔记
+# Agent 使用笔记
 
-从搭建本机环境到用 Agent 处理科研任务，可以按下面四个主题查阅教程、脚本和资料。
+这里记录 Claude Code、Codex 和相关工具的安装、配置与日常用法。
 
-- [环境与系统](./environment/index.md) · 安装运行环境，配置 Git、SSH、WSL 和虚拟机。
-- [Agent 使用](./agents/index.md) · 配置 Claude Code 与 Codex，查找启动脚本、命令和全局指令模板。
-- [工具与扩展](./extensions/index.md) · 按任务选择 Skills、MCP 服务、会话工具和代码阅读工具。
-- [学习与资源](./resources/index.md) · 查找入门课程、实战视频、模型参数和评测资料。
+## 安装与使用
+
+- [基础环境](./environment/index.md#基础环境) · Git、Node.js、UV 和 Miniforge。
+- [系统与运行环境](./environment/index.md#系统与运行环境) · Linux、WSL、虚拟机和远程连接。
+- [智能体](./agents/index.md) · Claude Code 和 Codex 的安装、启动脚本与全局指令。
+- [智能体扩展](./extensions/index.md) · Skills、MCP、会话工具与代码阅读工具。
+
+## 学习与资源
+
+[浏览资源目录](./resources/index.md)
+
+- [Agent 学习资料](./resources/agent-learning.md) · 入门教程、实战视频和工作原理。
+- [LLM 参数汇总](./resources/model-parameters.md) · 模型规格与价格。
+- [LLM 评测排行榜](./resources/model-benchmarks.md) · 基准测试和模型排名。
+- [开发与模型工具](./resources/dev-tools.md) · Git 协作、Markdown 和本地模型配置。
+- [AI 新闻](./resources/ai-news.md) · 每日资讯与更新。
+- [AI 行业观察](./resources/ai-industry.md) · 发展史、访谈与行业讨论。

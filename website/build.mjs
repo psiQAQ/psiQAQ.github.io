@@ -1,5 +1,6 @@
 import fs from 'node:fs'
 import path from 'node:path'
+import {createHash} from 'node:crypto'
 import {execFileSync} from 'node:child_process'
 import {createRequire} from 'node:module'
 import {fileURLToPath, pathToFileURL} from 'node:url'
@@ -95,7 +96,9 @@ try {
   const configFile=path.join(cache,'config.yaml')
   fs.writeFileSync(configFile,YAML.stringify(config))
   execFileSync(process.execPath,['quartz/bootstrap-cli.mjs','build','-C',configFile,'-d',staging,'-o',site],{cwd:engine,stdio:'inherit'})
-  const index=JSON.parse(fs.readFileSync(path.join(site,'static/contentIndex.json')))
+  const indexBytes = fs.readFileSync(path.join(site,'static/contentIndex.json'))
+  const index = JSON.parse(indexBytes)
+  const indexVersion = createHash('sha256').update(indexBytes).digest('hex').slice(0,16)
   const slugByFile=new Map(Object.entries(index).map(([slug,n])=>[n.filePath,slug]))
   const attachmentRoutes=new Map()
   for(const rel of assets) {
@@ -109,7 +112,8 @@ try {
   const escape=s=>s.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;')
   for(const [slug,n] of Object.entries(index)) {
     const file=path.join(site,slug+'.html')
-    let html=fs.readFileSync(file,'utf8')
+    // A newly loaded page must use the matching Explorer, graph and search data.
+    let html=fs.readFileSync(file,'utf8').replaceAll('static/contentIndex.json', 'static/contentIndex.json?v='+indexVersion)
     const route='/'+slug.replace(/(^|\/)index$/,'$1')
     html=html.replace(/<a\b[^>]*\bhref="([^"]+)"[^>]*>/g,(tag,href)=>{
       const url=new URL(href,'https://local.invalid'+route)
@@ -118,7 +122,7 @@ try {
       if(a?.download) return tag.replace('<a ','<a download ')
       return tag
     })
-    if(notes.has(n.filePath) && n.filePath.endsWith('index.md')) {
+    if(notes.has(n.filePath) && (n.filePath.endsWith('index.md') || notes.get(n.filePath).data.type==='garden-reference')) {
       const title=escape(n.title)
       if(html.includes('data-heading="'+title+'"')) html=html.replace(/<h1 class="article-title\b[^"]*"[^>]*>[^<]*<\/h1>/,'')
     }

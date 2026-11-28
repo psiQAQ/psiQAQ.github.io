@@ -1,6 +1,6 @@
 extends: default
 configuration:
-  pageTitle: 科研 Agent 工具链笔记
+  pageTitle: Agent 使用笔记
   locale: zh-CN
   enableSPA: false
   enablePopovers: true

@@ -1,5 +1,7 @@
 ---
 title: "Codex：OpenAI 编程智能体"
+permalink: agents/codex-guide
+aliases: [agents/codex/index]
 type: garden-note
 maturity: evergreen
 visibility: public
@@ -124,8 +126,8 @@ reg delete HKCU\Environment /v NO_PROXY /f
 
 Codex 读取适用的 AGENTS.md，并按用户级、项目级和更具体的目录级规则组成加载链。用户级目录默认是 ~/.codex；设置 CODEX_HOME 时以该目录为准。当前共享模板与它的选择依据分别见：
 
-- [共享全局指令模板](../prompt/AGENTS.md)
-- [全局指令演进记录](../prompt/Global-Agent-Instructions-revolution.md)
+- [共享全局指令模板](./prompt/AGENTS.md)
+- [全局指令演进记录](./prompt/Global-Agent-Instructions-revolution.md)
 
 常见安装位置如下：
 
@@ -151,7 +153,7 @@ cp AGENTS.md ~/.codex/AGENTS.md
 
 也可以将 AGENTS.md 放在项目根目录中，让 Codex 针对当前项目加载专门规则。复制完成后，在 Codex 中确认当前会话读取了哪些 AGENTS.md 文件；随后在目标目录执行一个简单任务，检查输出或文件变化是否符合这条规则。Codex 应用也支持用 /init 为当前项目生成 AGENTS.md 脚手架。[3]
 
-Windows PowerShell A/B 实验、适用范围和保留规则见[全局指令演进记录](../prompt/Global-Agent-Instructions-revolution.md#Windows%20PowerShell%20A/B%20实验)。
+Windows PowerShell A/B 实验、适用范围和保留规则见[全局指令演进记录](./prompt/Global-Agent-Instructions-revolution.md#Windows%20PowerShell%20A/B%20实验)。
 
 ## 配置文件
 
@@ -196,7 +198,7 @@ default_mode_request_user_input = true
 | `default_mode_request_user_input` | 是否允许非 Plan（Default）模式使用 `request_user_input` 提供结构化选项 |
 | `network_proxy` | 是否启用网络代理相关能力 |
 
-在非 Plan（Default）模式下，`default_mode_request_user_input = true` 允许 Codex 在需要用户作出实质选择时通过 `request_user_input` 提供结构化选项。具体何时提问、如何组织选项，遵循 [`AGENTS.md` 的 User Interaction 部分](../prompt/AGENTS.md#User%20Interaction)；能够根据现有信息或低风险默认值继续时，不应仅为提供选项而提问。
+在非 Plan（Default）模式下，`default_mode_request_user_input = true` 允许 Codex 在需要用户作出实质选择时通过 `request_user_input` 提供结构化选项。具体何时提问、如何组织选项，遵循 [`AGENTS.md` 的 User Interaction 部分](./prompt/AGENTS.md#User%20Interaction)；能够根据现有信息或低风险默认值继续时，不应仅为提供选项而提问。
 
 ## 手机远程连接
 

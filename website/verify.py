@@ -24,6 +24,13 @@ for entry in index.values():
 assert notes <= {n["filePath"] for n in index.values()}
 for slug, entry in index.items():
     assert entry["filePath"] in notes | generated, (slug, entry["filePath"])
+# Keep the former Quartz folder bookmark while displaying Codex as a single note.
+if "agents/codex.md" in notes:
+    codex_slug = next(s for s, n in index.items() if n["filePath"] == "agents/codex.md")
+    assert not any(s.startswith("agents/codex/") for s in index), "Codex appears as a folder"
+    alias = (site / "agents/codex/index.html").read_text("utf8")
+    redirect = re.search(r'<meta http-equiv="refresh" content="0; ?url=([^"]+)"', alias, re.I)
+    assert redirect and posixpath.normpath(posixpath.join("agents/codex", redirect[1])) == codex_slug, "Broken Codex bookmark"
 main_files = {s+".html" for s in index}
 approved = main_files | set(manifest["assets"]) | set(manifest["downloads"]) | {"404.html","favicon.ico","sitemap.xml","robots.txt"}
 for file in files - approved:

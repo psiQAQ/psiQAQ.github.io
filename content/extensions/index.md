@@ -21,9 +21,12 @@ visibility: public
 - [Exa MCP：AI 联网搜索](./mcp/Exa.md)
 - [gh_grep MCP：GitHub 代码搜索](./mcp/gh_grep.md)
 
-## 会话与代码工具
+## 周边工具与扩展
 
 - [claude-tap：Agent 会话拆解与可视化](./tools/claude-tap.md)
 - [Claude Code 会话状态栏工具](./tools/statusline.md)
+
+## 代码读取与生成
+
 - [graphify：代码库知识图谱](./tools/graphify.md)
 - [ponytail：防止过度设计插件](./tools/ponytail.md)

@@ -25,7 +25,7 @@ visibility: public
 
 ## Codex
 
-- [Codex：OpenAI 编程智能体](./codex/codex.md)
+- [Codex：OpenAI 编程智能体](./codex.md)
 
 ## 全局指令
 

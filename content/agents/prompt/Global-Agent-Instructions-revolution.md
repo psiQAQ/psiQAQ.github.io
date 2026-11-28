@@ -13,7 +13,7 @@ publish_ready: true
 ## 使用入口
 
 - [当前共享全局指令模板](./AGENTS.md)
-- [Codex 平台指南](../codex/codex.md)
+- [Codex 平台指南](../codex.md)
 - [Claude Code 平台指南](../claude-code/claude-code.md)
 - [Claude Code 专用模板](../claude-code/CLAUDE.md)
 
