@@ -2,14 +2,16 @@
 
 面向科研工作的 Agent 工具链笔记，记录环境配置、工具选型、工作流设计和常见问题解决方案。内容尽量不绑定单一智能体，可按需用于 Claude Code、Codex 等工具。
 
-- [浏览内容目录](Public/index.md)，按主题查找教程、学习资料和工具。
+- [打开读者首页](./content/index.md)，按主题查找教程、学习资料和工具。
 - [打开知识花园视图](Views/Garden.base)，在 Obsidian 中切换“种子和草稿”与“准备分享”。
 
 ## 维护笔记
 
-教程和随文附件放在 `Guides/` 的对应主题内。用 [种子模板](Templates/种子.md) 记录待验证的想法，用 [经验条目模板](Templates/经验条目.md) 整理可复用的方法。草稿放在 `Drafts/`，需要进入读者目录的指南和资源在 [内容目录](Public/index.md) 中维护。
+公开笔记和随文附件放在 `content/` 的对应主题目录。新增文章时填写 `title`，并在同一主题的 `index.md` 添加相对链接。脚本、指令原文和流程图直接链接到文件。四个主题入口集中在[读者首页](./content/index.md)。
 
-把拟分享的经验条目标为 `type: garden-note`、`maturity: evergreen`、`visibility: public` 和 `publish_ready: true`，再运行库内检验。脚本和可直接复制的指令模板保留源文件格式。
+可以用[种子模板](./Templates/种子.md)记录待验证的想法，用[经验条目模板](./Templates/经验条目.md)整理已验证的方法。草稿留在 `Drafts/`；准备分享的经验条目使用 `type: garden-note`、`maturity: evergreen`、`visibility: public` 和 `publish_ready: true`，在知识花园视图中复核后移入相应主题。
+
+Quartz 的内容输入目录为 `content/`。整理资料时仅移动拟公开的文件，保留同目录下的本机参考稿在库内原处。
 
 [模板来源与许可](LICENSES.md) · [知识花园检查示例](Examples/Checks.md)
 
