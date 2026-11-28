@@ -1,4 +1,5 @@
 import fs from 'node:fs'
+import {writeLegacyRoutes} from './legacy-routes.mjs'
 import path from 'node:path'
 import {createHash} from 'node:crypto'
 import {execFileSync} from 'node:child_process'
@@ -101,12 +102,14 @@ try {
   const indexVersion = createHash('sha256').update(indexBytes).digest('hex').slice(0,16)
   const slugByFile=new Map(Object.entries(index).map(([slug,n])=>[n.filePath,slug]))
   const attachmentRoutes=new Map()
+  const assetFiles = new Map()
   for(const rel of assets) {
     const slug=slugifyFilePath(rel)
     const isHtml=rel.endsWith('.html')
     const target=isHtml?slug+'.html':slug
     if(isHtml && slug!==target) fs.renameSync(path.join(site,slug),path.join(site,target))
     if(!fs.readFileSync(path.join(site,target)).equals(Buffer.from(fixtureFiles.get(rel)??fromDisk(rel)))) throw Error('Changed asset: '+rel)
+    assetFiles.set(rel,target)
     attachmentRoutes.set('/'+slug,{target,isHtml,download:/\.(sh|bat)$/i.test(rel)})
   }
   const escape=s=>s.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;')
@@ -136,7 +139,8 @@ try {
     fs.writeFileSync(file,html)
   }
   for(const rel of notes.keys()) if(!slugByFile.has(rel)) throw Error('Note missing from search: '+rel)
-  fs.writeFileSync(path.join(cache,fixture?'fixture-manifest.json':'manifest.json'),JSON.stringify({notes:[...notes.keys()],assets:[...attachmentRoutes.values()].map(a=>a.target),downloads:cfg.downloadNotes.map(p=>'downloads/'+posix.basename(p)),base:base.href},null,2))
+  const legacyRoutes = writeLegacyRoutes({site, base, noteSlugs:new Map([...notes.keys()].map(rel=>[rel,slugByFile.get(rel)])), assetFiles})
+  fs.writeFileSync(path.join(cache,fixture?'fixture-manifest.json':'manifest.json'),JSON.stringify({notes:[...notes.keys()],legacyRoutes,assets:[...attachmentRoutes.values()].map(a=>a.target),downloads:cfg.downloadNotes.map(p=>'downloads/'+posix.basename(p)),base:base.href},null,2))
   console.log('Published '+notes.size+' notes and '+assets.size+' referenced attachments.')
 } finally {
   if(path.dirname(staging)===engine && path.basename(staging).startsWith('input-')) fs.rmSync(staging,{recursive:true,force:true})

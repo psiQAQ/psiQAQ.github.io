@@ -33,6 +33,20 @@ if "agents/codex.md" in notes:
     assert redirect and posixpath.normpath(posixpath.join("agents/codex", redirect[1])) == codex_slug, "Broken Codex bookmark"
 main_files = {s+".html" for s in index}
 approved = main_files | set(manifest["assets"]) | set(manifest["downloads"]) | {"404.html","favicon.ico","sitemap.xml","robots.txt"}
+for legacy in manifest["legacyRoutes"]:
+    file, target = legacy["file"], legacy["target"]
+    assert file in files and target in (main_files | set(manifest["assets"])), (file, target)
+    href = legacy["href"]
+    assert href.startswith(base_path) and not urlsplit(href).netloc, href
+    route = unquote(href[len(base_path):])
+    assert target in {route, route + ".html", posixpath.join(route, "index.html")}, (href, target)
+    html = (site / file).read_text("utf8")
+    assert f'<link rel="canonical" href="{href}">' in html and 'content="noindex"' in html, file
+    if legacy["kind"] == "source":
+        assert f'<a download href="{href}">' in html and 'http-equiv="refresh"' not in html, file
+    else:
+        assert f'http-equiv="refresh" content="0; url={href}"' in html, file
+    approved.add(file)
 for file in files - approved:
     if file.startswith("static/") or re.fullmatch(r"(?:component|index|pre(?:script)|postscript)-[a-f0-9]+\.(css|js)",file):
         continue

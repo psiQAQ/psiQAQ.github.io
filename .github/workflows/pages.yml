@@ -25,6 +25,7 @@ jobs:
         env:
           SITE_URL: https://example.org/project/
         run: |
+          node --test website/legacy-routes.test.mjs
           node website/build.mjs --fixture
           python website/verify.py --fixture
       - name: Build and verify release

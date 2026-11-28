@@ -21,7 +21,8 @@ class Pages(SimpleHTTPRequestHandler):
         if not route.startswith(prefix): return str(root/".absent")
         target=(root/route[len(prefix):]).resolve()
         if not target.is_relative_to(root): return str(root/".absent")
-        if not target.exists() and target.with_suffix(".html").is_file(): return str(target.with_suffix(".html"))
+        clean_html = Path(str(target) + ".html")
+        if not target.exists() and clean_html.is_file(): return str(clean_html)
         return str(target)
     def list_directory(self,path):
         self.send_error(404)
