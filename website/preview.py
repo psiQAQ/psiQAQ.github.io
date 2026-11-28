@@ -14,6 +14,8 @@ prefix="/project/" if args.fixture else "/"
 if not (root/"index.html").is_file(): parser.error("Build the site first")
 
 class Pages(SimpleHTTPRequestHandler):
+    # Windows registry MIME overrides can otherwise serve ES modules as text/plain.
+    extensions_map = {**SimpleHTTPRequestHandler.extensions_map, ".js":"text/javascript", ".mjs":"text/javascript", ".css":"text/css", ".json":"application/json", ".pdf":"application/pdf"}
     def translate_path(self, url):
         route=unquote(urlsplit(url).path)
         if not route.startswith(prefix): return str(root/".absent")
