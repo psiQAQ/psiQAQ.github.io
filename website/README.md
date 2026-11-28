@@ -30,7 +30,9 @@ python website/preview.py
 
 `quartz.config.yaml` 在上游默认配置上覆盖中文标题、布局和主题设置。站点使用原生目录树、搜索、图谱、反向链接、悬浮预览、深浅主题及移动布局。正式域名取自发布配置，可用环境变量 `SITE_URL` 测试部署子路径。
 
-GFM、代码高亮、双链、标题与块引用、笔记与 PDF 嵌入、Callout、公式、Mermaid、脚注、标签和别名由 Quartz 处理。模板的 Garden Base 保留在 Obsidian，网站首页列出十个主题，侧栏按四个目录浏览。当前公开源未使用 Canvas、Dataview 或 Excalidraw。若未来要分享动态查询、画布或绘图，先导出为公开 Markdown 或图片，再链接该静态版本。网站无需启动 Obsidian。
+文章侧栏从 `content/index.md` 的 `topic-nav-start` 和 `topic-nav-end` 标记之间读取主题。用二级标题分组，每个无序列表项的第一个链接就是主题入口，可以指向页面或章节。增删或调整主题时只改这份列表。普通段落中的链接只出现在首页。手机点「主题导航」打开同一份列表，「按文件夹浏览」可展开原有文件树。
+
+GFM、代码高亮、双链、标题与块引用、笔记与 PDF 嵌入、Callout、公式、Mermaid、脚注、标签和别名由 Quartz 处理。模板的 Garden Base 保留在 Obsidian。当前公开源未使用 Canvas、Dataview 或 Excalidraw。若未来要分享动态查询、画布或绘图，先导出为公开 Markdown 或图片，再链接该静态版本。网站无需启动 Obsidian。
 
 Quartz v5.3.1 由 `setup.mjs` 固定到完整 Git 提交，依赖使用该提交的 npm 锁文件。构建器保留上游 MIT LICENSE。升级时核对正式标签与提交，更新固定版本，在独立分支分别运行项目子路径样例和正式构建，验证通过后再合入。不要提交下载的引擎或生成站点。[Quartz 源码与许可](https://github.com/jackyzha0/quartz/tree/5a740b3ae06569c5d67a911fcd58cb1353db8110)
 

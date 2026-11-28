@@ -7,6 +7,8 @@ visibility: public
 
 这里记录 Claude Code、Codex 和相关工具的安装、配置与日常用法。
 
+<span id="topic-nav-start" hidden></span>
+
 ## 安装与使用
 
 - [基础环境](./environment/index.md#基础环境) · Git、Node.js、UV 和 Miniforge。
@@ -24,3 +26,5 @@ visibility: public
 - [开发与模型工具](./resources/dev-tools.md) · Git 协作、Markdown 和本地模型配置。
 - [AI 新闻](./resources/ai-news.md) · 每日资讯与更新。
 - [AI 行业观察](./resources/ai-industry.md) · 发展史、访谈与行业讨论。
+
+<span id="topic-nav-end" hidden></span>

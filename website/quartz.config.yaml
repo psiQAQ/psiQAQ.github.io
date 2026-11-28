@@ -12,6 +12,9 @@ configuration:
   links:
     markdownLinkResolution: relative
 plugins:
+  - source: "@quartz-community/explorer"
+    options:
+      title: 主题导航
   - source: "@quartz-community/created-modified-date"
     options:
       priority: [frontmatter, filesystem]

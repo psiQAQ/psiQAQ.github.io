@@ -139,6 +139,7 @@ try {
     fs.writeFileSync(file,html)
   }
   for(const rel of notes.keys()) if(!slugByFile.has(rel)) throw Error('Note missing from search: '+rel)
+  execFileSync('python',[path.join(website,'topic_navigation.py'),site,base.href],{stdio:'inherit'})
   const legacyRoutes = writeLegacyRoutes({site, base, noteSlugs:new Map([...notes.keys()].map(rel=>[rel,slugByFile.get(rel)])), assetFiles})
   fs.writeFileSync(path.join(cache,fixture?'fixture-manifest.json':'manifest.json'),JSON.stringify({notes:[...notes.keys()],legacyRoutes,assets:[...attachmentRoutes.values()].map(a=>a.target),downloads:cfg.downloadNotes.map(p=>'downloads/'+posix.basename(p)),base:base.href},null,2))
   console.log('Published '+notes.size+' notes and '+assets.size+' referenced attachments.')

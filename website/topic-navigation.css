@@ -1,0 +1,47 @@
+.explorer .explorer-content {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.topic-nav h3 {
+  margin: .8rem 0 .25rem;
+  color: var(--darkgray);
+  font-size: .85rem;
+}
+
+.topic-nav h3:first-child { margin-top: .2rem; }
+
+.explorer-content .topic-nav a {
+  display: block;
+  padding: .21rem .35rem;
+  color: var(--secondary);
+  opacity: 1;
+  line-height: 1.45;
+  border-radius: .25rem;
+}
+
+.topic-nav a:hover, .topic-nav a:focus-visible {
+  background: var(--highlight);
+}
+
+.file-browser {
+  margin-top: .75rem;
+  padding: .65rem 0;
+  border-top: 1px solid var(--lightgray);
+}
+
+.file-browser summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--darkgray);
+}
+
+.file-browser[open] summary { margin-bottom: .5rem; }
+
+@media (max-width: 800px) {
+  .explorer.collapsed, .explorer:not(.collapsed) { flex-basis: auto; }
+  .explorer .mobile-explorer { gap: .3rem; white-space: nowrap; }
+  .mobile-explorer::after { content: attr(aria-label); }
+  .explorer .topic-nav a { padding-block: .4rem; }
+  article :is(h1, h2, h3, h4, h5, h6)[id] { scroll-margin-top: 5rem; }
+}

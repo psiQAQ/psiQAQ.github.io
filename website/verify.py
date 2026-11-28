@@ -7,6 +7,9 @@ from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import unquote, urljoin, urlsplit
 
+sys.dont_write_bytecode = True
+from topic_navigation import TopicList
+
 cache = Path(__file__).resolve().parent / ".build"
 fixture = "--fixture" in sys.argv
 site = cache / ("fixture-site" if fixture else "site")
@@ -76,7 +79,13 @@ class Page(HTMLParser):
     def handle_endtag(self, tag):
         if tag=="article": self.article=False
 
-pages = {f:Page((site/f).read_text("utf8")) for f in main_files}
+expected_topics = TopicList((site/"index.html").read_text("utf8"), base).groups
+pages = {}
+for file in main_files:
+    html = (site/file).read_text("utf8")
+    assert TopicList(html, base, sidebar=True).groups == expected_topics, file
+    assert '</nav><details class="file-browser"><summary>按文件夹浏览</summary><ul class="explorer-ul ' in html, file
+    pages[file] = Page(html)
 def route(file):
     return re.sub(r"(^|/)index$","\\1",file[:-5])
 def resolve(origin, href):
