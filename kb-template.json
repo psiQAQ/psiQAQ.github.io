@@ -1,0 +1,47 @@
+{
+  "id": "knowledge-garden",
+  "version": "5",
+  "name": "知识花园",
+  "description": "把随手记录的种子整理成可分享和持续更新的经验。",
+  "purpose": "engineering",
+  "entry": "README.md",
+  "suggestedExcludedFolders": [
+    "Templates"
+  ],
+  "diagnosticExclusions": [
+    {
+      "checks": [
+        "links",
+        "anchors",
+        "portability"
+      ],
+      "folders": [
+        "Templates"
+      ]
+    }
+  ],
+  "pageTemplates": [
+    "Templates"
+  ],
+  "text": {
+    "Views/Garden.base": [
+      "kb_root"
+    ]
+  },
+  "checks": [
+    {
+      "id": "workflow",
+      "name": "拟分享条目的可见性和私有引用",
+      "path": "checks/workflow.mjs",
+      "linkEvidence": true
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://github.com/tanepiper/obsidian-garden",
+      "author": "tanepiper",
+      "commit": "9e1bd7d14d43c5c193b54ff7b24272d2630cdf44",
+      "license": "CC0-1.0"
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+.gitattributes text eol=lf
+*.md text eol=lf
+*.base text eol=lf
+*.canvas text eol=lf
+/kb-template.json text eol=lf
+/checks/*.mjs text eol=lf
+/checks/kb-check.cjs text eol=lf
+/checks/common/*.mjs text eol=lf

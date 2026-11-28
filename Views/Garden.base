@@ -1,0 +1,29 @@
+filters:
+  and:
+    - file.path.startsWith("knowledge-base/agent-lab-notes/")
+    - this.file.path.startsWith("knowledge-base/agent-lab-notes/")
+    - file.ext == "md"
+    - '!file.inFolder("knowledge-base/agent-lab-notes/Templates")'
+    - '!file.inFolder("knowledge-base/agent-lab-notes/Integrations")'
+views:
+  - type: table
+    name: 种子和草稿
+    filters:
+      and:
+        - type == "garden-note"
+        - maturity == "seed" || maturity == "draft"
+    order:
+      - file.name
+      - maturity
+      - visibility
+  - type: table
+    name: 准备分享
+    filters:
+      and:
+        - type == "garden-note"
+        - maturity == "evergreen"
+        - publish_ready == true
+    order:
+      - file.name
+      - related
+      - visibility
