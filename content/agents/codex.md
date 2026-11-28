@@ -10,7 +10,7 @@ publish_ready: true
 
 # Codex 指南
 
-Codex CLI 是 OpenAI 的本地终端代码智能体，会在当前目录读取、修改、运行代码；ChatGPT Plus、Pro、Business、Edu、Enterprise 计划包含 Codex。首次运行 `codex` 会提示登录 ChatGPT 账号或使用 API key。
+Codex CLI 是 OpenAI 的本地终端代码智能体，会在当前目录读取、修改、运行代码；[ChatGPT Plus、Pro、Business、Edu、Enterprise 计划包含 Codex][3]。首次运行 `codex` 会提示登录 ChatGPT 账号或使用 API key。
 
 ## 安装建议
 
@@ -151,7 +151,7 @@ mkdir -p ~/.codex
 cp AGENTS.md ~/.codex/AGENTS.md
 ```
 
-也可以将 AGENTS.md 放在项目根目录中，让 Codex 针对当前项目加载专门规则。复制完成后，在 Codex 中确认当前会话读取了哪些 AGENTS.md 文件；随后在目标目录执行一个简单任务，检查输出或文件变化是否符合这条规则。Codex 应用也支持用 /init 为当前项目生成 AGENTS.md 脚手架。[3]
+也可以将 [AGENTS.md][2] 放在项目根目录中，让 Codex 针对当前项目加载专门规则。复制完成后，在 Codex 中确认当前会话读取了哪些 AGENTS.md 文件；随后在目标目录执行一个简单任务，检查输出或文件变化是否符合这条规则。Codex 应用也支持用 /init 为当前项目生成 AGENTS.md 脚手架。
 
 Windows PowerShell A/B 实验、适用范围和保留规则见[全局指令演进记录](./prompt/Global-Agent-Instructions-revolution.md#Windows%20PowerShell%20A/B%20实验)。
 
@@ -219,7 +219,7 @@ Windows / macOS 下的 Codex 桌面版可配合手机端 ChatGPT App 使用远�
 - 本地网络或代理是否拦截连接；
 - `config.toml` 中是否启用了 `remote_connections`。
 
-参考📺[2026 最新｜Codex 手机远程连接 + 代理配置保姆级教程][2]
+参考📺[2026 最新｜Codex 手机远程连接 + 代理配置保姆级教程](https://www.bilibili.com/video/BV1bXEA6uEbn/)
 
 [1]: https://developers.openai.com/codex/config-basic "Config basics – Codex | OpenAI Developers"
 [2]: https://developers.openai.com/codex/guides/agents-md "Custom instructions with AGENTS.md – Codex | OpenAI Developers"
