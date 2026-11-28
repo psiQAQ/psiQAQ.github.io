@@ -10,3 +10,6 @@ work/
 /public/
 /.log/
 /kb.toml
+/website/.build/
+/Drafts/**
+/Seeds/**

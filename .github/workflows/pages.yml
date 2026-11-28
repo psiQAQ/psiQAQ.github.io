@@ -1,0 +1,54 @@
+name: Publish knowledge garden
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24.19.0
+      - name: Pin npm
+        run: npm install --global npm@11.17.0
+      - name: Install locked Quartz release
+        run: node website/setup.mjs
+      - name: Verify compatibility and project subpath
+        env:
+          SITE_URL: https://example.org/project/
+        run: |
+          node website/build.mjs --fixture
+          python website/verify.py --fixture
+      - name: Build and verify release
+        run: |
+          node website/build.mjs
+          python website/verify.py
+          git diff --exit-code -- content
+      - uses: actions/upload-pages-artifact@v3
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        with:
+          path: website/.build/site
+  deploy:
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    concurrency:
+      group: github-pages
+      cancel-in-progress: false
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.publish.outputs.page_url }}
+    steps:
+      - id: publish
+        uses: actions/deploy-pages@v4

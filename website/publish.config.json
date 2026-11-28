@@ -1,0 +1,28 @@
+{
+  "content": "content",
+  "home": "index.md",
+  "site": "https://notes.psiqaq.cn/",
+  "noteTypes": [
+    "garden-note",
+    "garden-reference"
+  ],
+  "attachments": [
+    ".png",
+    ".jpg",
+    ".jpeg",
+    ".webp",
+    ".gif",
+    ".pdf"
+  ],
+  "downloadNotes": [
+    "agents/prompt/AGENTS.md",
+    "agents/claude-code/CLAUDE.md"
+  ],
+  "reviewedAttachments": [
+    "agents/claude-code/cc.bat",
+    "agents/claude-code/update-claude-code.bat",
+    "agents/claude-code/cclinux.sh",
+    "agents/claude-code/ccmac.sh",
+    "environment/git/git-pr-flowchart.html"
+  ]
+}
